@@ -1,0 +1,41 @@
+.Pane {
+  overflow: auto; /* Ensures content inside the panes scrolls */
+}
+
+.SplitPane {
+  height: 100%; /* Ensures it takes full height of the viewport */
+  position: absolute;
+}
+
+.Resizer {
+  background: #ddd;
+  width: 5px;
+  cursor: col-resize;
+  transition: all 0.2s;
+}
+
+.Resizer:hover {
+  background: #bbb;
+}
+
+.editor {
+  height: 100%;
+}
+
+.custom-split-pane .Resizer {
+  background-color: black; /* Divider background color */
+  cursor: col-resize;
+  width: 5px; /* Divider thickness */
+  position: relative;
+}
+
+.custom-split-pane .Resizer::before {
+  content: "⋮"; /* Vertical ellipsis */
+  position: absolute;
+  top: 45%;
+  left: 35%;
+  transform: translate(-50%, -50%);
+  color: white; /* Dots color */
+  font-size: 35px; /* Adjust size */
+  pointer-events: none; /* Prevent interaction */
+}
