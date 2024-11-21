@@ -2,19 +2,19 @@ import React, { useRef, useEffect, useState } from "react";
 import MonacoEditor from "react-monaco-editor";
 import * as monaco from "monaco-editor";
 import { Box, Button, Menu, MenuItem } from "@mui/material";
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import { Timer } from "./Timer";
 const CodeEditor = () => {
-  const [language, setLanguage] = useState('javascript');
+  const [language, setLanguage] = useState("javascript");
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
   const languages = [
-    { label: 'JavaScript', value: 'javascript' },
-    { label: 'Python', value: 'python' },
-    { label: 'Java', value: 'java' },
-    { label: 'C++', value: 'cpp' },
-    { label: 'TypeScript', value: 'typescript' }
+    { label: "JavaScript", value: "javascript" },
+    { label: "Python", value: "python" },
+    { label: "Java", value: "java" },
+    { label: "C++", value: "cpp" },
+    { label: "TypeScript", value: "typescript" },
   ];
 
   const handleClick = (event) => {
@@ -30,7 +30,6 @@ const CodeEditor = () => {
     handleClose();
   };
 
-  
   const editorRef = useRef(null);
   const handleEditorDidMount = (editor) => {
     editorRef.current = editor; // Store the editor instance
@@ -71,85 +70,39 @@ const CodeEditor = () => {
   });
 
   return (
-    <Box display="flex" flexDirection="column" height="100%" bgcolor="#1e1e1e" >
+    <Box display="flex" flexDirection="column" height="100%" bgcolor="#1e1e1e">
+      {/* Top panel */}
       <Box
         sx={{
           bgcolor: "#1e1e1e",
           display: "flex",
           alignItems: "center",
+          justifyContent: "space-between",
           gap: 1,
           p: 2, // Match AIChat padding
           minHeight: "25px", // Match AIChat height
-          flexShrink: 0 
-        }}
-      >
-        {/* Add buttons here */}
-        
-      </Box>
-      <Box flex={1} position="relative" minHeight="200px">
-      <div
-        ref={editorContainerRef}
-        style={{
-          width: "100%",
-          height: "100%",
-        }}
-        
-      >
-        <MonacoEditor
-          width={dimensions.width}
-          height={dimensions.height}
-          language={language}
-          theme="custom-dark"
-          value="// Write your code here"
-          options={{
-            fontSize: 16,
-            fontFamily: "Fira Code, Consolas, monospace",
-            lineNumbers: "on",
-            wordWrap: "on",
-            automaticLayout: true,
-            padding: {
-              top: 20,
-            },
-            minimap: {
-              enabled: false,
-            },
-          }}
-        />
-      </div>
-      </Box>
-
-      {/* Bottom Panel */}
-      <Box
-        sx={{
-          borderTop: "2px solid black",
-          bgcolor: "#1e1e1e",
-          display: "flex",
-          alignItems: "center",
-          gap: 1,
-          p: 2, // Match AIChat padding
-          minHeight: "20px", // Match AIChat height
-          flexShrink: 0
+          flexShrink: 0,
+          borderBottom: "2px solid black",
         }}
       >
         <Button
           onClick={handleClick}
           endIcon={<KeyboardArrowDownIcon />}
-          sx={{ 
-            color: 'white',
-            bgcolor: '#333',
-            '&:hover': { bgcolor: '#444' },
-            
+          size="small"
+          sx={{
+            color: "white",
+            bgcolor: "#333",
+            "&:hover": { bgcolor: "#444" },
+            // minWidth: "100px",    // Add minimum width
+            //  height: "30px"
           }}
         >
-          {languages.find(l => l.value === language)?.label || 'Select Language'}
+          {languages.find((l) => l.value === language)?.label ||
+            "Select Language"}
         </Button>
-        <Menu
-          anchorEl={anchorEl}
-          open={open}
-          onClose={handleClose}
-        >
+        <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
           {languages.map((lang) => (
-            <MenuItem 
+            <MenuItem
               key={lang.value}
               onClick={() => handleLanguageSelect(lang.value)}
               selected={language === lang.value}
@@ -159,7 +112,53 @@ const CodeEditor = () => {
           ))}
         </Menu>
         {/* Add buttons here */}
-        
+        {/* Submit Button (Right) */}
+        <Timer minutes={45} />
+        <Button
+          variant="contained"
+          size="small"
+          sx={{
+            bgcolor: "#f4a261",
+            "&:hover": { bgcolor: "#e76f51" },
+            color: "white",
+          }}
+          onClick={() => {
+            // Handle submit logic here
+            console.log("Submitting solution");
+          }}
+        >
+          Submit Solution
+        </Button>
+      </Box>
+      <Box flex={1} position="relative" minHeight="200px">
+        <div
+          ref={editorContainerRef}
+          style={{
+            width: "100%",
+            height: "100%",
+          }}
+        >
+          <MonacoEditor
+            width={dimensions.width}
+            height={dimensions.height}
+            language={language}
+            theme="custom-dark"
+            value="// Write your code here"
+            options={{
+              fontSize: 16,
+              fontFamily: "Fira Code, Consolas, monospace",
+              lineNumbers: "on",
+              wordWrap: "on",
+              automaticLayout: true,
+              padding: {
+                top: 20,
+              },
+              minimap: {
+                enabled: false,
+              },
+            }}
+          />
+        </div>
       </Box>
     </Box>
   );

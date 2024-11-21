@@ -21,7 +21,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 const theme = createTheme({
   palette: {
     primary: {
-      main: "#f4a261", // Custom primary color (green)
+      main: "#f4a261", // Custom primary color (orange)
     },
     secondary: {
       main: "#ff5722", // Custom secondary color (orange)
@@ -49,17 +49,6 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       {/* Fixed AppBar */}
-      
-
-
-        <AppBar position="fixed" sx={{ height: "60px", bgcolor: "#f4a261", borderBottom: "2px solid black"}}>
-          <Toolbar variant="dense" sx={{ height: "100%" }}>
-            <Typography variant="h6" color="inherit">
-              Brand
-            </Typography>
-          </Toolbar>
-        </AppBar>
-        
 
       {/* Layout below AppBar */}
 
