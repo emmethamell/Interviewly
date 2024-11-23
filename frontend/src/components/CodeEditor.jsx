@@ -4,10 +4,11 @@ import * as monaco from "monaco-editor";
 import { Box, Button, Menu, MenuItem } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { Timer } from "./Timer";
-const CodeEditor = () => {
+const CodeEditor = ({ difficulty }) => {
   const [language, setLanguage] = useState("javascript");
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+
 
   const languages = [
     { label: "JavaScript", value: "javascript" },
@@ -55,6 +56,19 @@ const CodeEditor = () => {
 
     return () => resizeObserver.disconnect();
   }, []);
+
+  const getTimerDuration = (difficulty) => {
+    switch (difficulty) {
+      case 'Easy':
+        return 30;
+      case 'Medium':
+        return 45;
+      case 'Hard':
+        return 60;
+      default:
+        return 30;
+    }
+  };
 
   monaco.editor.defineTheme("custom-dark", {
     base: "vs-dark",
@@ -113,7 +127,7 @@ const CodeEditor = () => {
         </Menu>
         {/* Add buttons here */}
         {/* Submit Button (Right) */}
-        <Timer minutes={45} />
+        <Timer minutes={getTimerDuration(difficulty)} />
         <Button
           variant="contained"
           size="small"

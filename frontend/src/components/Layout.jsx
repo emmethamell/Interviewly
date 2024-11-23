@@ -1,10 +1,14 @@
 import React from "react";
 import SplitPane from "react-split-pane";
+import { useLocation } from "react-router-dom";
 import { Box } from "@mui/material";
 import CodeEditor from "./CodeEditor";
 import AIChat from "./AIChat";
 
 const Layout = () => {
+  const location = useLocation();
+  const { difficulty } = location.state || { difficulty: "Easy" };
+
   return (
     <Box
       sx={{
@@ -25,12 +29,12 @@ const Layout = () => {
       >
         {/* Left Pane */}
         <Box sx={{ height: "100%", overflow: "auto" }}>
-          <AIChat />
+          <AIChat difficulty={difficulty} />
         </Box>
 
         {/* Right Pane */}
         <Box sx={{ height: "100%", overflow: "auto" }}>
-          <CodeEditor />
+          <CodeEditor difficulty={difficulty}/>
         </Box>
       </SplitPane>
     </Box>

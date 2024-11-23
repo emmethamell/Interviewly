@@ -4,21 +4,21 @@ import axios from "axios";
 import { IoArrowUpCircleOutline } from "react-icons/io5";
 import { BiUpArrow, BiUpArrowCircle } from "react-icons/bi";
 import { Terminal, SmartToy } from "@mui/icons-material";
-import { Code, CodeOff, Visibility, VisibilityOff } from '@mui/icons-material';
+import { Code, CodeOff, Visibility, VisibilityOff } from "@mui/icons-material";
 
-const AIChat = () => {
+const AIChat = ({ difficulty }) => {
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState([]); // store all messages
   const messagesEndRef = useRef(null); // reference to end of message list
-  
+
   const [isCodeContext, setIsCodeContext] = useState(false);
 
   const handleToggleCodeContext = (index) => {
-    setMessages(messages.map((msg, i) => 
-      i === index 
-        ? { ...msg, hasCodeContext: !msg.hasCodeContext }
-        : msg
-    ));
+    setMessages(
+      messages.map((msg, i) =>
+        i === index ? { ...msg, hasCodeContext: !msg.hasCodeContext } : msg,
+      ),
+    );
   };
   // scroll to the bottom of the messages
   const scrollToBottom = () => {
@@ -93,12 +93,15 @@ const AIChat = () => {
           minHeight: "32px", // Match AIChat height
           flexShrink: 0,
           borderBottom: "2px solid black",
+          justifyContent: "space-between"
         }}
       >
+        <Box display="flex" flexDirection="row" p={0}>
         <Terminal
           sx={{
             fontSize: 24,
             color: "#f4a261",
+            padding: "1px"
           }}
         />
         <Typography
@@ -107,10 +110,35 @@ const AIChat = () => {
             color: "#f4a261",
             fontWeight: "bold",
             fontSize: "1.1rem",
+            padding: "1px"
           }}
         >
           Hackilo
         </Typography>
+        </Box>
+
+        <Box
+          sx={{
+            border: `1px solid ${difficulty === 'Easy' ? '#4caf50' : difficulty === 'Medium' ? '#ffeb3b' : '#f44336'}`,
+            borderRadius: "8px", 
+            pt: "4px",
+            pb: "4px",
+            pl: "4px",
+            pr: "4px",
+          }}
+        >
+        <Typography
+          variant="h6"
+          sx={{
+            color: difficulty === 'Easy' ? '#4caf50' : difficulty === 'Medium' ? '#ffeb3b' : '#f44336', 
+            fontWeight: "bold",
+            fontSize: "0.8rem",
+            padding: "1px"
+          }}
+        >
+         {difficulty}
+        </Typography>
+        </Box>
       </Box>
 
       {/* Chat Messages */}
@@ -221,30 +249,38 @@ const AIChat = () => {
               }}
             />
           </Box>
-          
-          <Box display="flex" justifyContent="space-between" alignItems="center">
-            <Box display="flex" alignItems="center" gap={1}
-            sx={{
-              border: '1px solid rgba(255, 255, 255, 0.1)',
-              borderRadius: 1,
-              padding: '0px 8px',
-            }}>
+
+          <Box
+            display="flex"
+            justifyContent="space-between"
+            alignItems="center"
+          >
+            <Box
+              display="flex"
+              alignItems="center"
+              gap={1}
+              sx={{
+                border: "1px solid rgba(255, 255, 255, 0.1)",
+                borderRadius: 1,
+                padding: "0px 8px",
+              }}
+            >
               <Typography
                 variant="caption"
                 sx={{
                   color: isCodeContext ? "#f4a261" : "#666",
-    userSelect: "none",
-    textDecoration: isCodeContext ? "none" : "line-through",
-    fontStyle: isCodeContext ? "normal" : "italic",
+                  userSelect: "none",
+                  textDecoration: isCodeContext ? "none" : "line-through",
+                  fontStyle: isCodeContext ? "normal" : "italic",
                 }}
               >
                 Current Code
               </Typography>
-              <IconButton 
+              <IconButton
                 size="small"
                 onClick={() => setIsCodeContext(!isCodeContext)}
-                sx={{ 
-                  color: isCodeContext ? "#f4a261" : "#666"
+                sx={{
+                  color: isCodeContext ? "#f4a261" : "#666",
                 }}
               >
                 {isCodeContext ? <Visibility /> : <VisibilityOff />}
