@@ -15,7 +15,6 @@ def create_app():
     flask_app.register_blueprint(bp)
 
 
-
     # Initialize SocketIO
     socketio.init_app(flask_app)
 

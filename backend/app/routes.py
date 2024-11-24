@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from app.websockets import socketio, connected_clients
+from app.websockets import socketio, user_sessions
 
 bp = Blueprint('routes', __name__)
 
@@ -9,7 +9,7 @@ def health_check():
 
 @bp.route('/active-clients', methods=['GET'])
 def active_clients():
-    return {"active_clients": connected_clients}, 200
+    return {"active_clients": user_sessions}, 200
 
 @bp.route('/send-message', methods=['POST'])
 def send_message():
@@ -29,4 +29,5 @@ def get_questions():
 
 @bp.route('/socket-status', methods=['GET'])
 def socket_status():
-    return {"active_clients": len(connected_clients)}, 200
+    return {"active_clients": len(user_sessions)}, 200
+
