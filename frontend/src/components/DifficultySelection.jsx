@@ -12,7 +12,6 @@ import {
 import { useNavigate } from "react-router-dom";
 
 const DifficultySelection = ({ socket }) => {
-
   const [difficulty, setDifficulty] = useState("Easy");
   const navigate = useNavigate();
 

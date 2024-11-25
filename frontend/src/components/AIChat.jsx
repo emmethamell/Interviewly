@@ -1,12 +1,19 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Box, TextField, Button, Typography, IconButton, CircularProgress } from "@mui/material";
+import {
+  Box,
+  TextField,
+  Button,
+  Typography,
+  IconButton,
+  CircularProgress,
+} from "@mui/material";
 import { IoArrowUpCircleOutline } from "react-icons/io5";
 import { BiUpArrow, BiUpArrowCircle } from "react-icons/bi";
 import { Terminal, SmartToy } from "@mui/icons-material";
 import { Code, CodeOff, Visibility, VisibilityOff } from "@mui/icons-material";
-import ReactMarkdown from 'react-markdown';
+import ReactMarkdown from "react-markdown";
 
-const AIChat = ({ difficulty, socket, code}) => {
+const AIChat = ({ difficulty, socket, code }) => {
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState([]);
   const messagesEndRef = useRef(null);
@@ -34,12 +41,14 @@ const AIChat = ({ difficulty, socket, code}) => {
 
   // ensure that the event listener for bot_message is set up when component mounts
   // when the server emits a bot_message event, client recieves it and updates messages state, which re renders the page
-  useEffect(() => { 
+  useEffect(() => {
     if (socket) {
       console.log("Setting up socket event listeners");
-      socket.on("bot_message", (message) => { //on bot_message event
+      socket.on("bot_message", (message) => {
+        //on bot_message event
         console.log("Received bot_message:", message);
-        setMessages((prevMessages) => [ //update the messanges state
+        setMessages((prevMessages) => [
+          //update the messanges state
           ...prevMessages,
           { sender: "Bot", text: message.message, hasCodeContext: false },
         ]);
@@ -56,7 +65,6 @@ const AIChat = ({ difficulty, socket, code}) => {
     };
   }, [socket]);
 
-  
   const handleSend = () => {
     if (!input.trim()) return;
 
@@ -67,12 +75,15 @@ const AIChat = ({ difficulty, socket, code}) => {
     // update the messages to re render the state
     setMessages((prevMessages) => [
       ...prevMessages,
-      { sender: "You", text: curInput, code: isCodeContext? code : "" },
+      { sender: "You", text: curInput, code: isCodeContext ? code : "" },
     ]);
 
     // send to the server using emit
     if (socket) {
-      socket.emit("user_message", { message: curInput, code: isCodeContext? code : "" }); // server listens for user_message event
+      socket.emit("user_message", {
+        message: curInput,
+        code: isCodeContext ? code : "",
+      }); // server listens for user_message event
     }
   };
 
@@ -121,7 +132,6 @@ const AIChat = ({ difficulty, socket, code}) => {
 
         <Box
           sx={{
-            
             borderRadius: "8px",
             pt: "4px",
             pb: "4px",
@@ -224,7 +234,12 @@ const AIChat = ({ difficulty, socket, code}) => {
         ))}
         <div ref={messagesEndRef} />
         {loading && (
-          <Box display="flex" justifyContent="flex-start" alignItems="left" mt={2}>
+          <Box
+            display="flex"
+            justifyContent="flex-start"
+            alignItems="left"
+            mt={2}
+          >
             <CircularProgress color="inherit" size={20} />
           </Box>
         )}

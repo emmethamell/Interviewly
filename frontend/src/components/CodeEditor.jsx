@@ -6,7 +6,6 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { Timer } from "./Timer";
 import { useNavigate } from "react-router-dom";
 
-
 const CodeEditor = ({ difficulty, code, setCode, socket }) => {
   const [language, setLanguage] = useState("javascript");
   const [anchorEl, setAnchorEl] = useState(null);
@@ -115,7 +114,7 @@ const CodeEditor = ({ difficulty, code, setCode, socket }) => {
           alignItems: "center",
           justifyContent: "space-between",
           gap: 1,
-          p: 2, 
+          p: 2,
           minHeight: "25px",
           flexShrink: 0,
           borderBottom: "2px solid black",
@@ -163,7 +162,6 @@ const CodeEditor = ({ difficulty, code, setCode, socket }) => {
         >
           Submit Solution
         </Button>
-
       </Box>
       <Box flex={1} position="relative" minHeight="200px">
         <div

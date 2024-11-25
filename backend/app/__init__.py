@@ -13,8 +13,9 @@ def create_app():
 
     # Register routes
     from app.routes import bp
-    flask_app.register_blueprint(bp)
-
+    from app.auth import auth_bp
+    flask_app.register_blueprint(bp, url_prefix='/api')
+    flask_app.register_blueprint(auth_bp, url_prefix='/auth')
 
     # Initialize SocketIO
     socketio.init_app(

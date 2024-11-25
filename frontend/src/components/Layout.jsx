@@ -9,7 +9,7 @@ const Layout = ({ socket }) => {
   const location = useLocation();
   const { difficulty } = location.state || { difficulty: "not selected" };
 
-  const [code, setCode] = useState("")
+  const [code, setCode] = useState("");
 
   const hasEmittedRef = useRef(false);
 
@@ -17,10 +17,9 @@ const Layout = ({ socket }) => {
     if (socket && !hasEmittedRef.current) {
       console.log("Emitting select_difficulty event from AIChat");
       socket.emit("select_difficulty", { difficulty });
-      hasEmittedRef.current = true
+      hasEmittedRef.current = true;
     }
   }, [socket, difficulty, hasEmittedRef]);
-  
 
   return (
     <Box
@@ -47,7 +46,12 @@ const Layout = ({ socket }) => {
 
         {/* Right Pane */}
         <Box sx={{ height: "100%", overflow: "auto" }}>
-          <CodeEditor difficulty={difficulty} code={code} setCode={setCode} socket={socket} />
+          <CodeEditor
+            difficulty={difficulty}
+            code={code}
+            setCode={setCode}
+            socket={socket}
+          />
         </Box>
       </SplitPane>
     </Box>

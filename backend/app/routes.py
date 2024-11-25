@@ -5,7 +5,7 @@ bp = Blueprint('routes', __name__)
 
 @bp.route('/health', methods=['GET'])
 def health_check():
-    return {"status": "ok"}, 200
+    return {"status": "routes ok"}, 200
 
 @bp.route('/active-clients', methods=['GET'])
 def active_clients():
