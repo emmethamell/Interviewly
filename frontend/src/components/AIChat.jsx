@@ -4,6 +4,7 @@ import { IoArrowUpCircleOutline } from "react-icons/io5";
 import { BiUpArrow, BiUpArrowCircle } from "react-icons/bi";
 import { Terminal, SmartToy } from "@mui/icons-material";
 import { Code, CodeOff, Visibility, VisibilityOff } from "@mui/icons-material";
+import ReactMarkdown from 'react-markdown';
 
 const AIChat = ({ difficulty, socket, code}) => {
   const [input, setInput] = useState("");
@@ -217,7 +218,7 @@ const AIChat = ({ difficulty, socket, code}) => {
                 maxWidth: "100%",
               }}
             >
-              {message.text}
+              <ReactMarkdown>{message.text}</ReactMarkdown>
             </Typography>
           </Box>
         ))}

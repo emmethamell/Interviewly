@@ -6,6 +6,8 @@ import Layout from "./components/Layout";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import DifficultySelection from "./components/DifficultySelection";
 import io from "socket.io-client";
+import Score from "./components/Score";
+
 import {
   createTheme,
   ThemeProvider,
@@ -60,11 +62,11 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-     
       <Router>
         <Routes>
           <Route path="/" element={<DifficultySelection socket={socket} />} />
           <Route path="/main" element={<Layout socket={socket} />} />
+          <Route path="/score" element={<Score />} />
         </Routes>
       </Router>
     </ThemeProvider>

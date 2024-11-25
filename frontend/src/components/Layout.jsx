@@ -47,7 +47,7 @@ const Layout = ({ socket }) => {
 
         {/* Right Pane */}
         <Box sx={{ height: "100%", overflow: "auto" }}>
-          <CodeEditor difficulty={difficulty} code={code} setCode={setCode}  />
+          <CodeEditor difficulty={difficulty} code={code} setCode={setCode} socket={socket} />
         </Box>
       </SplitPane>
     </Box>

@@ -4,10 +4,14 @@ import * as monaco from "monaco-editor";
 import { Box, Button, Menu, MenuItem } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { Timer } from "./Timer";
-const CodeEditor = ({ difficulty, code, setCode }) => {
+import { useNavigate } from "react-router-dom";
+
+
+const CodeEditor = ({ difficulty, code, setCode, socket }) => {
   const [language, setLanguage] = useState("javascript");
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+  const navigate = useNavigate();
 
   const languages = [
     { label: "JavaScript", value: "javascript" },
@@ -16,6 +20,25 @@ const CodeEditor = ({ difficulty, code, setCode }) => {
     { label: "C++", value: "cpp" },
     { label: "TypeScript", value: "typescript" },
   ];
+
+  useEffect(() => {
+    if (socket) {
+      socket.on("final_analysis", (data) => {
+        console.log("Received final analysis:", data.analysis);
+        navigate("/score", { state: { analysis: data.analysis } });
+      });
+
+      return () => {
+        socket.off("final_analysis");
+      };
+    }
+  }, [socket, navigate]);
+
+  const handleSubmit = () => {
+    if (socket) {
+      socket.emit("submit_solution");
+    }
+  };
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -136,11 +159,7 @@ const CodeEditor = ({ difficulty, code, setCode }) => {
             },
             color: "#f4a261",
           }}
-          onClick={() => {
-            // Handle submit logic here
-            console.log("Submitting solution");
-            // Final submission should analyze chat and score, can be done with an http request no websocket
-          }}
+          onClick={() => handleSubmit()}
         >
           Submit Solution
         </Button>

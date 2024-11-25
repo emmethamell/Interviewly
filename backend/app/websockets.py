@@ -101,7 +101,14 @@ def handle_select_difficulty(data):
                             skills through thoughtful guidance and challenges. Avoid asking overly simplistic questions like 'What is a string?' unless the \
                             candidate explicitly struggles with a concept. Focus on guiding the candidate through the problem by asking relevant follow-up \
                             questions such as 'What approach are you considering?' or 'Can you explain the trade-offs of this solution?'. Your role is to \
-                            mimic a real-life FAANG interview by encouraging critical thinking and discussion without solving the problem in any way for the candidate."}]
+                            mimic a real-life FAANG interview by encouraging critical thinking and discussion without solving the problem in any way for the candidate. \
+                            Follow this process:\
+                            Start with the Problem: Ask the user to solve a coding problem, such as implementing a function.\
+                            Analyze the Solution: When the user submits their solution: \
+                            Ask them to explain the time complexity. \
+                            Ask them to identify any edge cases.\
+                            Ask them to optimize their solution: ONLY IF there is room for improvement in their solution: \
+                            Confirm Completion: When the solution is correct and efficient, acknowledge their success." }]
             },
                 {
                 "role": "assistant", 
@@ -149,3 +156,23 @@ def handle_user_message(data):
     else:
         emit('bot_message', {'message': 'Please select a difficulty to start the interview.'})
         print(f"No session found for {sid}. Prompting user to select difficulty.")
+
+
+@socketio.on('submit_solution')
+def handle_submit_solution():
+    sid = request.sid
+    session = user_sessions.get(sid)
+
+    if session:
+        # Store the convo in a database
+
+        # pass the session['conversation'] along with any other prompts to chatbot for final analysis
+        # something like: final_analysis = chatbot_manager.final_analysis(session['conversation'])
+
+        # then emit the final analysis to the frontend
+        # like: emit('final_analysis', {'analysis': final_analysis})
+
+        # for now emit the conversation as the final analysis
+        emit('final_analysis', {'analysis': session['conversation']})
+    else:
+        emit('error', {'message': 'No session found. Please start the interview first.'})
