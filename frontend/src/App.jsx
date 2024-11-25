@@ -60,6 +60,7 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
+     
       <Router>
         <Routes>
           <Route path="/" element={<DifficultySelection socket={socket} />} />

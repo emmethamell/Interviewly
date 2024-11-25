@@ -39,7 +39,7 @@ conversation should be in this form:
 class ChatbotManager:
     def __init__(self):
         self.model = "gpt-4" 
-        self.temperature = 0.3
+        self.temperature = 0.5
         self.client = OpenAI()
 
     def generate_response(self, conversation):

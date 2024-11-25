@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Box, TextField, Button, Typography, IconButton } from "@mui/material";
+import { Box, TextField, Button, Typography, IconButton, CircularProgress } from "@mui/material";
 import { IoArrowUpCircleOutline } from "react-icons/io5";
 import { BiUpArrow, BiUpArrowCircle } from "react-icons/bi";
 import { Terminal, SmartToy } from "@mui/icons-material";
@@ -9,8 +9,9 @@ const AIChat = ({ difficulty, socket, code}) => {
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState([]);
   const messagesEndRef = useRef(null);
+  const [loading, setLoading] = useState(false);
 
-  const [isCodeContext, setIsCodeContext] = useState(false);
+  const [isCodeContext, setIsCodeContext] = useState(true);
 
   const handleToggleCodeContext = (index) => {
     setMessages(
@@ -41,6 +42,7 @@ const AIChat = ({ difficulty, socket, code}) => {
           ...prevMessages,
           { sender: "Bot", text: message.message, hasCodeContext: false },
         ]);
+        setLoading(false);
       });
     }
 
@@ -59,6 +61,7 @@ const AIChat = ({ difficulty, socket, code}) => {
 
     const curInput = input;
     setInput("");
+    setLoading(true);
 
     // update the messages to re render the state
     setMessages((prevMessages) => [
@@ -219,6 +222,11 @@ const AIChat = ({ difficulty, socket, code}) => {
           </Box>
         ))}
         <div ref={messagesEndRef} />
+        {loading && (
+          <Box display="flex" justifyContent="flex-start" alignItems="left" mt={2}>
+            <CircularProgress color="inherit" size={20} />
+          </Box>
+        )}
       </Box>
 
       {/* Input Box */}
