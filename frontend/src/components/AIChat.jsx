@@ -1,15 +1,14 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Box, TextField, Button, Typography, IconButton } from "@mui/material";
-import axios from "axios";
 import { IoArrowUpCircleOutline } from "react-icons/io5";
 import { BiUpArrow, BiUpArrowCircle } from "react-icons/bi";
 import { Terminal, SmartToy } from "@mui/icons-material";
 import { Code, CodeOff, Visibility, VisibilityOff } from "@mui/icons-material";
 
-const AIChat = ({ difficulty }) => {
+const AIChat = ({ difficulty, socket, code}) => {
   const [input, setInput] = useState("");
-  const [messages, setMessages] = useState([]); // store all messages
-  const messagesEndRef = useRef(null); // reference to end of message list
+  const [messages, setMessages] = useState([]);
+  const messagesEndRef = useRef(null);
 
   const [isCodeContext, setIsCodeContext] = useState(false);
 
@@ -20,7 +19,7 @@ const AIChat = ({ difficulty }) => {
       ),
     );
   };
-  // scroll to the bottom of the messages
+
   const scrollToBottom = () => {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
@@ -29,49 +28,48 @@ const AIChat = ({ difficulty }) => {
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages]); //run whenever the array changes
+  }, [messages]);
 
-  const handleSend = async () => {
+  // ensure that the event listener for bot_message is set up when component mounts
+  // when the server emits a bot_message event, client recieves it and updates messages state, which re renders the page
+  useEffect(() => { 
+    if (socket) {
+      console.log("Setting up socket event listeners");
+      socket.on("bot_message", (message) => { //on bot_message event
+        console.log("Received bot_message:", message);
+        setMessages((prevMessages) => [ //update the messanges state
+          ...prevMessages,
+          { sender: "Bot", text: message.message, hasCodeContext: false },
+        ]);
+      });
+    }
+
+    // clean up when the component unmounts or when the instance of socket changes
+    return () => {
+      if (socket) {
+        console.log("Cleaning up socket event listeners");
+        socket.off("bot_message");
+      }
+    };
+  }, [socket]);
+
+  
+  const handleSend = () => {
     if (!input.trim()) return;
 
     const curInput = input;
-
     setInput("");
 
-    // add the users message to the chat
+    // update the messages to re render the state
     setMessages((prevMessages) => [
       ...prevMessages,
-      { sender: "You", text: curInput, hasCodeContext: isCodeContext },
+      { sender: "You", text: curInput, code: isCodeContext? code : "" },
     ]);
 
-    try {
-      const res = await axios.post(
-        "https://api.openai.com/v1/completions",
-        {
-          model: "text-davinci-003",
-          prompt: curInput,
-          max_tokens: 150,
-        },
-        {
-          headers: { Authorization: `Bearer YOUR_API_KEY` },
-        },
-      );
-
-      const aiResponse = res.data.choices[0].text.trim();
-
-      // add the ai response to the chat
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        { sender: "Bot", text: aiResponse, hasCodeContext: false },
-      ]);
-    } catch (error) {
-      console.error("Error fetching AI response:", error);
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        { sender: "Bot", text: "Sorry, I couldn't process that." },
-      ]);
+    // send to the server using emit
+    if (socket) {
+      socket.emit("user_message", { message: curInput, code: isCodeContext? code : "" }); // server listens for user_message event
     }
-    setInput("");
   };
 
   const handleKeyPress = (event) => {
@@ -89,55 +87,60 @@ const AIChat = ({ difficulty }) => {
           display: "flex",
           alignItems: "center",
           gap: 1,
-          p: 2, // Match AIChat padding
-          minHeight: "32px", // Match AIChat height
+          p: 2,
+          minHeight: "32px",
           flexShrink: 0,
           borderBottom: "2px solid black",
-          justifyContent: "space-between"
+          justifyContent: "space-between",
         }}
       >
         <Box display="flex" flexDirection="row" p={0}>
-        <Terminal
-          sx={{
-            fontSize: 24,
-            color: "#f4a261",
-            padding: "1px"
-          }}
-        />
-        <Typography
-          variant="h6"
-          sx={{
-            color: "#f4a261",
-            fontWeight: "bold",
-            fontSize: "1.1rem",
-            padding: "1px"
-          }}
-        >
-          Hackilo
-        </Typography>
+          <Terminal
+            sx={{
+              fontSize: 24,
+              color: "#f4a261",
+              padding: "1px",
+            }}
+          />
+          <Typography
+            variant="h6"
+            sx={{
+              color: "#f4a261",
+              fontWeight: "bold",
+              fontSize: "1.1rem",
+              padding: "1px",
+            }}
+          >
+            Hackilo
+          </Typography>
         </Box>
 
         <Box
           sx={{
-            border: `1px solid ${difficulty === 'Easy' ? '#4caf50' : difficulty === 'Medium' ? '#ffeb3b' : '#f44336'}`,
-            borderRadius: "8px", 
+            
+            borderRadius: "8px",
             pt: "4px",
             pb: "4px",
             pl: "4px",
             pr: "4px",
           }}
         >
-        <Typography
-          variant="h6"
-          sx={{
-            color: difficulty === 'Easy' ? '#4caf50' : difficulty === 'Medium' ? '#ffeb3b' : '#f44336', 
-            fontWeight: "bold",
-            fontSize: "0.8rem",
-            padding: "1px"
-          }}
-        >
-         {difficulty}
-        </Typography>
+          <Typography
+            variant="h6"
+            sx={{
+              color:
+                difficulty === "Easy"
+                  ? "#4caf50"
+                  : difficulty === "Medium"
+                    ? "#ffeb3b"
+                    : "#f44336",
+              fontWeight: "bold",
+              fontSize: "0.8rem",
+              padding: "1px",
+            }}
+          >
+            {difficulty}
+          </Typography>
         </Box>
       </Box>
 
@@ -205,17 +208,16 @@ const AIChat = ({ difficulty }) => {
             <Typography
               variant="body1"
               sx={{
-                whiteSpace: "pre-wrap", // Allow text wrapping
-                wordWrap: "break-word", // Break long words
-                overflowWrap: "break-word", // Ensure long words wrap
-                maxWidth: "100%", // Contain within parent
+                whiteSpace: "pre-wrap",
+                wordWrap: "break-word",
+                overflowWrap: "break-word",
+                maxWidth: "100%",
               }}
             >
               {message.text}
             </Typography>
           </Box>
         ))}
-        {/* Dummy div to ensure scrolling */}
         <div ref={messagesEndRef} />
       </Box>
 

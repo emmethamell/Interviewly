@@ -3,9 +3,9 @@ import React, { useState, useEffect } from "react";
 import { Box, Typography } from "@mui/material";
 import { AccessTime } from "@mui/icons-material";
 
-export const Timer = ({ minutes = 30 }) => {
+export const Timer = ({ minutes }) => {
   const [timeLeft, setTimeLeft] = useState(minutes * 60);
-  const [isRunning, setIsRunning] = useState(false);
+  const [isRunning, setIsRunning] = useState(true);
 
   useEffect(() => {
     let intervalId;

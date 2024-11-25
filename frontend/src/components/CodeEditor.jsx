@@ -4,11 +4,10 @@ import * as monaco from "monaco-editor";
 import { Box, Button, Menu, MenuItem } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { Timer } from "./Timer";
-const CodeEditor = ({ difficulty }) => {
+const CodeEditor = ({ difficulty, code, setCode }) => {
   const [language, setLanguage] = useState("javascript");
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
-
 
   const languages = [
     { label: "JavaScript", value: "javascript" },
@@ -59,11 +58,11 @@ const CodeEditor = ({ difficulty }) => {
 
   const getTimerDuration = (difficulty) => {
     switch (difficulty) {
-      case 'Easy':
+      case "Easy":
         return 30;
-      case 'Medium':
+      case "Medium":
         return 45;
-      case 'Hard':
+      case "Hard":
         return 60;
       default:
         return 30;
@@ -93,8 +92,8 @@ const CodeEditor = ({ difficulty }) => {
           alignItems: "center",
           justifyContent: "space-between",
           gap: 1,
-          p: 2, // Match AIChat padding
-          minHeight: "25px", // Match AIChat height
+          p: 2, 
+          minHeight: "25px",
           flexShrink: 0,
           borderBottom: "2px solid black",
         }}
@@ -107,8 +106,6 @@ const CodeEditor = ({ difficulty }) => {
             color: "white",
             bgcolor: "#333",
             "&:hover": { bgcolor: "#444" },
-            // minWidth: "100px",    // Add minimum width
-            //  height: "30px"
           }}
         >
           {languages.find((l) => l.value === language)?.label ||
@@ -129,20 +126,25 @@ const CodeEditor = ({ difficulty }) => {
         {/* Submit Button (Right) */}
         <Timer minutes={getTimerDuration(difficulty)} />
         <Button
-          variant="contained"
+          variant="outlined"
           size="small"
           sx={{
-            bgcolor: "#f4a261",
-            "&:hover": { bgcolor: "#e76f51" },
-            color: "white",
+            borderColor: "#f4a261",
+            "&:hover": {
+              borderColor: "#f4a261",
+              backgroundColor: "rgba(244, 162, 97, 0.1)",
+            },
+            color: "#f4a261",
           }}
           onClick={() => {
             // Handle submit logic here
             console.log("Submitting solution");
+            // Final submission should analyze chat and score, can be done with an http request no websocket
           }}
         >
           Submit Solution
         </Button>
+
       </Box>
       <Box flex={1} position="relative" minHeight="200px">
         <div
@@ -157,7 +159,7 @@ const CodeEditor = ({ difficulty }) => {
             height={dimensions.height}
             language={language}
             theme="custom-dark"
-            value="// Write your code here"
+            value={code}
             options={{
               fontSize: 16,
               fontFamily: "Fira Code, Consolas, monospace",
@@ -171,6 +173,7 @@ const CodeEditor = ({ difficulty }) => {
                 enabled: false,
               },
             }}
+            onChange={(newValue) => setCode(newValue)}
           />
         </div>
       </Box>

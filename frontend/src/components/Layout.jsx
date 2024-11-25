@@ -1,13 +1,26 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import SplitPane from "react-split-pane";
 import { useLocation } from "react-router-dom";
 import { Box } from "@mui/material";
 import CodeEditor from "./CodeEditor";
 import AIChat from "./AIChat";
 
-const Layout = () => {
+const Layout = ({ socket }) => {
   const location = useLocation();
-  const { difficulty } = location.state || { difficulty: "Easy" };
+  const { difficulty } = location.state || { difficulty: "not selected" };
+
+  const [code, setCode] = useState("")
+
+  const hasEmittedRef = useRef(false);
+
+  useEffect(() => {
+    if (socket && !hasEmittedRef.current) {
+      console.log("Emitting select_difficulty event from AIChat");
+      socket.emit("select_difficulty", { difficulty });
+      hasEmittedRef.current = true
+    }
+  }, [socket, difficulty, hasEmittedRef]);
+  
 
   return (
     <Box
@@ -29,12 +42,12 @@ const Layout = () => {
       >
         {/* Left Pane */}
         <Box sx={{ height: "100%", overflow: "auto" }}>
-          <AIChat difficulty={difficulty} />
+          <AIChat difficulty={difficulty} socket={socket} code={code} />
         </Box>
 
         {/* Right Pane */}
         <Box sx={{ height: "100%", overflow: "auto" }}>
-          <CodeEditor difficulty={difficulty}/>
+          <CodeEditor difficulty={difficulty} code={code} setCode={setCode}  />
         </Box>
       </SplitPane>
     </Box>
