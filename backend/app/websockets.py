@@ -4,6 +4,8 @@ from flask import request
 import random
 import pprint
 from app.chatbot_manager import ChatbotManager
+import re
+import json
   
 user_sessions = {}
 chatbot_manager = ChatbotManager()
@@ -168,7 +170,7 @@ def handle_user_message(data):
         bot_reply = chatbot_manager.generate_response(session['conversation'])
 
         # Save bot reply
-        session['conversation'].append({'role': 'assistant', 'content': [{'type': 'text', 'reply': bot_reply}]})
+        session['conversation'].append({'role': 'assistant', 'content': [{'type': 'text', 'text': bot_reply}]})
         pp.pprint(f"Bot reply added to conversation for {sid}: {bot_reply}")
         emit('bot_message', {'message': bot_reply})
     else:
@@ -182,15 +184,23 @@ def handle_submit_solution():
     session = user_sessions.get(sid)
 
     if session:
-        # Store the convo in a database
+        # TODO: Store the convo in a database
 
         # pass the session['conversation'] along with any other prompts to chatbot for final analysis
         # something like: final_analysis = chatbot_manager.final_analysis(session['conversation'])
+        final_analysis = chatbot_manager.generate_final_analysis(session['conversation'])
 
-        # then emit the final analysis to the frontend
-        # like: emit('final_analysis', {'analysis': final_analysis})
+        # gpt returns markdown formatting of json, so remove before sending to frontend
+        final_analysis = re.sub(r'```json|```', '', final_analysis).strip()
+    
+        # make sure that the json is valid
+        try:
+            final_analysis = json.loads(final_analysis)
+        except json.JSONDecodeError:
+            raise ValueError("Invalid JSON format after cleaning.")
+        print("FINAL ANALYSIS PARSED JSON: " + str(final_analysis))
 
-        # for now emit the conversation as the final analysis
-        emit('final_analysis', {'analysis': session['conversation']})
+        # emit final analysis for frontend
+        emit('final_analysis', {'analysis': final_analysis})
     else:
         emit('error', {'message': 'No session found. Please start the interview first.'})

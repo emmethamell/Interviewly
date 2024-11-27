@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Typography } from "@mui/material";
+import { Typography, Box } from "@mui/material";
 import { useLocation } from "react-router-dom";
 
 const Score = () => {
@@ -8,14 +8,34 @@ const Score = () => {
 
   return (
     <>
-      <Typography color={"white"}>
-        SCORE WILL BE HERE
-        <div>
-          <h2>Final Analysis:</h2>
-          <pre>{JSON.stringify(analysis, null, 2)}</pre>
-        </div>
+    <Box p={3}>
+      <Typography variant="h4" color="white" gutterBottom>
+        Final Analysis
       </Typography>
-    </>
+      <Box mt={2}>
+        <Typography variant="h6" color="white">
+          Qualitative Score:
+        </Typography>
+        <Typography variant="body1" color="white">
+          {analysis.qualitative_score}
+        </Typography>
+      </Box>
+      <Box mt={2}>
+        <Typography variant="h6" color="white">
+          Ratings:
+        </Typography>
+        <Typography variant="body1" color="white">
+          Technical Ability: {analysis.ratings?.technical_ability}
+        </Typography>
+        <Typography variant="body1" color="white">
+          Problem Solving Skills: {analysis.ratings?.problem_solving_skills}
+        </Typography>
+        <Typography variant="body1" color="white">
+          Summary: {analysis.summary}
+        </Typography>
+        </Box>
+        </Box>
+        </>
   );
 };
 

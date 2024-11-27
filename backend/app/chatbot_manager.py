@@ -43,9 +43,7 @@ class ChatbotManager:
         self.client = OpenAI()
 
     def generate_response(self, conversation):
-        
         # Given the convo history, generate response with openai api
-        
         try:
             response = self.client.chat.completions.create(
                 model=self.model,
@@ -56,3 +54,48 @@ class ChatbotManager:
             return response.choices[0].message.content
         except Exception as e:
             return f"Error generating response: {str(e)}"
+        
+
+    def generate_final_analysis(self, conversation):
+        # Create a new prompt to get structured final analysis
+        prompt = """
+                Evaluate the following interview conversation and provide the results in the following JSON format:
+                {{
+                    "qualitative_score": "No Hire | Lean Hire | Hire | Strong Hire",
+                    "ratings": {{
+                        "technical_ability": "Numeric value out of 10",
+                        "problem_solving_skills": "Numeric value out of 10"
+                    }},
+                    "summary": "Short justification for the scores and qualitative rating."
+                }}
+
+                """
+        new_convo = ""
+        for m in conversation:
+        # for everything but system, push the convo into a new String
+            if m["role"] == "assistant" or m["role"] == "user":
+                for content in m["content"]:
+                    new_convo += f"{'Interviewer' if m['role'] == 'assistant' else 'Candidate'}: {content['text']}\n"
+            print("NEW CONVERSATION STRING: " + new_convo)
+
+        
+        # new system prompt as interview analyzer
+        # new user prompt requesting structured analysis
+        # final convo as a single transcript string
+        final_convo = []
+        final_convo.append({"role": "system", "content": "You are an interview evaluator. Analyze interview conversations and provide structured feedback."},)
+        final_convo.append({"role": "user", "content": prompt})
+        final_convo.append({"role": "user", "content": new_convo})
+
+        try:
+            response = self.client.chat.completions.create(
+                model=self.model,
+                messages=final_convo,
+                max_tokens=500,
+                temperature=self.temperature
+            )
+            print(response.choices[0].message.content)
+            return response.choices[0].message.content
+        except Exception as e:
+            return f"Error generating response: {str(e)}"
+
