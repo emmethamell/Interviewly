@@ -47,7 +47,8 @@ user sessions = {
 questions = {
     "Easy": [
         "write a function that reverses a String",
-
+        "Given a string s containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid.\n\nAn input string is valid if:\n\n- Open brackets must be closed by the same type of brackets.\n- Open brackets must be closed in the correct order.\n- Every close bracket has a corresponding open bracket of the same type.",
+        "Write a function that reverses a string. The input string is given as an array of characters s.\n\nYou must do this by modifying the input array in-place with O(1) extra memory."
     ],
     "Medium": [
         "write a function that finds the n'th fibonacci number",
@@ -125,14 +126,14 @@ def handle_select_difficulty(data):
             },
                 {
                 "role": "assistant", 
-                "content": [{"type": "text", "text": f"Hello my name is Cody, I'll be your interviewer. Let's get started, {question}" }]
+                "content": [{"type": "text", "text": f"Hello my name is Cody, I'll be your interviewer. Let's get started with your question:\n\n {question}" }]
             }
         ]
 
     }
     
     # emit the bot_message for the frontend
-    bot_message = f"Hello my name is Cody, I'll be your interviewer. Let's get started, {question}"
+    bot_message = f"Hello my name is Cody, I'll be your interviewer. Let's get started with your question:\n\n {question}"
     emit('bot_message', {'message': bot_message})
     print(f"Session updated for {sid}: {user_sessions[sid]}")
 
