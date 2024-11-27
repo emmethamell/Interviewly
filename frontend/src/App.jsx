@@ -66,7 +66,7 @@ function App() {
         <Routes>
           <Route path="/" element={<DifficultySelection socket={socket} />} />
           <Route path="/main" element={<Layout socket={socket} />} />
-          <Route path="/score" element={<Score />} />
+          <Route path="/score" element={<Score socket={socket} />} />
         </Routes>
       </Router>
     </ThemeProvider>

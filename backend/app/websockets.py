@@ -46,15 +46,15 @@ user sessions = {
 # Sample questions
 questions = {
     "Easy": [
-        "Write a function that takes in a string and reverses it",
+        "write a function that reverses a String",
 
     ],
     "Medium": [
-        "Write a function that finds the n'th fibonacci number",
+        "write a function that finds the n'th fibonacci number",
         # Add more medium questions
     ],
     "Hard": [
-        "Implement a binary search tree",
+        "implement a binary search tree",
         # Add more hard questions
     ],
 }
@@ -132,14 +132,14 @@ def handle_select_difficulty(data):
             },
                 {
                 "role": "assistant", 
-                "content": [{"type": "text", "text": f"Hello my name is cody, I'll be your interviewer. Let's get started, {question}" }]
+                "content": [{"type": "text", "text": f"Hello my name is Cody, I'll be your interviewer. Let's get started, {question}" }]
             }
         ]
 
     }
     
     # emit the bot_message for the frontend
-    bot_message = f"Hello my name is cody, I'll be your interviewer. Let's get started, {question}"
+    bot_message = f"Hello my name is Cody, I'll be your interviewer. Let's get started, {question}"
     emit('bot_message', {'message': bot_message})
     print(f"Session updated for {sid}: {user_sessions[sid]}")
 
@@ -185,7 +185,7 @@ def handle_submit_solution():
 
     if session:
         # TODO: Store the convo in a database
-
+        
         # pass the session['conversation'] along with any other prompts to chatbot for final analysis
         # something like: final_analysis = chatbot_manager.final_analysis(session['conversation'])
         final_analysis = chatbot_manager.generate_final_analysis(session['conversation'])

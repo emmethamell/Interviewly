@@ -23,8 +23,7 @@ const CodeEditor = ({ difficulty, code, setCode, socket }) => {
   useEffect(() => {
     if (socket) {
       socket.on("final_analysis", (data) => {
-        console.log("Received final analysis:", data.analysis);
-        navigate("/score", { state: { analysis: data.analysis } });
+        navigate("/score", { state: { analysis: data.analysis, loading: false } });
       });
 
       return () => {
@@ -36,6 +35,7 @@ const CodeEditor = ({ difficulty, code, setCode, socket }) => {
   const handleSubmit = () => {
     if (socket) {
       socket.emit("submit_solution");
+      navigate("/score", { state: { loading: true } });
     }
   };
 
