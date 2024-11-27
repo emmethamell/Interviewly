@@ -83,7 +83,7 @@ class ChatbotManager:
         # new user prompt requesting structured analysis
         # final convo as a single transcript string
         final_convo = []
-        final_convo.append({"role": "system", "content": "You are an interview evaluator. Analyze interview conversations and provide structured feedback."},)
+        final_convo.append({"role": "system", "content": "You are an interview evaluator. Analyze interview conversations and provide structured feedback. If the candidate doesnt provide anything technical, then give them a no hire and 0 for all scores. Only increase their rating from 0 when they show understanding of techical concepts."},)
         final_convo.append({"role": "user", "content": prompt})
         final_convo.append({"role": "user", "content": new_convo})
 
