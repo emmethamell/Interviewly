@@ -1,6 +1,8 @@
+import os
 from flask import Flask
 from flask_socketio import SocketIO
-import os
+from flask_sqlalchemy import SQLAlchemy
+
 
 socketio = SocketIO(async_mode='eventlet')
 
@@ -8,8 +10,8 @@ socketio = SocketIO(async_mode='eventlet')
 def create_app():
     flask_app = Flask(__name__)  
     flask_app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
-
-
+    flask_app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')  # PostgreSQL database URL
+    flask_app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     # Register routes
     from app.routes import bp
