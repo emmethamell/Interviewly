@@ -78,6 +78,7 @@ const CodeEditor = ({ difficulty, code, setCode, socket }) => {
     return () => resizeObserver.disconnect();
   }, []);
 
+  
   const getTimerDuration = (difficulty) => {
     switch (difficulty) {
       case "Easy":
@@ -146,7 +147,7 @@ const CodeEditor = ({ difficulty, code, setCode, socket }) => {
         </Menu>
         {/* Add buttons here */}
         {/* Submit Button (Right) */}
-        <Timer minutes={getTimerDuration(difficulty)} />
+        <Timer minutes={getTimerDuration(difficulty)} onTimeUp={handleSubmit} />
         <Button
           variant="outlined"
           size="small"
