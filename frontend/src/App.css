@@ -39,3 +39,11 @@
   font-size: 35px; /* Adjust size */
   pointer-events: none; /* Prevent interaction */
 }
+
+/* React markdown inline code styling */
+code {
+  background-color: #222222; 
+  padding: 2px 4px;          
+  border-radius: 4px;     
+  font-family: monospace; 
+}
