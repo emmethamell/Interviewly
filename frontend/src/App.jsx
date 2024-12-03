@@ -1,6 +1,4 @@
 import { useState, useEffect } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
 import Layout from "./components/Layout";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -11,21 +9,9 @@ import Score from "./components/Score";
 import LoginButton from "./components/LoginButton";
 import LogoutButton from "./components/LogoutButton";
 import Profile from "./components/Profile";
-
-import {
-  createTheme,
-  ThemeProvider,
-  CssBaseline,
-  Button,
-  Grid2,
-  AppBar,
-  Toolbar,
-  IconButton,
-  Typography,
-  Box,
-  Stack,
-} from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
+import LandingPage from "./components/LandingPage";
+import Dashboard from "./components/Dashboard";
+import { createTheme, ThemeProvider,} from "@mui/material";
 
 const theme = createTheme({
   palette: {
@@ -54,36 +40,32 @@ const theme = createTheme({
   },
 });
 
+
 function App() {
+  const { isLoading, isAuthenticated } = useAuth0();
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
-    const newSocket = io("http://localhost:5001"); // Adjust the URL as needed
+    const newSocket = io("http://localhost:5001");
     setSocket(newSocket);
 
     return () => newSocket.close();
   }, []);
   
-  /*
-  const { isLoading, isAuthenticated, loginWithRedirect } = useAuth0();
-
   if (isLoading) {
     return <div>Loading...</div>;
   }
-
-  if (!isAuthenticated) {
-    loginWithRedirect();
-    return <div>Redirecting...</div>;
-  }
-    */
-
+    
+    
   return (
     <ThemeProvider theme={theme}>
       <Router>
       <LoginButton  />
       <LogoutButton />
         <Routes>
-          <Route path="/" element={<DifficultySelection socket={socket} />} />
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/dashboard" element={<Dashboard  />} />
+          <Route path="/selection" element={<DifficultySelection socket={socket} />} />
           <Route path="/main" element={<Layout socket={socket} />} />
           <Route path="/score" element={<Score socket={socket} />} />
           <Route path="/profile" element={<Profile />} />
