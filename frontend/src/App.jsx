@@ -1,27 +1,17 @@
 import { useState, useEffect } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
-import Layout from "./components/Layout";
+import Layout from "./components/mock_interview/Layout";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import DifficultySelection from "./components/DifficultySelection";
+import { useAuth0 } from "@auth0/auth0-react";
+import DifficultySelection from "./components/setup/DifficultySelection";
 import io from "socket.io-client";
-import Score from "./components/Score";
-
-import {
-  createTheme,
-  ThemeProvider,
-  CssBaseline,
-  Button,
-  Grid2,
-  AppBar,
-  Toolbar,
-  IconButton,
-  Typography,
-  Box,
-  Stack,
-} from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
+import Score from "./components/interview_analysis/Score";
+import LoginButton from "./components/auth/LoginButton";
+import LogoutButton from "./components/auth/LogoutButton";
+import Profile from "./components/profile/Profile";
+import LandingPage from "./components/landing_page/LandingPage";
+import Dashboard from "./components/dashboard/Dashboard";
+import { createTheme, ThemeProvider,} from "@mui/material";
 
 const theme = createTheme({
   palette: {
@@ -50,24 +40,37 @@ const theme = createTheme({
   },
 });
 
+
 function App() {
+  const { isLoading, isAuthenticated } = useAuth0();
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
-    const newSocket = io("http://localhost:5001"); // Adjust the URL as needed
+    const newSocket = io("http://localhost:5001");
     setSocket(newSocket);
 
     return () => newSocket.close();
   }, []);
-
+  
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+    
+    
   return (
     <ThemeProvider theme={theme}>
       <Router>
+      <LoginButton  />
+      <LogoutButton />
         <Routes>
-          <Route path="/" element={<DifficultySelection socket={socket} />} />
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/dashboard" element={<Dashboard  />} />
+          <Route path="/selection" element={<DifficultySelection socket={socket} />} />
           <Route path="/main" element={<Layout socket={socket} />} />
           <Route path="/score" element={<Score socket={socket} />} />
+          <Route path="/profile" element={<Profile />} />
         </Routes>
+
       </Router>
     </ThemeProvider>
   );

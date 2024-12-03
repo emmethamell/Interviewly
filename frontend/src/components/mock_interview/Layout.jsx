@@ -2,8 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import SplitPane from "react-split-pane";
 import { useLocation } from "react-router-dom";
 import { Box } from "@mui/material";
-import CodeEditor from "./CodeEditor";
-import AIChat from "./AIChat";
+import CodeEditor from "./code_editor/CodeEditor";
+import AIChat from "./ai_chat/AIChat";
 
 const Layout = ({ socket }) => {
   const location = useLocation();
@@ -24,7 +24,7 @@ const Layout = ({ socket }) => {
   return (
     <Box
       sx={{
-        height: "100%", // Inherit height from parent
+        height: "100%", 
         overflow: "hidden",
         bgcolor: "#1e1e1e",
       }}

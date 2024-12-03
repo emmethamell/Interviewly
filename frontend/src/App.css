@@ -47,3 +47,11 @@ code {
   border-radius: 4px;     
   font-family: monospace; 
 }
+
+.landing-page {
+  color: white;
+}
+
+.dashboard {
+  color: white;
+}
