@@ -4,9 +4,12 @@ import viteLogo from "/vite.svg";
 import "./App.css";
 import Layout from "./components/Layout";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
 import DifficultySelection from "./components/DifficultySelection";
 import io from "socket.io-client";
 import Score from "./components/Score";
+import LoginButton from "./components/LoginButton";
+import LogoutButton from "./components/LogoutButton";
 
 import {
   createTheme,
@@ -59,15 +62,31 @@ function App() {
 
     return () => newSocket.close();
   }, []);
+  
+  /*
+  const { isLoading, isAuthenticated, loginWithRedirect } = useAuth0();
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!isAuthenticated) {
+    loginWithRedirect();
+    return <div>Redirecting...</div>;
+  }
+    */
 
   return (
     <ThemeProvider theme={theme}>
       <Router>
+      <LoginButton  />
+      <LogoutButton />
         <Routes>
           <Route path="/" element={<DifficultySelection socket={socket} />} />
           <Route path="/main" element={<Layout socket={socket} />} />
           <Route path="/score" element={<Score socket={socket} />} />
         </Routes>
+
       </Router>
     </ThemeProvider>
   );
