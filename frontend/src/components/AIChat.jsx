@@ -126,7 +126,7 @@ const AIChat = ({ difficulty, socket, code }) => {
               padding: "1px",
             }}
           >
-            Hackilo
+            Interviewly
           </Typography>
         </Box>
 
