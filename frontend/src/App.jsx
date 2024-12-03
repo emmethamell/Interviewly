@@ -10,6 +10,7 @@ import io from "socket.io-client";
 import Score from "./components/Score";
 import LoginButton from "./components/LoginButton";
 import LogoutButton from "./components/LogoutButton";
+import Profile from "./components/Profile";
 
 import {
   createTheme,
@@ -85,6 +86,7 @@ function App() {
           <Route path="/" element={<DifficultySelection socket={socket} />} />
           <Route path="/main" element={<Layout socket={socket} />} />
           <Route path="/score" element={<Score socket={socket} />} />
+          <Route path="/profile" element={<Profile />} />
         </Routes>
 
       </Router>
