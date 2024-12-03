@@ -1,16 +1,16 @@
 import { useState, useEffect } from "react";
 import "./App.css";
-import Layout from "./components/Layout";
+import Layout from "./components/mock_interview/Layout";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
-import DifficultySelection from "./components/DifficultySelection";
+import DifficultySelection from "./components/setup/DifficultySelection";
 import io from "socket.io-client";
-import Score from "./components/Score";
-import LoginButton from "./components/LoginButton";
-import LogoutButton from "./components/LogoutButton";
-import Profile from "./components/Profile";
-import LandingPage from "./components/LandingPage";
-import Dashboard from "./components/Dashboard";
+import Score from "./components/interview_analysis/Score";
+import LoginButton from "./components/auth/LoginButton";
+import LogoutButton from "./components/auth/LogoutButton";
+import Profile from "./components/profile/Profile";
+import LandingPage from "./components/landing_page/LandingPage";
+import Dashboard from "./components/dashboard/Dashboard";
 import { createTheme, ThemeProvider,} from "@mui/material";
 
 const theme = createTheme({
