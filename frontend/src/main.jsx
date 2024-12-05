@@ -12,7 +12,7 @@ createRoot(document.getElementById("root")).render(
     domain={domain}
     clientId={clientId}
     authorizationParams={{
-      redirect_uri: `${window.location.origin}/dashboard`
+      redirect_uri: `${window.location.origin}/dashboard` //Where to redirect to after successful auth
     }}
   >
   <StrictMode>

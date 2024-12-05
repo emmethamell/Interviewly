@@ -152,12 +152,10 @@ const CodeEditor = ({ difficulty, code, setCode, socket }) => {
           variant="outlined"
           size="small"
           sx={{
-            borderColor: "#f4a261",
             "&:hover": {
               borderColor: "#f4a261",
               backgroundColor: "rgba(244, 162, 97, 0.1)",
             },
-            color: "#f4a261",
           }}
           onClick={() => handleSubmit()}
         >
