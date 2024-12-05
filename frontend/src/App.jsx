@@ -16,16 +16,18 @@ import { createTheme, ThemeProvider,} from "@mui/material";
 const theme = createTheme({
   palette: {
     primary: {
-      main: "#f4a261", // Custom primary color (orange)
+      main: "#f4a261", // Main orange color
     },
     secondary: {
+      //main: "#FFFFFF",
       main: "#ff5722", // Custom secondary color (orange)
     },
     background: {
-      default: "#f2f2f2", // Light gray background
+      default: "#FFFFFF",
+      //default: "#f2f2f2", // Light gray background
     },
     text: {
-      primary: "#333333", // Custom text color
+      default: "#FFFFFF", //white
     },
   },
   typography: {

@@ -15,7 +15,7 @@ const LandingPage = () => {
   return (
     <div className="landing-page">
       <h1>Welcome to Interviewly</h1>
-      <p>BLAH BLAH BLAH</p>
+      <p>Mock Interviews with AI</p>
       <button onClick={() => loginWithRedirect()}>Get Started</button>
     </div>
   );

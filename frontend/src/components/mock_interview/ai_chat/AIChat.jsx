@@ -98,7 +98,7 @@ const AIChat = ({ difficulty, socket, code }) => {
     <Box display="flex" flexDirection="column" height="100%" p={0}>
       <Box
         sx={{
-          bgcolor: "#1e1e1e",
+          bgcolor: "#1e1e1e", //background dark grey
           display: "flex",
           alignItems: "center",
           gap: 1,
@@ -113,14 +113,14 @@ const AIChat = ({ difficulty, socket, code }) => {
           <Terminal
             sx={{
               fontSize: 24,
-              color: "#f4a261",
+              color: "primary.main",
               padding: "1px",
             }}
           />
           <Typography
             variant="h6"
             sx={{
-              color: "#f4a261",
+              color: "primary.main",
               fontWeight: "bold",
               fontSize: "1.1rem",
               padding: "1px",
@@ -294,7 +294,7 @@ const AIChat = ({ difficulty, socket, code }) => {
               <Typography
                 variant="caption"
                 sx={{
-                  color: isCodeContext ? "#f4a261" : "#666",
+                  color: isCodeContext ? "primary.main" : "#666",
                   userSelect: "none",
                   textDecoration: isCodeContext ? "none" : "line-through",
                   fontStyle: isCodeContext ? "normal" : "italic",
@@ -306,7 +306,7 @@ const AIChat = ({ difficulty, socket, code }) => {
                 size="small"
                 onClick={() => setIsCodeContext(!isCodeContext)}
                 sx={{
-                  color: isCodeContext ? "#f4a261" : "#666",
+                  color: isCodeContext ? "primary.main" : "#666",
                 }}
               >
                 {isCodeContext ? <Visibility /> : <VisibilityOff />}
