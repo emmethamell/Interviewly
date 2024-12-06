@@ -3,6 +3,7 @@ from flask import Flask
 from flask_socketio import SocketIO
 from flask_sqlalchemy import SQLAlchemy
 from dotenv import load_dotenv
+from flask_cors import CORS
 
 load_dotenv()
 
@@ -18,6 +19,9 @@ def create_app():
 
     # Initialize sqlalchemy
     db.init_app(flask_app)
+
+    CORS(flask_app)
+    flask_app.config['CORS_HEADERS'] = 'Content-Type'
 
     from app.data_models import User, Question, Tag, Interview, question_tag_association
 

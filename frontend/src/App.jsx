@@ -13,6 +13,7 @@ import LandingPage from "./components/landing_page/LandingPage";
 import Dashboard from "./components/dashboard/Dashboard";
 import { createTheme, ThemeProvider } from "@mui/material";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
+import axios from "axios";
 
 const theme = createTheme({
   palette: {
@@ -44,6 +45,7 @@ const theme = createTheme({
 });
 
 function App() {
+  const { isAuthenticated, user, getAccessTokenSilently } = useAuth0();
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
@@ -52,6 +54,31 @@ function App() {
 
     return () => newSocket.close();
   }, []);
+
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      const storeUser = async () => {
+        const token = await getAccessTokenSilently();
+        const auth0_user_id = user.sub;
+        const name = user.name;
+        const email = user.email;
+
+        axios.post('http://localhost:5001/auth/signup', { auth0_user_id, name, email }, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        })
+          .then(response => {
+            console.log(response.data);
+          })
+          .catch(error => {
+            console.error(error);
+          });
+      };
+
+      storeUser();
+    }
+  }, [isAuthenticated, user, getAccessTokenSilently]);
 
   return (
     <ThemeProvider theme={theme}>

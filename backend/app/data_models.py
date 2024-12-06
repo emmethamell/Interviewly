@@ -18,8 +18,10 @@ question_tag_association = db.Table(
 class User(db.Model):
     __tablename__ = 'users'
     id = db.Column(Integer, primary_key=True)
-    okta_user_id = db.Column(String(255), unique=True, nullable=False)
+    auth0_user_id = db.Column(String(255), unique=True, nullable=False)
+
     name = db.Column(String(100))
+    email = db.Column(db.String(255), unique=True, nullable=False)
     interviews = db.relationship("Interview", back_populates="user")
 
 class Question(db.Model):
