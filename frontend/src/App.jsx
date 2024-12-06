@@ -12,6 +12,7 @@ import Profile from "./components/profile/Profile";
 import LandingPage from "./components/landing_page/LandingPage";
 import Dashboard from "./components/dashboard/Dashboard";
 import { createTheme, ThemeProvider,} from "@mui/material";
+import ProtectedRoute from "./components/auth/ProtectedRoute";
 
 const theme = createTheme({
   palette: {
@@ -44,7 +45,6 @@ const theme = createTheme({
 
 
 function App() {
-  const { isLoading, isAuthenticated } = useAuth0();
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
@@ -54,9 +54,6 @@ function App() {
     return () => newSocket.close();
   }, []);
   
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
     
     
   return (
@@ -64,14 +61,34 @@ function App() {
       <Router>
       <LoginButton  />
       <LogoutButton />
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/dashboard" element={<Dashboard  />} />
-          <Route path="/selection" element={<DifficultySelection socket={socket} />} />
-          <Route path="/main" element={<Layout socket={socket} />} />
-          <Route path="/score" element={<Score socket={socket} />} />
-          <Route path="/profile" element={<Profile />} />
-        </Routes>
+      <Routes>
+        {/* Public Route */}
+        <Route path="/" element={<LandingPage />} />
+
+        {/* Protected Routes */}
+        <Route
+          path="/dashboard"
+          element={<ProtectedRoute element={<Dashboard />} />}
+        />
+        <Route
+          path="/selection"
+          element={
+            <ProtectedRoute element={<DifficultySelection socket={socket} />} />
+          }
+        />
+        <Route
+          path="/main"
+          element={<ProtectedRoute element={<Layout socket={socket} />} />}
+        />
+        <Route
+          path="/score"
+          element={<ProtectedRoute element={<Score socket={socket} />} />}
+        />
+        <Route
+          path="/profile"
+          element={<ProtectedRoute element={<Profile />} />}
+        />
+      </Routes>
 
       </Router>
     </ThemeProvider>
