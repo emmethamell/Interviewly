@@ -8,7 +8,7 @@ const LandingPage = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-        navigate("/dashboard");
+      navigate("/dashboard");
     }
   }, [isAuthenticated, navigate]);
 

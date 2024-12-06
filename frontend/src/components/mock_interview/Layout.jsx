@@ -24,7 +24,7 @@ const Layout = ({ socket }) => {
   return (
     <Box
       sx={{
-        height: "100%", 
+        height: "100%",
         overflow: "hidden",
         bgcolor: "#1e1e1e",
       }}

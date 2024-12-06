@@ -11,7 +11,7 @@ const Score = ({ socket }) => {
     if (socket) {
       socket.on("final_analysis", (data) => {
         setAnalysis(data.analysis);
-        setLoading(false)
+        setLoading(false);
       });
 
       return () => {
@@ -20,48 +20,48 @@ const Score = ({ socket }) => {
     }
   }, [socket]);
 
-
   return (
     <Box p={3}>
-    { loading ? (
-      <Box display="flex" justifyContent="center" alignItems="center" mt={2}>
-        <CircularProgress />
-      </Box>
-    ) : (
-      <>
-    <Typography variant="h4" color="white" gutterBottom>
-      Final Analysis
-    </Typography>
-        <Box mt={2}>
-          <Typography variant="h6" color="white">
-            Qualitative Score:
-          </Typography>
-          <Typography variant="body1" color="white">
-            {analysis.qualitative_score || "N/A"}
-          </Typography>
+      {loading ? (
+        <Box display="flex" justifyContent="center" alignItems="center" mt={2}>
+          <CircularProgress />
         </Box>
-        <Box mt={2}>
-          <Typography variant="h6" color="white">
-            Ratings:
+      ) : (
+        <>
+          <Typography variant="h4" color="white" gutterBottom>
+            Final Analysis
           </Typography>
-          <Typography variant="body1" color="white">
-            Technical Ability: {analysis.ratings?.technical_ability || "N/A"}
-          </Typography>
-          <Typography variant="body1" color="white">
-            Problem Solving Skills: {analysis.ratings?.problem_solving_skills || "N/A"}
-          </Typography>
-        </Box>
-        <Box mt={2}>
-          <Typography variant="h6" color="white">
-            Summary:
-          </Typography>
-          <Typography variant="body1" color="white">
-            {analysis.summary || "N/A"}
-          </Typography>
-        </Box>
-      </>
-    )}
-  </Box>
+          <Box mt={2}>
+            <Typography variant="h6" color="white">
+              Qualitative Score:
+            </Typography>
+            <Typography variant="body1" color="white">
+              {analysis.qualitative_score || "N/A"}
+            </Typography>
+          </Box>
+          <Box mt={2}>
+            <Typography variant="h6" color="white">
+              Ratings:
+            </Typography>
+            <Typography variant="body1" color="white">
+              Technical Ability: {analysis.ratings?.technical_ability || "N/A"}
+            </Typography>
+            <Typography variant="body1" color="white">
+              Problem Solving Skills:{" "}
+              {analysis.ratings?.problem_solving_skills || "N/A"}
+            </Typography>
+          </Box>
+          <Box mt={2}>
+            <Typography variant="h6" color="white">
+              Summary:
+            </Typography>
+            <Typography variant="body1" color="white">
+              {analysis.summary || "N/A"}
+            </Typography>
+          </Box>
+        </>
+      )}
+    </Box>
   );
 };
 

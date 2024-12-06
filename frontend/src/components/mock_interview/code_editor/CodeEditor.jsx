@@ -23,7 +23,9 @@ const CodeEditor = ({ difficulty, code, setCode, socket }) => {
   useEffect(() => {
     if (socket) {
       socket.on("final_analysis", (data) => {
-        navigate("/score", { state: { analysis: data.analysis, loading: false } });
+        navigate("/score", {
+          state: { analysis: data.analysis, loading: false },
+        });
       });
 
       return () => {
@@ -78,7 +80,6 @@ const CodeEditor = ({ difficulty, code, setCode, socket }) => {
     return () => resizeObserver.disconnect();
   }, []);
 
-  
   const getTimerDuration = (difficulty) => {
     switch (difficulty) {
       case "Easy":

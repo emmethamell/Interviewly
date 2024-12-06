@@ -11,7 +11,7 @@ import LogoutButton from "./components/auth/LogoutButton";
 import Profile from "./components/profile/Profile";
 import LandingPage from "./components/landing_page/LandingPage";
 import Dashboard from "./components/dashboard/Dashboard";
-import { createTheme, ThemeProvider,} from "@mui/material";
+import { createTheme, ThemeProvider } from "@mui/material";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 
 const theme = createTheme({
@@ -43,7 +43,6 @@ const theme = createTheme({
   },
 });
 
-
 function App() {
   const [socket, setSocket] = useState(null);
 
@@ -53,43 +52,42 @@ function App() {
 
     return () => newSocket.close();
   }, []);
-  
-    
-    
+
   return (
     <ThemeProvider theme={theme}>
       <Router>
-      <LoginButton  />
-      <LogoutButton />
-      <Routes>
-        {/* Public Route */}
-        <Route path="/" element={<LandingPage />} />
+        <LoginButton />
+        <LogoutButton />
+        <Routes>
+          {/* Public Route */}
+          <Route path="/" element={<LandingPage />} />
 
-        {/* Protected Routes */}
-        <Route
-          path="/dashboard"
-          element={<ProtectedRoute element={<Dashboard />} />}
-        />
-        <Route
-          path="/selection"
-          element={
-            <ProtectedRoute element={<DifficultySelection socket={socket} />} />
-          }
-        />
-        <Route
-          path="/main"
-          element={<ProtectedRoute element={<Layout socket={socket} />} />}
-        />
-        <Route
-          path="/score"
-          element={<ProtectedRoute element={<Score socket={socket} />} />}
-        />
-        <Route
-          path="/profile"
-          element={<ProtectedRoute element={<Profile />} />}
-        />
-      </Routes>
-
+          {/* Protected Routes */}
+          <Route
+            path="/dashboard"
+            element={<ProtectedRoute element={<Dashboard />} />}
+          />
+          <Route
+            path="/selection"
+            element={
+              <ProtectedRoute
+                element={<DifficultySelection socket={socket} />}
+              />
+            }
+          />
+          <Route
+            path="/main"
+            element={<ProtectedRoute element={<Layout socket={socket} />} />}
+          />
+          <Route
+            path="/score"
+            element={<ProtectedRoute element={<Score socket={socket} />} />}
+          />
+          <Route
+            path="/profile"
+            element={<ProtectedRoute element={<Profile />} />}
+          />
+        </Routes>
       </Router>
     </ThemeProvider>
   );

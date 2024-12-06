@@ -42,10 +42,10 @@
 
 /* React markdown inline code styling */
 code {
-  background-color: #222222; 
-  padding: 2px 4px;          
-  border-radius: 4px;     
-  font-family: monospace; 
+  background-color: #222222;
+  padding: 2px 4px;
+  border-radius: 4px;
+  font-family: monospace;
 }
 
 .landing-page {

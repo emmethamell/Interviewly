@@ -139,6 +139,7 @@ const AIChat = ({ difficulty, socket, code }) => {
             pr: "4px",
           }}
         >
+          
           <Typography
             variant="h6"
             sx={{
