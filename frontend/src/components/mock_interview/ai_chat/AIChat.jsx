@@ -12,6 +12,7 @@ import { BiUpArrow, BiUpArrowCircle } from "react-icons/bi";
 import { Terminal, SmartToy } from "@mui/icons-material";
 import { Code, CodeOff, Visibility, VisibilityOff } from "@mui/icons-material";
 import ReactMarkdown from "react-markdown";
+import Logo from "../../Logo";
 
 const AIChat = ({ difficulty, socket, code }) => {
   const [input, setInput] = useState("");
@@ -109,26 +110,7 @@ const AIChat = ({ difficulty, socket, code }) => {
           justifyContent: "space-between",
         }}
       >
-        <Box display="flex" flexDirection="row" p={0}>
-          <Terminal
-            sx={{
-              fontSize: 24,
-              color: "primary.main",
-              padding: "1px",
-            }}
-          />
-          <Typography
-            variant="h6"
-            sx={{
-              color: "primary.main",
-              fontWeight: "bold",
-              fontSize: "1.1rem",
-              padding: "1px",
-            }}
-          >
-            Interviewly
-          </Typography>
-        </Box>
+        <Logo />
 
         <Box
           sx={{

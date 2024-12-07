@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useNavigate } from "react-router-dom";
+import MarketingPage from "../marketing-page/MarketingPage";
 
 const LandingPage = () => {
   const { isAuthenticated, loginWithRedirect } = useAuth0();
@@ -14,10 +15,9 @@ const LandingPage = () => {
 
   return (
     <div className="landing-page">
-      <h1>Welcome to Interviewly</h1>
-      <p>Mock Interviews with AI</p>
-      <button onClick={() => loginWithRedirect()}>Get Started</button>
+      <MarketingPage />
     </div>
+
   );
 };
 

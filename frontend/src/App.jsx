@@ -1,13 +1,11 @@
 import { useState, useEffect } from "react";
 import "./App.css";
 import Layout from "./components/mock_interview/Layout";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import DifficultySelection from "./components/setup/DifficultySelection";
 import io from "socket.io-client";
 import Score from "./components/interview_analysis/Score";
-import LoginButton from "./components/auth/LoginButton";
-import LogoutButton from "./components/auth/LogoutButton";
 import Profile from "./components/profile/Profile";
 import LandingPage from "./components/landing_page/LandingPage";
 import Dashboard from "./components/dashboard/Dashboard";
@@ -43,6 +41,22 @@ const theme = createTheme({
     },
   },
 });
+
+
+function ScrollHandler() {
+  const location = useLocation();
+
+  useEffect(() => {
+    // Add or remove `layout-active` based on the current route
+    if (location.pathname === "/main") {
+      document.documentElement.classList.add("layout-active");
+    } else {
+      document.documentElement.classList.remove("layout-active");
+    }
+  }, [location.pathname]);
+
+  return null; 
+}
 
 function App() {
   const { isAuthenticated, user, getAccessTokenSilently } = useAuth0();
@@ -80,35 +94,35 @@ function App() {
     }
   }, [isAuthenticated, user, getAccessTokenSilently]);
 
+  
   return (
     <ThemeProvider theme={theme}>
       <Router>
-        <LoginButton />
-        <LogoutButton />
+        <ScrollHandler />
         <Routes>
           {/* Public Route */}
-          <Route path="/" element={<LandingPage />} />
+          <Route path="/" element={<LandingPage className="landing-page" />} />
 
           {/* Protected Routes */}
           <Route
             path="/dashboard"
-            element={<ProtectedRoute element={<Dashboard />} />}
+            element={<ProtectedRoute element={<Dashboard className="dashboard-page" />} />}
           />
           <Route
             path="/selection"
             element={
               <ProtectedRoute
-                element={<DifficultySelection socket={socket} />}
+                element={<DifficultySelection className="difficult-selection-page" socket={socket} />}
               />
             }
           />
           <Route
             path="/main"
-            element={<ProtectedRoute element={<Layout socket={socket} />} />}
+            element={<ProtectedRoute element={<Layout className="layout-page" socket={socket} />} />}
           />
           <Route
             path="/score"
-            element={<ProtectedRoute element={<Score socket={socket} />} />}
+            element={<ProtectedRoute element={<Score className="score-page" socket={socket} />} />}
           />
           <Route
             path="/profile"

@@ -1,8 +1,25 @@
+/* Global styles */
 html,
 body {
-  overflow: hidden;
-  height: 100%;
   margin: 0;
   padding: 0;
   background-color: #1e1e1e;
 }
+
+/* Disable scrolling globally for layout-page */
+html.layout-active,
+body.layout-active {
+  overflow: hidden;
+  height: 100%;
+}
+
+/* Allow scrolling */
+.dashboard-page, .landing-page, .difficulty-selection-page, .score-page {
+  overflow: auto !important;
+  height: auto !important;
+}
+
+
+
+
+
