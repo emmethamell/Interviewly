@@ -13,12 +13,16 @@ import { Terminal, SmartToy } from "@mui/icons-material";
 import { Code, CodeOff, Visibility, VisibilityOff } from "@mui/icons-material";
 import ReactMarkdown from "react-markdown";
 import Logo from "../../Logo";
+import { useLocation, useNavigate } from "react-router-dom";
+
 
 const AIChat = ({ difficulty, socket, code }) => {
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState([]);
   const messagesEndRef = useRef(null);
   const [loading, setLoading] = useState(false);
+  const [questionContents, setQuestionContents] = useState(null);
+  const location = useLocation();
 
   const [isCodeContext, setIsCodeContext] = useState(true);
 
@@ -48,6 +52,15 @@ const AIChat = ({ difficulty, socket, code }) => {
       socket.on("bot_message", (message) => {
         //on bot_message event
         console.log("Received bot_message:", message);
+        if (message.first_message) {
+          console.log("FIRST MESSAGE")
+          setQuestionContents({
+            id: message.question_id,
+            content: message.question_content,
+            difficulty: message.question_difficulty,
+            name: message.question_name,
+          });
+        }
         setMessages((prevMessages) => [
           //update the messanges state
           ...prevMessages,

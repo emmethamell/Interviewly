@@ -6,7 +6,7 @@ import pprint
 from app.chatbot_manager import ChatbotManager
 import re
 import json
-from app.data_models import Question, DifficultyLevel
+from app.data_models import db, Question, DifficultyLevel, Interview, User
   
 user_sessions = {}
 chatbot_manager = ChatbotManager()
@@ -50,8 +50,8 @@ def handle_select_difficulty(data):
 
     question = getQuestion(difficulty)
 
-    if "Invalid difficulty" in question or "No questions available" in question:
-        emit('bot_message', {'message': question})
+    if "Invalid difficulty" in question.content or "No questions available" in question.content:
+        emit('bot_message', {'message': question.content})
         return
 
     
@@ -85,16 +85,23 @@ def handle_select_difficulty(data):
             },
                 {
                 "role": "assistant", 
-                "content": [{"type": "text", "text": f"Hello my name is Cody, I'll be your interviewer. Let's get started with your question:\n\n {question}" }]
+                "content": [{"type": "text", "text": f"Hello my name is Cody, I'll be your interviewer. Let's get started with your question:\n\n {question.content}" }]
             }
-        ]
+        ],
+        'question': {
+            'id': question.id,
+            'content': question.content,
+            'difficulty': question.difficulty.value,
+            'name': question.name,
+        }
 
     }
+    print ("USER SESSIONS", user_sessions)
     
     # emit the bot_message for the frontend
-    bot_message = f"Hello my name is Cody, I'll be your interviewer. Let's get started with your question:\n\n {question}"
-    emit('bot_message', {'message': bot_message})
-
+    bot_message = f"Hello my name is Cody, I'll be your interviewer. Let's get started with your question:\n\n {question.content}"
+    emit('bot_message', {'first_message': True, 'message': bot_message })
+    # NEW: EMIT THE QUESTION INFO WITH 'bot_message'
 
 @socketio.on('user_message')
 def handle_user_message(data):
@@ -110,7 +117,6 @@ def handle_user_message(data):
         session['conversation'].append({'role': 'user', 'content': [{"type": "text", "text": user_message}]})
         if code != '':
             session['conversation'][-1]['content'].append({"type": "text", "text": code})
-        
 
         # GENERATE THE BOT RESPONSE
         # We pass in the entire conversation to the api
@@ -118,22 +124,26 @@ def handle_user_message(data):
 
         # Save bot reply
         session['conversation'].append({'role': 'assistant', 'content': [{'type': 'text', 'text': bot_reply}]})
-        emit('bot_message', {'message': bot_reply})
+        emit('bot_message', {'first_message': False, 'message': bot_reply})
     else:
         emit('bot_message', {'message': 'Please select a difficulty to start the interview.'})
         print(f"No session found for {sid}. Prompting user to select difficulty.")
 
 
 @socketio.on('submit_solution')
-def handle_submit_solution():
+def handle_submit_solution(data):
     sid = request.sid
     session = user_sessions.get(sid)
+    user_id = data.get('userId')
 
     if session:
         # TODO: Store the convo in a database
         
         # get final analysis
         final_analysis = chatbot_manager.generate_final_analysis(session['conversation'])
+
+        # get the question
+        question = session['question']
 
         # gpt returns markdown formatting of json, so remove before sending to frontend
         final_analysis = re.sub(r'```json|```', '', final_analysis).strip()
@@ -146,12 +156,43 @@ def handle_submit_solution():
         print("FINAL ANALYSIS PARSED JSON: " + str(final_analysis))
 
         # emit final analysis for frontend
-        emit('final_analysis', {'analysis': final_analysis})
+        # just save the question from here...
+        # TODO: Store the interview
+        print("USER ID: ", user_id) # google-oauth2|1104....
+        print("QUESTION ID: ", question['id'])# 20
+        print("TRANSCRIPT: ", cleanConversation(session['conversation'])) #Interviewer: Hello my name is Cody, I'll be your interviewer. Let's get started with your question:...
+        print("SCORE: ", final_analysis['qualitative_score']) # No Hire
+    
+        try:
+            user = User.query.filter_by(auth0_user_id=user_id).first()
+
+            if not user:
+                emit('error', {'message': 'Invalid user'})
+                return
+
+            interview = Interview(
+                user_id=user.id,
+                auth0_user_id=user_id,
+                question_id=question['id'],
+                transcript=cleanConversation(session['conversation']),
+                score=final_analysis.get('qualitative_score', 'No Score')
+            )
+
+            db.session.add(interview)
+            db.session.commit()
+
+            emit('final_analysis', {'analysis': final_analysis, 'question': question})
+        except Exception as e:
+            db.session.rollback()
+            emit('error', {'message': 'Failed to save interview', 'error': str(e)})
+            print("FAILURE", str(e))
+
     else:
         emit('error', {'message': 'No session found. Please start the interview first.'})
 
 
 def getQuestion(difficulty):
+
     """
     Fetches a random question from the database based on the difficulty level.
     """
@@ -165,7 +206,16 @@ def getQuestion(difficulty):
     if not questions:
         return "No questions available for the selected difficulty."
 
-    print(questions)
     random_question = random.choice(questions)
+    print("RANDOM QUESTION: ", random_question)
 
-    return random_question.content  
+    return random_question 
+
+def cleanConversation(conversation):
+        new_convo = ""
+        for m in conversation:
+        # for everything but system, push the convo into a new String
+            if m["role"] == "assistant" or m["role"] == "user":
+                for content in m["content"]:
+                    new_convo += f"{'Interviewer' if m['role'] == 'assistant' else 'Candidate'}: {content['text']}\n"
+        return new_convo

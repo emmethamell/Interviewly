@@ -13,6 +13,7 @@ import { createTheme, ThemeProvider } from "@mui/material";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import axios from "axios";
 
+
 const theme = createTheme({
   palette: {
     primary: {
@@ -31,7 +32,7 @@ const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: ["JetBrains Mono", "monospace"].join(","),
+    fontFamily: ["Roboto"].join(","),
 
     h1: {
       fontSize: "0.9rem",

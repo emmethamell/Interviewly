@@ -31,13 +31,3 @@ def signup():
 
     return jsonify({"status": "user created"}), 201
 
-
-@auth_bp.route('/me', methods=['GET'])
-@cross_origin()
-def get_user_data():
-    return {"status": "auth ok"}, 200
-
-@auth_bp.route('/logout', methods=['POST'])
-@cross_origin()
-def logout():
-    return {"status": "auth ok"}, 200

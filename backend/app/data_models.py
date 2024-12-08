@@ -32,6 +32,9 @@ class Question(db.Model):
     name = db.Column(String(200), nullable=False)
     tags = db.relationship("Tag", secondary=question_tag_association, back_populates="questions")
 
+    def __repr__(self):
+        return f"<Question id={self.id}, content={self.content}, difficulty={self.difficulty}, name={self.name}>"
+
 class Tag(db.Model):
     __tablename__ = 'tags'
     id = db.Column(Integer, primary_key=True)
@@ -42,8 +45,9 @@ class Interview(db.Model):
     __tablename__ = 'interviews'
     id = db.Column(Integer, primary_key=True)
     user_id = db.Column(Integer, db.ForeignKey('users.id'), nullable=False)
+    auth0_user_id = db.Column(String(255), nullable=False)
     question_id = db.Column(Integer, db.ForeignKey('questions.id'), nullable=False)
     transcript = db.Column(Text, nullable=True)
-    score = db.Column(Float, nullable=False)
+    score = db.Column(Text, nullable=False)
     user = db.relationship("User", back_populates="interviews")
     question = db.relationship("Question")

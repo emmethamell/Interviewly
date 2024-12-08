@@ -5,12 +5,15 @@ import { Box, Button, Menu, MenuItem } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { Timer } from "./Timer";
 import { useNavigate } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const CodeEditor = ({ difficulty, code, setCode, socket }) => {
   const [language, setLanguage] = useState("javascript");
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const navigate = useNavigate();
+  const { user } = useAuth0(); 
+  const userId = user?.sub;
 
   const languages = [
     { label: "JavaScript", value: "javascript" },
@@ -36,7 +39,7 @@ const CodeEditor = ({ difficulty, code, setCode, socket }) => {
 
   const handleSubmit = () => {
     if (socket) {
-      socket.emit("submit_solution");
+      socket.emit("submit_solution", { userId });
       navigate("/score", { state: { loading: true } });
     }
   };

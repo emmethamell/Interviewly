@@ -1,17 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { Typography, Box, CircularProgress } from "@mui/material";
 import { useLocation } from "react-router-dom";
+import axios from "axios";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const Score = ({ socket }) => {
+  const { getAccessTokenSilently } = useAuth0();
   const location = useLocation();
   const [analysis, setAnalysis] = useState({});
   const [loading, setLoading] = useState(true);
+  const [question, setQuestion] = useState(null);
 
   useEffect(() => {
     if (socket) {
       socket.on("final_analysis", (data) => {
         setAnalysis(data.analysis);
-        setLoading(false);
+        setQuestion(question)
+        setLoading(false)
+
       });
 
       return () => {
@@ -36,7 +42,7 @@ const Score = ({ socket }) => {
               Qualitative Score:
             </Typography>
             <Typography variant="body1" color="white">
-              {analysis.qualitative_score || "N/A"}
+              {analysis.qualitative_score}
             </Typography>
           </Box>
           <Box mt={2}>
@@ -44,11 +50,11 @@ const Score = ({ socket }) => {
               Ratings:
             </Typography>
             <Typography variant="body1" color="white">
-              Technical Ability: {analysis.ratings?.technical_ability || "N/A"}
+              Technical Ability: {analysis.ratings?.technical_ability}
             </Typography>
             <Typography variant="body1" color="white">
               Problem Solving Skills:{" "}
-              {analysis.ratings?.problem_solving_skills || "N/A"}
+              {analysis.ratings?.problem_solving_skills}
             </Typography>
           </Box>
           <Box mt={2}>
@@ -56,7 +62,7 @@ const Score = ({ socket }) => {
               Summary:
             </Typography>
             <Typography variant="body1" color="white">
-              {analysis.summary || "N/A"}
+              {analysis.summary}
             </Typography>
           </Box>
         </>
