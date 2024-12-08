@@ -43,6 +43,7 @@ def get_interviews():
             "question_id": interview.question_id,
             "transcript": interview.transcript,
             "score": interview.score,
+            "date": interview.date,
         }
         for interview in interviews
     ]

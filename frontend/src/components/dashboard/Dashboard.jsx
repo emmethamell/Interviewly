@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Box, Button, Typography } from "@mui/material";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
+import Interview from "./Interview";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -34,26 +35,21 @@ const Dashboard = () => {
   const onClick = () => {
     navigate("/selection");
   };
+
   return (
-    <Box className="dashboard">
+    <Box className="dashboard" sx={{p: 3}}>
       <Profile />
-      <Box>
-        PAST INTERVIEWS:
-        <Box>
-        {interviews.map((interview) => (
-            <Box key={interview.id} mb={2}>
-              <Typography variant="body1">Question ID: {interview.question_id}</Typography>
-              <Typography variant="body1">Transcript: {interview.transcript}</Typography>
-              <Typography variant="body1">Score: {interview.score}</Typography>
-              <Typography variant="body1">Question: {interview.question_name}</Typography>
-              <Typography variant="body1">Difficulty: {interview.question_difficulty}</Typography>
-            </Box>
-          ))}
-        </Box>
-      </Box>
       <Button variant="contained" onClick={onClick}>
         Start Interview
       </Button>
+      <Box sx={{mt: 3}}>
+        PAST INTERVIEWS:
+        <Box>
+          {interviews.map((interview) => (
+            <Interview key={interview.id} interview={interview} />
+          ))}
+        </Box>
+      </Box>
     </Box>
   );
 };

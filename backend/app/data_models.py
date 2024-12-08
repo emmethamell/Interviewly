@@ -1,7 +1,8 @@
 from app import db
-from sqlalchemy import Column, Integer, String, Text, ForeignKey, Enum, Float
+from sqlalchemy import Column, Integer, String, Text, ForeignKey, Enum, Float, DateTime
 from sqlalchemy.orm import relationship
 import enum
+from datetime import datetime, timezone
 
 
 class DifficultyLevel(enum.Enum):
@@ -49,5 +50,6 @@ class Interview(db.Model):
     question_id = db.Column(Integer, db.ForeignKey('questions.id'), nullable=False)
     transcript = db.Column(Text, nullable=True)
     score = db.Column(Text, nullable=False)
+    date = db.Column(DateTime, default=lambda: datetime.now(timezone.utc))
     user = db.relationship("User", back_populates="interviews")
     question = db.relationship("Question")
