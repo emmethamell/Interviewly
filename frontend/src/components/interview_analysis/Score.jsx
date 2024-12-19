@@ -15,9 +15,8 @@ const Score = ({ socket }) => {
     if (socket) {
       socket.on("final_analysis", (data) => {
         setAnalysis(data.analysis);
-        setQuestion(question)
-        setLoading(false)
-
+        setQuestion(question);
+        setLoading(false);
       });
 
       return () => {
@@ -53,8 +52,7 @@ const Score = ({ socket }) => {
               Technical Ability: {analysis.ratings?.technical_ability}
             </Typography>
             <Typography variant="body1" color="white">
-              Problem Solving Skills:{" "}
-              {analysis.ratings?.problem_solving_skills}
+              Problem Solving Skills: {analysis.ratings?.problem_solving_skills}
             </Typography>
           </Box>
           <Box mt={2}>

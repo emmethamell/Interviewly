@@ -17,7 +17,6 @@ const LandingPage = () => {
     <div className="landing-page">
       <MarketingPage />
     </div>
-
   );
 };
 

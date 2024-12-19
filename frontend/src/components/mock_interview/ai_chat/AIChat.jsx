@@ -15,7 +15,6 @@ import ReactMarkdown from "react-markdown";
 import Logo from "../../Logo";
 import { useLocation, useNavigate } from "react-router-dom";
 
-
 const AIChat = ({ difficulty, socket, code }) => {
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState([]);
@@ -53,7 +52,7 @@ const AIChat = ({ difficulty, socket, code }) => {
         //on bot_message event
         console.log("Received bot_message:", message);
         if (message.first_message) {
-          console.log("FIRST MESSAGE")
+          console.log("FIRST MESSAGE");
           setQuestionContents({
             id: message.question_id,
             content: message.question_content,
@@ -134,7 +133,6 @@ const AIChat = ({ difficulty, socket, code }) => {
             pr: "4px",
           }}
         >
-          
           <Typography
             variant="h6"
             sx={{

@@ -1,7 +1,12 @@
 import { useState, useEffect } from "react";
 import "./App.css";
 import Layout from "./components/mock_interview/Layout";
-import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+} from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import DifficultySelection from "./components/setup/DifficultySelection";
 import io from "socket.io-client";
@@ -12,7 +17,6 @@ import Dashboard from "./components/dashboard/Dashboard";
 import { createTheme, ThemeProvider } from "@mui/material";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import axios from "axios";
-
 
 const theme = createTheme({
   palette: {
@@ -43,7 +47,6 @@ const theme = createTheme({
   },
 });
 
-
 function ScrollHandler() {
   const location = useLocation();
 
@@ -56,7 +59,7 @@ function ScrollHandler() {
     }
   }, [location.pathname]);
 
-  return null; 
+  return null;
 }
 
 function App() {
@@ -78,15 +81,20 @@ function App() {
         const name = user.name;
         const email = user.email;
 
-        axios.post('http://localhost:5001/auth/signup', { auth0_user_id, name, email }, {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        })
-          .then(response => {
+        axios
+          .post(
+            "http://localhost:5001/auth/signup",
+            { auth0_user_id, name, email },
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            },
+          )
+          .then((response) => {
             console.log(response.data);
           })
-          .catch(error => {
+          .catch((error) => {
             console.error(error);
           });
       };
@@ -95,7 +103,6 @@ function App() {
     }
   }, [isAuthenticated, user, getAccessTokenSilently]);
 
-  
   return (
     <ThemeProvider theme={theme}>
       <Router>
@@ -107,23 +114,40 @@ function App() {
           {/* Protected Routes */}
           <Route
             path="/dashboard"
-            element={<ProtectedRoute element={<Dashboard className="dashboard-page" />} />}
+            element={
+              <ProtectedRoute
+                element={<Dashboard className="dashboard-page" />}
+              />
+            }
           />
           <Route
             path="/selection"
             element={
               <ProtectedRoute
-                element={<DifficultySelection className="difficult-selection-page" socket={socket} />}
+                element={
+                  <DifficultySelection
+                    className="difficult-selection-page"
+                    socket={socket}
+                  />
+                }
               />
             }
           />
           <Route
             path="/main"
-            element={<ProtectedRoute element={<Layout className="layout-page" socket={socket} />} />}
+            element={
+              <ProtectedRoute
+                element={<Layout className="layout-page" socket={socket} />}
+              />
+            }
           />
           <Route
             path="/score"
-            element={<ProtectedRoute element={<Score className="score-page" socket={socket} />} />}
+            element={
+              <ProtectedRoute
+                element={<Score className="score-page" socket={socket} />}
+              />
+            }
           />
           <Route
             path="/profile"

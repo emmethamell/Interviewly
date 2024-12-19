@@ -12,7 +12,7 @@ const CodeEditor = ({ difficulty, code, setCode, socket }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const navigate = useNavigate();
-  const { user } = useAuth0(); 
+  const { user } = useAuth0();
   const userId = user?.sub;
 
   const languages = [

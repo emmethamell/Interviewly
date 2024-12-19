@@ -25,39 +25,43 @@ const DifficultySelection = ({ socket }) => {
     <div>
       <LoginButton />
       <LogoutButton />
-    <Box
-      sx={{
-        height: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-        bgcolor: "#1e1e1e",
-        color: "white",
-      }}
-    >
-      <Typography variant="h4" mb={4}>
-        Select Difficulty
-      </Typography>
-      <FormControl component="fieldset">
-        <RadioGroup
-          value={difficulty}
-          onChange={(e) => setDifficulty(e.target.value)}
-        >
-          <FormControlLabel value="Easy" control={<Radio />} label="Easy" />
-          <FormControlLabel value="Medium" control={<Radio />} label="Medium" />
-          <FormControlLabel value="Hard" control={<Radio />} label="Hard" />
-        </RadioGroup>
-      </FormControl>
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={handleStart}
-        sx={{ mt: 4 }}
+      <Box
+        sx={{
+          height: "100vh",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          bgcolor: "#1e1e1e",
+          color: "white",
+        }}
       >
-        Start
-      </Button>
-    </Box>
+        <Typography variant="h4" mb={4}>
+          Select Difficulty
+        </Typography>
+        <FormControl component="fieldset">
+          <RadioGroup
+            value={difficulty}
+            onChange={(e) => setDifficulty(e.target.value)}
+          >
+            <FormControlLabel value="Easy" control={<Radio />} label="Easy" />
+            <FormControlLabel
+              value="Medium"
+              control={<Radio />}
+              label="Medium"
+            />
+            <FormControlLabel value="Hard" control={<Radio />} label="Hard" />
+          </RadioGroup>
+        </FormControl>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleStart}
+          sx={{ mt: 4 }}
+        >
+          Start
+        </Button>
+      </Box>
     </div>
   );
 };

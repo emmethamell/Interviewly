@@ -3,7 +3,7 @@ html,
 body {
   margin: 0;
   padding: 0;
-  background-color: #1e1e1e;
+  background-color: #F5F5F5;
 }
 
 /* Disable scrolling globally for layout-page */
@@ -14,12 +14,10 @@ body.layout-active {
 }
 
 /* Allow scrolling */
-.dashboard-page, .landing-page, .difficulty-selection-page, .score-page {
+.dashboard-page,
+.landing-page,
+.difficulty-selection-page,
+.score-page {
   overflow: auto !important;
   height: auto !important;
 }
-
-
-
-
-
