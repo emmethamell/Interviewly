@@ -33,33 +33,33 @@ const Score = ({ socket }) => {
         </Box>
       ) : (
         <>
-          <Typography variant="h4" color="white" gutterBottom>
+          <Typography variant="h4" gutterBottom>
             Final Analysis
           </Typography>
           <Box mt={2}>
-            <Typography variant="h6" color="white">
+            <Typography variant="h6">
               Qualitative Score:
             </Typography>
-            <Typography variant="body1" color="white">
+            <Typography variant="body1">
               {analysis.qualitative_score}
             </Typography>
           </Box>
           <Box mt={2}>
-            <Typography variant="h6" color="white">
+            <Typography variant="h6">
               Ratings:
             </Typography>
-            <Typography variant="body1" color="white">
+            <Typography variant="body1">
               Technical Ability: {analysis.ratings?.technical_ability}
             </Typography>
-            <Typography variant="body1" color="white">
+            <Typography variant="body1">
               Problem Solving Skills: {analysis.ratings?.problem_solving_skills}
             </Typography>
           </Box>
           <Box mt={2}>
-            <Typography variant="h6" color="white">
+            <Typography variant="h6">
               Summary:
             </Typography>
-            <Typography variant="body1" color="white">
+            <Typography variant="body1">
               {analysis.summary}
             </Typography>
           </Box>

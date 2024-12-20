@@ -57,11 +57,6 @@ const CodeEditor = ({ difficulty, code, setCode, socket }) => {
     handleClose();
   };
 
-  const editorRef = useRef(null);
-  const handleEditorDidMount = (editor) => {
-    editorRef.current = editor; // Store the editor instance
-  };
-
   const editorContainerRef = useRef(null);
   const [dimensions, setDimensions] = useState({
     width: 0,
@@ -96,25 +91,13 @@ const CodeEditor = ({ difficulty, code, setCode, socket }) => {
     }
   };
 
-  monaco.editor.defineTheme("custom-dark", {
-    base: "vs-dark",
-    inherit: true,
-    rules: [{ token: "comment", foreground: "666666" }],
-    colors: {
-      "editor.background": "#1e1e1e",
-      "editor.foreground": "#d4d4d4",
-      "editorLineNumber.foreground": "#858585",
-      "editor.selectionBackground": "#264f78",
-      "editor.inactiveSelectionBackground": "#3a3d41",
-    },
-  });
-
   return (
+
     <Box display="flex" flexDirection="column" height="100%" bgcolor="#1e1e1e">
       {/* Top panel */}
       <Box
         sx={{
-          bgcolor: "#1e1e1e",
+          bgcolor: "#F5F5F5",
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
@@ -130,9 +113,11 @@ const CodeEditor = ({ difficulty, code, setCode, socket }) => {
           endIcon={<KeyboardArrowDownIcon />}
           size="small"
           sx={{
-            color: "white",
-            bgcolor: "#333",
-            "&:hover": { bgcolor: "#444" },
+            color: "black",
+            width: "120px",
+            border: "1px solid #BDBDBD",
+            bgcolor: "#E0E0E0",
+            "&:hover": { bgcolor: "#D6D6D6" },
           }}
         >
           {languages.find((l) => l.value === language)?.label ||
@@ -156,9 +141,11 @@ const CodeEditor = ({ difficulty, code, setCode, socket }) => {
           variant="outlined"
           size="small"
           sx={{
+            backgroundColor: "#f4a261",
+            border: "1px solid #e76f51",
+            color: "white",
             "&:hover": {
-              borderColor: "#f4a261",
-              backgroundColor: "rgba(244, 162, 97, 0.1)",
+              backgroundColor: "#e08e57",
             },
           }}
           onClick={() => handleSubmit()}
@@ -166,6 +153,7 @@ const CodeEditor = ({ difficulty, code, setCode, socket }) => {
           Submit Solution
         </Button>
       </Box>
+
       <Box flex={1} position="relative" minHeight="200px">
         <div
           ref={editorContainerRef}
@@ -178,7 +166,7 @@ const CodeEditor = ({ difficulty, code, setCode, socket }) => {
             width={dimensions.width}
             height={dimensions.height}
             language={language}
-            theme="custom-dark"
+            theme="v5"
             value={code}
             options={{
               fontSize: 16,

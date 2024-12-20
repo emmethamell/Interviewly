@@ -135,7 +135,7 @@ const Dashboard = () => {
       <Grid2 size={8} sx={{border: "2px solid white"}} className="dashboard-container" p={1} bgcolor="white">
         <Paper sx={{boxShadow: "none"}}>
             <Box>
-              {interviews.map((interview, index) => (
+              {[... interviews].reverse().map((interview, index) => (
                 <Interview
                   key={interview.id}
                   interview={interview}

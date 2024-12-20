@@ -1,6 +1,6 @@
 import React from "react";
 import { Card, CardContent, Typography, Grid2, Box } from "@mui/material";
-import { formatDistanceToNow } from "date-fns";
+import { formatDistanceToNow, isToday} from "date-fns";
 import { styled } from "@mui/material/styles";
 
 const Interview = ({ interview, sx }) => {
@@ -57,7 +57,7 @@ const Interview = ({ interview, sx }) => {
           <Grid2 size={3}>
             <Box display="flex" justifyContent="flex-end">
               <Typography variant="body2" color="text.secondary">
-                {formatDistanceToNow(new Date(interview.date), {
+                { isToday(new Date(interview.date)) ? "Today" : formatDistanceToNow(new Date(interview.date), {
                   addSuffix: true,
                 })}
               </Typography>

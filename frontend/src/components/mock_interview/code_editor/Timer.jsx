@@ -36,16 +36,13 @@ export const Timer = ({ minutes, onTimeUp }) => {
         display: "flex",
         alignItems: "center",
         gap: 1,
-        bgcolor: "#333",
         padding: "4px 12px",
         borderRadius: 1,
-        border: "1px solid #555",
-        cursor: "pointer",
       }}
       onClick={() => setIsRunning(!isRunning)}
     >
-      <AccessTime sx={{ color: "#f4a261", fontSize: 20 }} />
-      <Typography sx={{ color: "white", minWidth: "60px", userSelect: "none" }}>
+      <AccessTime sx={{ color: "black", fontSize: 30 }} />
+      <Typography sx={{ color: "Black", minWidth: "60px", userSelect: "none", fontSize: 20 }}>
         {formatTime(timeLeft)}
       </Typography>
     </Box>
