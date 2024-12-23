@@ -17,6 +17,7 @@ import Dashboard from "./components/dashboard/Dashboard";
 import { createTheme, ThemeProvider } from "@mui/material";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import axios from "axios";
+import ConditionalNavbar from "./components/navbar/ConditionalNavbar";
 
 const theme = createTheme({
   palette: {
@@ -107,6 +108,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <Router>
         <ScrollHandler />
+        <ConditionalNavbar />
         <Routes>
           {/* Public Route */}
           <Route path="/" element={<LandingPage className="landing-page" />} />

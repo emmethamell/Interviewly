@@ -5,7 +5,6 @@ import { Box, Button, Typography, Paper, Grid2 } from "@mui/material";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
 import Interview from "./Interview";
-import GitHubCalendar from "react-github-calendar";
 
 const Dashboard = () => {
   const navigate = useNavigate();

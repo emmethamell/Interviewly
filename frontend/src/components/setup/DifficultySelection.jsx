@@ -10,8 +10,6 @@ import {
   Typography,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import LoginButton from "../auth/LoginButton";
-import LogoutButton from "../auth/LogoutButton";
 
 const DifficultySelection = ({ socket }) => {
   const [difficulty, setDifficulty] = useState("Easy");
@@ -23,8 +21,6 @@ const DifficultySelection = ({ socket }) => {
 
   return (
     <div>
-      <LoginButton />
-      <LogoutButton />
       <Box
         sx={{
           height: "100vh",
@@ -32,8 +28,7 @@ const DifficultySelection = ({ socket }) => {
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
-          bgcolor: "#1e1e1e",
-          color: "white",
+    
         }}
       >
         <Typography variant="h4" mb={4}>
@@ -55,7 +50,6 @@ const DifficultySelection = ({ socket }) => {
         </FormControl>
         <Button
           variant="contained"
-          color="primary"
           onClick={handleStart}
           sx={{ mt: 4 }}
         >
