@@ -138,6 +138,7 @@ const Dashboard = () => {
                 <Interview
                   key={interview.id}
                   interview={interview}
+                  index={index}
                   sx={{
                     backgroundColor: index % 2 === 0 ? "#f5f5f5" : "white",
                   }}

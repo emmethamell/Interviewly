@@ -5,7 +5,7 @@ import { styled } from "@mui/material/styles";
 import InterviewTranscript from "./InterviewTranscript";
 import { useNavigate } from "react-router-dom";
 
-const Interview = ({ interview, sx }) => {
+const Interview = ({ interview, index, sx }) => {
   const navigate = useNavigate();
   const getDifficultyColor = (difficulty) => {
     return difficulty === "Easy"
@@ -37,14 +37,21 @@ const Interview = ({ interview, sx }) => {
   };
 
   return (
-    <Card sx={{ ...sx, boxShadow: "none"}}>
+    <Card sx={{ ...sx, boxShadow: "none" }}>
       <CardContentNoPadding>
         <Grid2 container alignItems="center" spacing={0} p={2}>
           <Grid2 size={3}>
-          <Button variant="contained" onClick={handleTranscriptClick}>
-              View Transcript
-            </Button>
-            <Typography variant="subtitle2" component="div">
+            <Typography 
+              variant="subtitle2" 
+              component="div" 
+              onClick={handleTranscriptClick} 
+              sx={{
+                cursor: 'pointer',
+                '&:hover': {
+                  backgroundColor: index % 2 === 0 ? '#d0d0d0' : '#f0f0f0', 
+                  color: '#000', 
+                },
+                }}>
               {interview.question_name}
             </Typography>
           </Grid2>
