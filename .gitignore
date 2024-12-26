@@ -1,2 +1,3 @@
 backend/.envrc
 frontend/.env
+.DS_Store
