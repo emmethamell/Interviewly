@@ -55,7 +55,7 @@ class ChatbotManager:
             return f"Error generating response: {str(e)}"
         
 
-    def generate_final_analysis(self, conversation):
+    def generate_final_analysis(self, conversation, final_code):
         # Create a new prompt to get structured final analysis
         prompt = """
                 Evaluate the following interview conversation and provide the results in the following JSON format:
@@ -85,6 +85,7 @@ class ChatbotManager:
         final_convo.append({"role": "system", "content": "You are an interview evaluator. Analyze interview conversations and provide structured feedback. If the candidate doesnt provide anything technical, then give them a no hire and 0 for all scores. Only increase their rating from 0 when they show understanding of technical concepts."},)
         final_convo.append({"role": "user", "content": prompt})
         final_convo.append({"role": "user", "content": new_convo})
+        final_convo.append({"role": "user", "content": f"Final Code: {final_code}"})
 
         try:
             response = self.client.chat.completions.create(

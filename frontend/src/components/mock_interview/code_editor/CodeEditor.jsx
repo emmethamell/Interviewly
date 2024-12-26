@@ -38,8 +38,9 @@ const CodeEditor = ({ difficulty, code, setCode, socket }) => {
   }, [socket, navigate]);
 
   const handleSubmit = () => {
+    //TODO: Send the final code in the CodeEditor for analysis
     if (socket) {
-      socket.emit("submit_solution", { userId });
+      socket.emit("submit_solution", { userId, code });
       navigate("/score", { state: { loading: true } });
     }
   };

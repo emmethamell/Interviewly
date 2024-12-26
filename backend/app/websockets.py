@@ -135,12 +135,12 @@ def handle_submit_solution(data):
     sid = request.sid
     session = user_sessions.get(sid)
     user_id = data.get('userId')
+    code = data.get("code")
 
     if session:
-        # TODO: Store the convo in a database
-        
+
         # get final analysis
-        final_analysis = chatbot_manager.generate_final_analysis(session['conversation'])
+        final_analysis = chatbot_manager.generate_final_analysis(session['conversation'], code)
 
         # get the question
         question = session['question']
@@ -157,7 +157,6 @@ def handle_submit_solution(data):
 
         # emit final analysis for frontend
         # just save the question from here...
-        # TODO: Store the interview
         print("USER ID: ", user_id) # google-oauth2|1104....
         print("QUESTION ID: ", question['id'])# 20
         print("TRANSCRIPT: ", cleanConversation(session['conversation'])) #Interviewer: Hello my name is Cody, I'll be your interviewer. Let's get started with your question:...
