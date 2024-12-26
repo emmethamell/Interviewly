@@ -1,9 +1,12 @@
 import React from "react";
-import { Card, CardContent, Typography, Grid2, Box } from "@mui/material";
+import { Card, CardContent, Typography, Grid2, Box, Button } from "@mui/material";
 import { formatDistanceToNow, isToday} from "date-fns";
 import { styled } from "@mui/material/styles";
+import InterviewTranscript from "./InterviewTranscript";
+import { useNavigate } from "react-router-dom";
 
 const Interview = ({ interview, sx }) => {
+  const navigate = useNavigate();
   const getDifficultyColor = (difficulty) => {
     return difficulty === "Easy"
       ? "#4caf50"
@@ -29,11 +32,18 @@ const Interview = ({ interview, sx }) => {
     }
   `);
 
+  const handleTranscriptClick = () => {
+    navigate(`/transcript/${interview.id}`);
+  };
+
   return (
     <Card sx={{ ...sx, boxShadow: "none"}}>
       <CardContentNoPadding>
         <Grid2 container alignItems="center" spacing={0} p={2}>
           <Grid2 size={3}>
+          <Button variant="contained" onClick={handleTranscriptClick}>
+              View Transcript
+            </Button>
             <Typography variant="subtitle2" component="div">
               {interview.question_name}
             </Typography>
@@ -69,7 +79,5 @@ const Interview = ({ interview, sx }) => {
   );
 };
 
-/*
-interview.transcript
-*/
+
 export default Interview;

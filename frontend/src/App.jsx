@@ -18,6 +18,7 @@ import { createTheme, ThemeProvider } from "@mui/material";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import axios from "axios";
 import ConditionalNavbar from "./components/navbar/ConditionalNavbar";
+import InterviewTranscript from "./components/dashboard/InterviewTranscript";
 
 const theme = createTheme({
   palette: {
@@ -154,6 +155,10 @@ function App() {
           <Route
             path="/profile"
             element={<ProtectedRoute element={<Profile />} />}
+          />
+          <Route
+            path="/transcript/:interviewId"
+            element={<ProtectedRoute element={<InterviewTranscript />} />}
           />
         </Routes>
       </Router>

@@ -41,7 +41,6 @@ def get_interviews():
             "question_name": interview.question.name,
             "question_difficulty": interview.question.difficulty.value,
             "question_id": interview.question_id,
-            "transcript": interview.transcript,
             "score": interview.score,
             "date": interview.date,
         }
@@ -50,4 +49,22 @@ def get_interviews():
 
     return jsonify({"interviews": interviews_data}), 200
 
+# get a single interview based on interview id
+@bp.route('/get-single-interview', methods=['GET'])
+@cross_origin()
+def get_single_interview():
+    interviewId = request.args.get('interviewId')
+    interview = Interview.query.get(interviewId)
+    if interview is None:
+        return jsonify({"error": "Interview not found"}), 404
+    
+    interview_data = {
+        "id": interview.id,
+        "user_id": interview.user_id,
+        "question_id": interview.question_id,
+        "transcript": interview.transcript,
+        "score": interview.score,
+        "date": interview.date,
+    }
 
+    return jsonify(interview_data), 200
