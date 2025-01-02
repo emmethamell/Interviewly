@@ -155,12 +155,13 @@ def handle_submit_solution(data):
             raise ValueError("Invalid JSON format after cleaning.")
         print("FINAL ANALYSIS PARSED JSON: " + str(final_analysis))
 
-        # emit final analysis for frontend
-        # just save the question from here...
         print("USER ID: ", user_id) # google-oauth2|1104....
         print("QUESTION ID: ", question['id'])# 20
         print("TRANSCRIPT: ", cleanConversation(session['conversation'])) #Interviewer: Hello my name is Cody, I'll be your interviewer. Let's get started with your question:...
         print("SCORE: ", final_analysis['qualitative_score']) # No Hire
+        print ("FINAL ANALYSIS: ", final_analysis)
+        print(f"HERE IS THE CODE WRAPPED -- {code} -- END OF WRAPPED")
+        print(f"THE TYPE OF FINAL ANALYSIS: {type(final_analysis)} -- THE TYPE OF FINAL CODE SUBMISSION: {type(code)}")
     
         try:
             user = User.query.filter_by(auth0_user_id=user_id).first()
@@ -174,7 +175,9 @@ def handle_submit_solution(data):
                 auth0_user_id=user_id,
                 question_id=question['id'],
                 transcript=cleanConversation(session['conversation']),
-                score=final_analysis.get('qualitative_score', 'No Score')
+                score=final_analysis.get('qualitative_score', 'No Score'),
+                final_submission=code,
+                feedback=final_analysis
             )
 
             db.session.add(interview)

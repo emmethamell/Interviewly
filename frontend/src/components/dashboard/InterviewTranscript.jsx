@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useAuth0 } from "@auth0/auth0-react";
 import axios from "axios";
 
+// Interview transcript, feedback, final code
 const InterviewTranscript = () => {
     const { interviewId } = useParams();
     const [interview, setInterview] = useState([]);
@@ -36,6 +37,7 @@ const InterviewTranscript = () => {
           <h1>Interview Transcript</h1>
           <p>Transcript for interview ID: {interviewId}</p>
           {interview.transcript}
+          SCORE: {interview.score}
         </div>
       );
 }
