@@ -36,8 +36,10 @@ const InterviewTranscript = () => {
         <div>
           <h1>Interview Transcript</h1>
           <p>Transcript for interview ID: {interviewId}</p>
-          {interview.transcript}
-          SCORE: {interview.score}
+          <p>{interview.transcript}</p>
+          <p>SCORE: {interview.score}</p>
+          <p>FINAL SUBMISSION: {interview.final_submission}</p>
+          <p>FEEDBACK: {interview.feedback}</p>
         </div>
       );
 }
