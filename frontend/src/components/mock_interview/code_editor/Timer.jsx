@@ -42,7 +42,14 @@ export const Timer = ({ minutes, onTimeUp }) => {
       onClick={() => setIsRunning(!isRunning)}
     >
       <AccessTime sx={{ color: "black", fontSize: 30 }} />
-      <Typography sx={{ color: "Black", minWidth: "60px", userSelect: "none", fontSize: 20 }}>
+      <Typography
+        sx={{
+          color: "Black",
+          minWidth: "60px",
+          userSelect: "none",
+          fontSize: 20,
+        }}
+      >
         {formatTime(timeLeft)}
       </Typography>
     </Box>

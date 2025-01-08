@@ -136,6 +136,7 @@ def handle_submit_solution(data):
     session = user_sessions.get(sid)
     user_id = data.get('userId')
     code = data.get("code")
+    language = data.get("language")
 
     if session:
 
@@ -177,7 +178,8 @@ def handle_submit_solution(data):
                 transcript=cleanConversation(session['conversation']),
                 score=final_analysis.get('qualitative_score', 'No Score'),
                 final_submission=code,
-                feedback=final_analysis
+                feedback=final_analysis,
+                language=language
             )
 
             db.session.add(interview)

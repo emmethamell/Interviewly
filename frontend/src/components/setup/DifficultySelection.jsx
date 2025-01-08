@@ -28,7 +28,6 @@ const DifficultySelection = ({ socket }) => {
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
-    
         }}
       >
         <Typography variant="h4" mb={4}>
@@ -48,11 +47,7 @@ const DifficultySelection = ({ socket }) => {
             <FormControlLabel value="Hard" control={<Radio />} label="Hard" />
           </RadioGroup>
         </FormControl>
-        <Button
-          variant="contained"
-          onClick={handleStart}
-          sx={{ mt: 4 }}
-        >
+        <Button variant="contained" onClick={handleStart} sx={{ mt: 4 }}>
           Start
         </Button>
       </Box>

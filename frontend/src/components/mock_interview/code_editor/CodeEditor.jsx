@@ -40,7 +40,7 @@ const CodeEditor = ({ difficulty, code, setCode, socket }) => {
   const handleSubmit = () => {
     //TODO: Send the final code in the CodeEditor for analysis
     if (socket) {
-      socket.emit("submit_solution", { userId, code });
+      socket.emit("submit_solution", { userId, code, language });
       navigate("/score", { state: { loading: true } });
     }
   };
@@ -93,7 +93,6 @@ const CodeEditor = ({ difficulty, code, setCode, socket }) => {
   };
 
   return (
-
     <Box display="flex" flexDirection="column" height="100%" bgcolor="#1e1e1e">
       {/* Top panel */}
       <Box

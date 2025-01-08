@@ -52,6 +52,7 @@ class Interview(db.Model):
     feedback = db.Column(JSON, nullable=False)
     final_submission = db.Column(Text, nullable=False)
     score = db.Column(Text, nullable=False)
+    language = db.Column(Text, nullable=False)
     date = db.Column(DateTime, default=lambda: datetime.now(timezone.utc))
     user = db.relationship("User", back_populates="interviews")
     question = db.relationship("Question")

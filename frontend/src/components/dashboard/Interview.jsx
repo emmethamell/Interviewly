@@ -1,6 +1,13 @@
 import React from "react";
-import { Card, CardContent, Typography, Grid2, Box, Button } from "@mui/material";
-import { formatDistanceToNow, isToday} from "date-fns";
+import {
+  Card,
+  CardContent,
+  Typography,
+  Grid2,
+  Box,
+  Button,
+} from "@mui/material";
+import { formatDistanceToNow, isToday } from "date-fns";
 import { styled } from "@mui/material/styles";
 import InterviewTranscript from "./InterviewTranscript";
 import { useNavigate } from "react-router-dom";
@@ -41,17 +48,18 @@ const Interview = ({ interview, index, sx }) => {
       <CardContentNoPadding>
         <Grid2 container alignItems="center" spacing={0} p={2}>
           <Grid2 size={3}>
-            <Typography 
-              variant="subtitle2" 
-              component="div" 
-              onClick={handleTranscriptClick} 
+            <Typography
+              variant="subtitle2"
+              component="div"
+              onClick={handleTranscriptClick}
               sx={{
-                cursor: 'pointer',
-                '&:hover': {
-                  backgroundColor: index % 2 === 0 ? '#d0d0d0' : '#f0f0f0', 
-                  color: '#000', 
+                cursor: "pointer",
+                "&:hover": {
+                  backgroundColor: index % 2 === 0 ? "#d0d0d0" : "#f0f0f0",
+                  color: "#000",
                 },
-                }}>
+              }}
+            >
               {interview.question_name}
             </Typography>
           </Grid2>
@@ -74,9 +82,11 @@ const Interview = ({ interview, index, sx }) => {
           <Grid2 size={3}>
             <Box display="flex" justifyContent="flex-end">
               <Typography variant="body2" color="text.secondary">
-                { isToday(new Date(interview.date)) ? "Today" : formatDistanceToNow(new Date(interview.date), {
-                  addSuffix: true,
-                })}
+                {isToday(new Date(interview.date))
+                  ? "Today"
+                  : formatDistanceToNow(new Date(interview.date), {
+                      addSuffix: true,
+                    })}
               </Typography>
             </Box>
           </Grid2>
@@ -85,6 +95,5 @@ const Interview = ({ interview, index, sx }) => {
     </Card>
   );
 };
-
 
 export default Interview;

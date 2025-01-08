@@ -23,7 +23,7 @@ const AIChat = ({ difficulty, socket, code }) => {
   const [questionContents, setQuestionContents] = useState(null);
   const location = useLocation();
 
-  const [isCodeContext, setIsCodeContext] = useState(true)
+  const [isCodeContext, setIsCodeContext] = useState(true);
 
   const scrollToBottom = () => {
     if (messagesEndRef.current) {
@@ -103,12 +103,12 @@ const AIChat = ({ difficulty, socket, code }) => {
     <Box display="flex" flexDirection="column" height="100%" p={0}>
       <Box
         sx={{
-          bgcolor: "#F5F5F5", 
+          bgcolor: "#F5F5F5",
           display: "flex",
           alignItems: "center",
           gap: 1,
           p: 2,
-          minHeight: "38px", 
+          minHeight: "38px",
           flexShrink: 0,
           borderBottom: "2px solid black",
           justifyContent: "space-between",

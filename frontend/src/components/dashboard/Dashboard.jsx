@@ -50,100 +50,124 @@ const Dashboard = () => {
     return Math.ceil((totalSuccess / total) * 100) + "%";
   };
 
-
   return (
     <Grid2 container spacing={2} p={2}>
       {/* TOP BOX */}
-      <Grid2 className="dashboard-container" bgcolor="white" size={4} display="flex" justifyContent="center" alignItems="center">
+      <Grid2
+        className="dashboard-container"
+        bgcolor="white"
+        size={4}
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+      >
         <Button variant="contained" onClick={onClick}>
           Start Interview
         </Button>
       </Grid2>
 
-      <Grid2 container size={8} sx={{ border: "2px solid white"}} p={1} color="black" bgcolor="white" className="dashboard-container">
-      <Grid2 size={3}>
-        <Box
+      <Grid2
+        container
+        size={8}
+        sx={{ border: "2px solid white" }}
+        p={1}
+        color="black"
+        bgcolor="white"
+        className="dashboard-container"
+      >
+        <Grid2 size={3}>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <Typography>SUCCESS RATE</Typography>
+            <Typography>{getSuccessRate(interviews)}</Typography>
+          </Box>
+        </Grid2>
+        <Grid2
+          size={3}
           sx={{
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
           }}
         >
-          <Typography>SUCCESS RATE</Typography>
-          <Typography>{getSuccessRate(interviews)}</Typography>
-        </Box>
+          <Typography color="#4caf50">Easy</Typography>
+          <Typography>
+            {interviews.reduce(
+              (acc, cur) => (cur.question_difficulty == "Easy" ? acc + 1 : acc),
+              0,
+            )}
+          </Typography>
+        </Grid2>
+        <Grid2
+          size={3}
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <Typography color="#ffeb3b">Medium</Typography>
+          <Typography>
+            {interviews.reduce(
+              (acc, cur) =>
+                cur.question_difficulty == "Medium" ? acc + 1 : acc,
+              0,
+            )}
+          </Typography>
+        </Grid2>
+        <Grid2
+          size={3}
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <Typography color="#f44336">Hard</Typography>
+          <Typography>
+            {interviews.reduce(
+              (acc, cur) => (cur.question_difficulty == "Hard" ? acc + 1 : acc),
+              0,
+            )}
+          </Typography>
+        </Grid2>
       </Grid2>
-      <Grid2
-        size={3}
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
 
-        }}
-      >
-        <Typography color="#4caf50">Easy</Typography>
-        <Typography>
-          {interviews.reduce(
-            (acc, cur) => (cur.question_difficulty == "Easy" ? acc + 1 : acc),
-            0,
-          )}
-        </Typography>
-      </Grid2>
-      <Grid2
-        size={3}
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-        
-      >
-        <Typography color="#ffeb3b">Medium</Typography>
-        <Typography>
-          {interviews.reduce(
-            (acc, cur) => (cur.question_difficulty == "Medium" ? acc + 1 : acc),
-            0,
-          )}
-        </Typography>
-      </Grid2>
-      <Grid2
-        size={3}
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      >
-        <Typography color="#f44336">Hard</Typography>
-        <Typography>
-          {interviews.reduce(
-            (acc, cur) => (cur.question_difficulty == "Hard" ? acc + 1 : acc),
-            0,
-          )}
-        </Typography>
-      </Grid2>
-      </Grid2>
-  
       {/* BOTTOM */}
       <Grid2 size={4} color="black">
-        <Box alignContent="center" sx={{ p: 2 }} className="dashboard-container" bgcolor="white">
+        <Box
+          alignContent="center"
+          sx={{ p: 2 }}
+          className="dashboard-container"
+          bgcolor="white"
+        >
           <Profile />
         </Box>
       </Grid2>
-      <Grid2 size={8} sx={{border: "2px solid white"}} className="dashboard-container" p={1} bgcolor="white">
-        <Paper sx={{boxShadow: "none"}}>
-            <Box>
-              {[... interviews].reverse().map((interview, index) => (
-                <Interview
-                  key={interview.id}
-                  interview={interview}
-                  index={index}
-                  sx={{
-                    backgroundColor: index % 2 === 0 ? "#f5f5f5" : "white",
-                  }}
-                />
-              ))}
+      <Grid2
+        size={8}
+        sx={{ border: "2px solid white" }}
+        className="dashboard-container"
+        p={1}
+        bgcolor="white"
+      >
+        <Paper sx={{ boxShadow: "none" }}>
+          <Box>
+            {[...interviews].reverse().map((interview, index) => (
+              <Interview
+                key={interview.id}
+                interview={interview}
+                index={index}
+                sx={{
+                  backgroundColor: index % 2 === 0 ? "#f5f5f5" : "white",
+                }}
+              />
+            ))}
           </Box>
         </Paper>
       </Grid2>
