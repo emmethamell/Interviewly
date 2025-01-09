@@ -4,6 +4,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import axios from "axios";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { solarizedlight } from "react-syntax-highlighter/dist/esm/styles/prism";
+import { Box, Typography, Paper } from "@mui/material";
 
 // Interview transcript, feedback, final code
 const InterviewTranscript = () => {
@@ -34,19 +35,36 @@ const InterviewTranscript = () => {
     fetchInterviews();
   }, [user, getAccessTokenSilently]);
   return (
-    <div>
-      <h1>Interview Transcript</h1>
-      <p>Transcript for interview ID: {interviewId}</p>
-      <p>{interview.transcript}</p>
-      <p>SCORE: {interview.score}</p>
-      <SyntaxHighlighter language={interview.language} style={solarizedlight}>
-        {interview.final_submission}
-      </SyntaxHighlighter>
-      <p> LANGUAGE: {interview.language}</p>
-      <p>Tech abil: {interview.technical_ability}</p>
-      <p>Prob solve: {interview.problem_solving_score}</p>
-      <p>Summary: {interview.summary}</p>
-    </div>
+    <Box sx={{ p: 3 }}>
+      <Typography variant="h4" gutterBottom>
+        Interview Transcript
+      </Typography>
+      <Typography variant="subtitle1" gutterBottom>
+        Transcript for interview ID: {interviewId}
+      </Typography>
+      <Paper sx={{ p: 2, mb: 2 }}>
+        <Typography variant="h6">Transcript</Typography>
+        <Typography variant="body1">{interview.transcript}</Typography>
+      </Paper>
+      <Paper sx={{ p: 2, mb: 2 }}>
+        <Typography variant="h6">Final Code</Typography>
+        <SyntaxHighlighter language={interview.language} style={solarizedlight}>
+          {interview.final_submission}
+        </SyntaxHighlighter>
+      </Paper>
+      <Paper sx={{ p: 2, mb: 2 }}>
+        <Typography variant="h6">Details</Typography>
+        <Typography variant="body1">Score: {interview.score}</Typography>
+        <Typography variant="body1">Language: {interview.language}</Typography>
+        <Typography variant="body1">
+          Technical Ability: {interview.technical_ability}
+        </Typography>
+        <Typography variant="body1">
+          Problem Solving: {interview.problem_solving_score}
+        </Typography>
+        <Typography variant="body1">Summary: {interview.summary}</Typography>
+      </Paper>
+    </Box>
   );
 };
 
