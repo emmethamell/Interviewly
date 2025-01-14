@@ -9,7 +9,7 @@ auth_bp = Blueprint('auth', __name__)
 def health_check():
     return {"status": "auth ok"}, 200
 
-@auth_bp.route('/signup', methods=['POST']) # more of a "save user" endpoint since auth0 handles signup and login
+@auth_bp.route('/signup', methods=['POST'])
 @cross_origin()
 def signup():
     data = request.get_json()

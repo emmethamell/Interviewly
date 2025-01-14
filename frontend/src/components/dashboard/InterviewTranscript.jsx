@@ -34,7 +34,6 @@ const InterviewTranscript = () => {
 
     fetchInterviews();
   }, [user, getAccessTokenSilently]);
-  const transcriptLines = interview.transcript.split(/(Interviewer:|Candidate:)/).filter(Boolean);
   return (
     <Box sx={{ p: 3 }}>
       <Typography variant="h4" gutterBottom>
@@ -45,11 +44,7 @@ const InterviewTranscript = () => {
       </Typography>
       <Paper sx={{ p: 2, mb: 2 }}>
         <Typography variant="h6">Transcript</Typography>
-        {transcriptLines.map((line, index) => (
-          <Typography key={index} variant="body1" sx={{ whiteSpace: 'pre-wrap' }}>
-            {line}
-          </Typography>
-        ))}
+        {interview.transcript}
       </Paper>
       <Paper sx={{ p: 2, mb: 2 }}>
         <Typography variant="h6">Final Code</Typography>

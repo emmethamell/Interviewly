@@ -13,12 +13,11 @@ def health_check():
 def active_clients():
     return {"active_clients": user_sessions}, 200
 
-
 @bp.route('/socket-status', methods=['GET'])
 def socket_status():
     return {"active_clients": len(user_sessions)}, 200
 
-# get interviews based on okta id
+# Fetches basic information for all interviews done by the user
 @bp.route('/get-interviews', methods=['GET'])
 @cross_origin()
 def get_interviews():
@@ -49,7 +48,7 @@ def get_interviews():
 
     return jsonify({"interviews": interviews_data}), 200
 
-# get a single interview based on interview id
+# Fetches detailed information of a single interview
 @bp.route('/get-single-interview', methods=['GET'])
 @cross_origin()
 def get_single_interview():
