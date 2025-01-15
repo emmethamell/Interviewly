@@ -1,19 +1,10 @@
-import React from "react";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
-import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
+import { AppBar, Box, Toolbar, IconButton } from "@mui/material";
 import Logo from "../Logo";
-import LoginButton from "../auth/LoginButton";
 import LogoutButton from "../auth/LogoutButton";
 import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const navigate = useNavigate();
-
   const handleLogoClick = () => {
     navigate("/dashboard");
   };

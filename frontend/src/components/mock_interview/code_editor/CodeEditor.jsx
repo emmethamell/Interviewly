@@ -1,6 +1,5 @@
-import React, { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState } from "react";
 import MonacoEditor from "react-monaco-editor";
-import * as monaco from "monaco-editor";
 import { Box, Button, Menu, MenuItem } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { Timer } from "./Timer";
@@ -38,7 +37,6 @@ const CodeEditor = ({ difficulty, code, setCode, socket }) => {
   }, [socket, navigate]);
 
   const handleSubmit = () => {
-    //TODO: Send the final code in the CodeEditor for analysis
     if (socket) {
       socket.emit("submit_solution", { userId, code, language });
       navigate("/score", { state: { loading: true } });
@@ -134,7 +132,6 @@ const CodeEditor = ({ difficulty, code, setCode, socket }) => {
             </MenuItem>
           ))}
         </Menu>
-        {/* Add buttons here */}
         {/* Submit Button (Right) */}
         <Timer minutes={getTimerDuration(difficulty)} onTimeUp={handleSubmit} />
         <Button

@@ -1,12 +1,7 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Typography, Box, CircularProgress } from "@mui/material";
-import { useLocation } from "react-router-dom";
-import axios from "axios";
-import { useAuth0 } from "@auth0/auth0-react";
 
 const Score = ({ socket }) => {
-  const { getAccessTokenSilently } = useAuth0();
-  const location = useLocation();
   const [analysis, setAnalysis] = useState({});
   const [loading, setLoading] = useState(true);
   const [question, setQuestion] = useState(null);

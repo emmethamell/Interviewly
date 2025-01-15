@@ -1,15 +1,12 @@
-import React from "react";
 import {
   Card,
   CardContent,
   Typography,
   Grid2,
   Box,
-  Button,
 } from "@mui/material";
 import { formatDistanceToNow, isToday } from "date-fns";
 import { styled } from "@mui/material/styles";
-import InterviewTranscript from "./InterviewTranscript";
 import { useNavigate } from "react-router-dom";
 
 const Interview = ({ interview, index, sx }) => {

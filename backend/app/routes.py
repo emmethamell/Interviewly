@@ -22,7 +22,6 @@ def socket_status():
 @cross_origin()
 def get_interviews():
     auth0_user_id = request.args.get('auth0_user_id')
-    print("AUTH0 ID", auth0_user_id)
 
     if not auth0_user_id:
         return jsonify({"error": "Missing required query parameter: auth0_user_id"}), 400
@@ -48,7 +47,7 @@ def get_interviews():
 
     return jsonify({"interviews": interviews_data}), 200
 
-# Fetches detailed information of a single interview
+# Fetch detailed information on a single interview
 @bp.route('/get-single-interview', methods=['GET'])
 @cross_origin()
 def get_single_interview():

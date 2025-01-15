@@ -7,7 +7,6 @@ from app.chatbot_manager import ChatbotManager
 import re
 import json
 from app.data_models import db, Question, DifficultyLevel, Interview, User
-from app.session_manager import SessionManager
 
 user_sessions = {}
 chatbot_manager = ChatbotManager()
@@ -76,7 +75,7 @@ def handle_select_difficulty(data):
         'conversation': [
             {
                 "role": "system", 
-                "content": [{"type": "text", "text": SessionManager.SYSTEM_PROMPT_CONTEXT}]
+                "content": [{"type": "text", "text": SYSTEM_PROMPT_CONTEXT}]
             },
                 {
                 "role": "assistant", 

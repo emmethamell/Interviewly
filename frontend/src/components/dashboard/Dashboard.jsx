@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Profile from "../profile/Profile";
 import { useNavigate } from "react-router-dom";
 import { Box, Button, Typography, Paper, Grid2 } from "@mui/material";

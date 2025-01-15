@@ -1,19 +1,15 @@
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import {
   Box,
   TextField,
-  Button,
   Typography,
   IconButton,
   CircularProgress,
 } from "@mui/material";
-import { IoArrowUpCircleOutline } from "react-icons/io5";
-import { BiUpArrow, BiUpArrowCircle } from "react-icons/bi";
-import { Terminal, SmartToy } from "@mui/icons-material";
-import { Code, CodeOff, Visibility, VisibilityOff } from "@mui/icons-material";
+import { BiUpArrowCircle } from "react-icons/bi";
+import { Visibility, VisibilityOff, SmartToy } from "@mui/icons-material";
 import ReactMarkdown from "react-markdown";
 import Logo from "../../Logo";
-import { useLocation, useNavigate } from "react-router-dom";
 
 const AIChat = ({ difficulty, socket, code }) => {
   const [input, setInput] = useState("");
@@ -21,7 +17,6 @@ const AIChat = ({ difficulty, socket, code }) => {
   const messagesEndRef = useRef(null);
   const [loading, setLoading] = useState(false);
   const [questionContents, setQuestionContents] = useState(null);
-  const location = useLocation();
 
   const [isCodeContext, setIsCodeContext] = useState(true);
 
@@ -31,20 +26,20 @@ const AIChat = ({ difficulty, socket, code }) => {
     }
   };
 
+  const handleLogoClick = () => {
+    navigate("/dashboard");
+  };
+
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
 
-  // ensure that the event listener for bot_message is set up when component mounts
-  // when the server emits a bot_message event, client recieves it and updates messages state, which re renders the page
   useEffect(() => {
     if (socket) {
       console.log("Setting up socket event listeners");
       socket.on("bot_message", (message) => {
         //on bot_message event
-        console.log("Received bot_message:", message);
         if (message.first_message) {
-          console.log("FIRST MESSAGE");
           setQuestionContents({
             id: message.question_id,
             content: message.question_content,
@@ -53,18 +48,15 @@ const AIChat = ({ difficulty, socket, code }) => {
           });
         }
         setMessages((prevMessages) => [
-          //update the messanges state
+          //update the messages state
           ...prevMessages,
           { sender: "Bot", text: message.message, hasCodeContext: false },
         ]);
         setLoading(false);
       });
     }
-
-    // clean up when the component unmounts or when the instance of socket changes
     return () => {
       if (socket) {
-        console.log("Cleaning up socket event listeners");
         socket.off("bot_message");
       }
     };
@@ -77,18 +69,18 @@ const AIChat = ({ difficulty, socket, code }) => {
     setInput("");
     setLoading(true);
 
-    // update the messages to re render the state
+    // update the messages to re-render the state
     setMessages((prevMessages) => [
       ...prevMessages,
       { sender: "You", text: curInput, code: isCodeContext ? code : "" },
     ]);
 
-    // send to the server using emit
+    // send to server using emit
     if (socket) {
       socket.emit("user_message", {
         message: curInput,
         code: isCodeContext ? code : "",
-      }); // server listens for user_message event
+      }); 
     }
   };
 
@@ -114,7 +106,7 @@ const AIChat = ({ difficulty, socket, code }) => {
           justifyContent: "space-between",
         }}
       >
-        <Logo />
+        <Logo onClick={handleLogoClick} />
 
         <Box
           sx={{
