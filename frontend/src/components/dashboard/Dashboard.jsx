@@ -1,15 +1,27 @@
 import { useState, useEffect } from "react";
 import Profile from "../profile/Profile";
 import { useNavigate } from "react-router-dom";
-import { Box, Button, Typography, Paper, Grid2 } from "@mui/material";
+import {
+  Box,
+  Button,
+  Typography,
+  Paper,
+  Grid2,
+  IconButton,
+} from "@mui/material";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
 import Interview from "./Interview";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
 const Dashboard = () => {
-  const navigate = useNavigate();
   const { user, getAccessTokenSilently } = useAuth0();
   const [interviews, setInterviews] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalInterviews, setTotalInterviews] = useState(0);
+  const navigate = useNavigate();
+  const interviewsPerPage = 15;
 
   useEffect(() => {
     const fetchInterviews = async () => {
@@ -20,20 +32,23 @@ const Dashboard = () => {
           {
             params: {
               auth0_user_id: user.sub,
+              page: currentPage,
+              limit: interviewsPerPage,
             },
             headers: {
               Authorization: `Bearer ${token}`,
             },
-          },
+          }
         );
         setInterviews(response.data.interviews);
+        setTotalInterviews(response.data.total); // Api returns total number of interviews
       } catch (error) {
         console.error("Error fetching interviews:", error);
       }
     };
 
     fetchInterviews();
-  }, [user, getAccessTokenSilently]);
+  }, [user, getAccessTokenSilently, currentPage]);
 
   const onClick = () => {
     navigate("/selection");
@@ -48,6 +63,14 @@ const Dashboard = () => {
       return acc;
     }, 0);
     return Math.ceil((totalSuccess / total) * 100) + "%";
+  };
+
+  const handleNextPage = () => {
+    setCurrentPage((prevPage) => prevPage + 1);
+  };
+
+  const handlePreviousPage = () => {
+    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
   };
 
   return (
@@ -99,7 +122,7 @@ const Dashboard = () => {
           <Typography>
             {interviews.reduce(
               (acc, cur) => (cur.question_difficulty == "Easy" ? acc + 1 : acc),
-              0,
+              0
             )}
           </Typography>
         </Grid2>
@@ -116,7 +139,7 @@ const Dashboard = () => {
             {interviews.reduce(
               (acc, cur) =>
                 cur.question_difficulty == "Medium" ? acc + 1 : acc,
-              0,
+              0
             )}
           </Typography>
         </Grid2>
@@ -132,7 +155,7 @@ const Dashboard = () => {
           <Typography>
             {interviews.reduce(
               (acc, cur) => (cur.question_difficulty == "Hard" ? acc + 1 : acc),
-              0,
+              0
             )}
           </Typography>
         </Grid2>
@@ -168,6 +191,17 @@ const Dashboard = () => {
                 }}
               />
             ))}
+            </Box>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
+            <IconButton onClick={handlePreviousPage} disabled={currentPage === 1}>
+              <ArrowBackIcon />
+            </IconButton>
+            <Typography variant="body2">
+              Page {currentPage} of {Math.ceil(totalInterviews / interviewsPerPage)}
+            </Typography>
+                <IconButton onClick={handleNextPage} disabled={currentPage * interviewsPerPage >= totalInterviews}>
+              <ArrowForwardIcon />
+            </IconButton>
           </Box>
         </Paper>
       </Grid2>

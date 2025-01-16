@@ -5,6 +5,7 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { Timer } from "./Timer";
 import { useNavigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
+import * as monaco from "monaco-editor";
 
 const CodeEditor = ({ difficulty, code, setCode, socket }) => {
   const [language, setLanguage] = useState("javascript");

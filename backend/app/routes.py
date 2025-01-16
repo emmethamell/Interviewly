@@ -22,6 +22,10 @@ def socket_status():
 @cross_origin()
 def get_interviews():
     auth0_user_id = request.args.get('auth0_user_id')
+    page = int(request.args.get('page', 1))
+    limit = int(request.args.get('limit', 15))
+
+    offset = (page - 1) * limit
 
     if not auth0_user_id:
         return jsonify({"error": "Missing required query parameter: auth0_user_id"}), 400
@@ -31,7 +35,8 @@ def get_interviews():
     if not user:
         return jsonify({"error": "User not found"}), 404
 
-    interviews = Interview.query.filter_by(auth0_user_id=auth0_user_id).all()
+    total_interviews = Interview.query.filter_by(auth0_user_id=auth0_user_id).count()
+    interviews = Interview.query.filter_by(auth0_user_id=auth0_user_id).offset(offset).limit(limit).all()
     interviews_data = [
         {
             "id": interview.id,
@@ -45,7 +50,7 @@ def get_interviews():
         for interview in interviews
     ]
 
-    return jsonify({"interviews": interviews_data}), 200
+    return jsonify({"interviews": interviews_data, "total": total_interviews}), 200
 
 # Fetch detailed information on a single interview
 @bp.route('/get-single-interview', methods=['GET'])
