@@ -4,10 +4,6 @@ from flask_cors import cross_origin
 
 auth_bp = Blueprint('auth', __name__)
 
-@auth_bp.route('/health', methods=['GET'])
-@cross_origin()
-def health_check():
-    return {"status": "auth ok"}, 200
 
 @auth_bp.route('/signup', methods=['POST'])
 @cross_origin()

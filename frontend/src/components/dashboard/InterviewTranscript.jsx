@@ -16,7 +16,7 @@ const InterviewTranscript = () => {
       try {
         const token = await getAccessTokenSilently();
         const response = await axios.get(
-          "http://localhost:5001/routes/get-single-interview",
+          "http://localhost:5001/interview/get-single-interview",
           {
             params: {
               interviewId,

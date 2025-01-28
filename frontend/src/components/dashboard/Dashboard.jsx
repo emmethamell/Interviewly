@@ -28,7 +28,7 @@ const Dashboard = () => {
       try {
         const token = await getAccessTokenSilently();
         const response = await axios.get(
-          "http://localhost:5001/routes/get-interviews",
+          "http://localhost:5001/interview/get-interviews",
           {
             params: {
               auth0_user_id: user.sub,

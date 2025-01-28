@@ -26,11 +26,14 @@ def create_app():
     from app.data_models import User, Question, Tag, Interview, question_tag_association
 
     # Register routes
-    from app.routes import bp
-    from app.auth import auth_bp
-    flask_app.register_blueprint(bp, url_prefix='/routes')
+    from app.routes.routes import interview_bp
+    from app.routes.auth import auth_bp
+    from app.routes.health import health_bp
+    flask_app.register_blueprint(interview_bp, url_prefix='/interview')
     flask_app.register_blueprint(auth_bp, url_prefix='/auth')
-
+    flask_app.register_blueprint(health_bp, url_prefix='/health')
+    # routes => interview
+    
     # Initialize SocketIO
     socketio.init_app(
         flask_app,

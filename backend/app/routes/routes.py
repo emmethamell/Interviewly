@@ -3,22 +3,16 @@ from app.websockets import socketio, user_sessions
 from app.data_models import db, Interview, User, Question
 from flask_cors import cross_origin
 
-bp = Blueprint('routes', __name__)
+interview_bp = Blueprint('routes', __name__)
 
-@bp.route('/health', methods=['GET'])
-def health_check():
-    return {"status": "routes ok"}, 200
 
-@bp.route('/active-clients', methods=['GET'])
+@interview_bp.route('/active-clients', methods=['GET'])
 def active_clients():
     return {"active_clients": user_sessions}, 200
 
-@bp.route('/socket-status', methods=['GET'])
-def socket_status():
-    return {"active_clients": len(user_sessions)}, 200
 
 # Fetches basic information for all interviews done by the user
-@bp.route('/get-interviews', methods=['GET'])
+@interview_bp.route('/get-interviews', methods=['GET'])
 @cross_origin()
 def get_interviews():
     auth0_user_id = request.args.get('auth0_user_id')
@@ -53,7 +47,7 @@ def get_interviews():
     return jsonify({"interviews": interviews_data, "total": total_interviews}), 200
 
 # Fetch detailed information on a single interview
-@bp.route('/get-single-interview', methods=['GET'])
+@interview_bp.route('/get-single-interview', methods=['GET'])
 @cross_origin()
 def get_single_interview():
     interviewId = request.args.get('interviewId')
