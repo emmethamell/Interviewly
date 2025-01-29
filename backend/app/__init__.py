@@ -44,7 +44,7 @@ def create_app():
         cors_allowed_origins="*",  
     )
 
-    import app.websockets
+    import app.websockets.handlers
 
     with flask_app.app_context():
         db.create_all()

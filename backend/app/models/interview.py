@@ -37,4 +37,4 @@ class Interview(db.Model):
     
     # Define both relationships here
     user = db.relationship("User", backref=db.backref("interviews", lazy=True))
-    question = db.relationship("Question") 
+    question = db.relationship("Question")

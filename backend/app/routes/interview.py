@@ -1,6 +1,6 @@
 from app import db
 from flask import Blueprint, jsonify, request
-from app.websockets import socketio, user_sessions
+from app.services.websocket_service import WebSocketService
 from app.models.user import User
 from app.models.question import Question
 from app.models.interview import Interview
@@ -12,8 +12,9 @@ interview_bp = Blueprint('routes', __name__)
 
 
 @interview_bp.route('/active-clients', methods=['GET'])
+@cross_origin()
 def active_clients():
-    return {"active_clients": user_sessions}, 200
+    return {"active_clients": WebSocketService.user_sessions}, 200
 
 
 @interview_bp.route('/get-interviews', methods=['GET'])

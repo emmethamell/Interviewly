@@ -1,4 +1,4 @@
-from app.websockets import user_sessions
+from app.services.websocket_service import WebSocketService
 from flask import Blueprint
 
 health_bp = Blueprint('health', __name__)
@@ -9,4 +9,4 @@ def health_check():
 
 @health_bp.route('/socket-status', methods=['GET'])
 def socket_status():
-    return {"active_clients": len(user_sessions)}, 200
+    return {"active_clients": len(WebSocketService.user_sessions)}, 200

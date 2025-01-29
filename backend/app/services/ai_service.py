@@ -62,3 +62,14 @@ class ChatbotManager:
             for m in conversation for content in m["content"]
         )
     
+"""
+Conversation format
+[
+    {
+    "role": "system" OR "assistant" OR "user", 
+    "content": [{"type": "text", "text": user_reponse OR bot_reply}]
+    },
+    ...
+]
+
+"""
