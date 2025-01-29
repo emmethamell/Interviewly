@@ -1,5 +1,6 @@
 from flask import Blueprint, jsonify, request
-from app.data_models import db, User
+from app import db
+from app.models.user import User
 from flask_cors import cross_origin
 
 auth_bp = Blueprint('auth', __name__)

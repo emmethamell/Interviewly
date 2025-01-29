@@ -6,7 +6,11 @@ import pprint
 from app.chatbot_manager import ChatbotManager
 import re
 import json
-from app.data_models import db, Question, DifficultyLevel, Interview, User
+
+from app.models.user import User
+from app.models.question import Question, DifficultyLevel
+from app.models.interview import Interview
+from app import db
 
 user_sessions = {}
 chatbot_manager = ChatbotManager()
