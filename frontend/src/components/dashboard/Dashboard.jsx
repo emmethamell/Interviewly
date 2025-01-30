@@ -117,7 +117,7 @@ const Dashboard = () => {
           >
             {/* TODO: Fix calculation */}
             <Typography>SUCCESS RATE</Typography>
-            <Typography>{interviewStats.success_rate}</Typography>
+            <Typography>{Math.round(interviewStats.success_rate * 100)}%</Typography>
           </Box>
         </Grid2>
         <Grid2
@@ -131,10 +131,7 @@ const Dashboard = () => {
           {/* TODO: Calculate # of completed based on score of hire or greater*/}
           <Typography color="#4caf50">Easy</Typography>
           <Typography>
-            {interviews.reduce(
-              (acc, cur) => (cur.question_difficulty == "Easy" ? acc + 1 : acc),
-              0
-            )}
+            {interviewStats.easy_successes}
           </Typography>
         </Grid2>
         <Grid2
@@ -147,11 +144,7 @@ const Dashboard = () => {
         >
           <Typography color="#ffeb3b">Medium</Typography>
           <Typography>
-            {interviews.reduce(
-              (acc, cur) =>
-                cur.question_difficulty == "Medium" ? acc + 1 : acc,
-              0
-            )}
+            {interviewStats.medium_successes}
           </Typography>
         </Grid2>
         <Grid2
@@ -164,10 +157,7 @@ const Dashboard = () => {
         >
           <Typography color="#f44336">Hard</Typography>
           <Typography>
-            {interviews.reduce(
-              (acc, cur) => (cur.question_difficulty == "Hard" ? acc + 1 : acc),
-              0
-            )}
+            {interviewStats.hard_successes}
           </Typography>
         </Grid2>
       </Grid2>
