@@ -16,18 +16,27 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
 const Dashboard = () => {
+  console.log("Dashboard");
   const { user, getAccessTokenSilently } = useAuth0();
   const [interviews, setInterviews] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalInterviews, setTotalInterviews] = useState(0);
+  const [interviewStats, setInterviewStats] = useState({
+    success_rate: 0,
+    easy_successes: 0,
+    medium_successes: 0,
+    hard_successes: 0
+  });
   const navigate = useNavigate();
   const interviewsPerPage = 15;
 
   useEffect(() => {
-    const fetchInterviews = async () => {
+    const fetchData = async () => {
       try {
         const token = await getAccessTokenSilently();
-        const response = await axios.get(
+        
+        // Fetch paginated interviews
+        const interviewsResponse = await axios.get(
           "http://localhost:5001/interview/get-interviews",
           {
             params: {
@@ -40,29 +49,29 @@ const Dashboard = () => {
             },
           }
         );
-        setInterviews(response.data.interviews);
-        setTotalInterviews(response.data.total); // Api returns total number of interviews
+        setInterviews(interviewsResponse.data.interviews);
+        setTotalInterviews(interviewsResponse.data.total);
+
+        // Fetch stats
+        const statsResponse = await axios.get(
+          "http://localhost:5001/interview/get-interview-stats",
+          {
+            params: { auth0_user_id: user.sub },
+            headers: { Authorization: `Bearer ${token}` }
+          }
+        );
+        console.log(statsResponse.data);
+        setInterviewStats(statsResponse.data);
       } catch (error) {
-        console.error("Error fetching interviews:", error);
+        console.error("Error fetching data:", error);
       }
     };
 
-    fetchInterviews();
+    fetchData();
   }, [user, getAccessTokenSilently, currentPage]);
 
   const onClick = () => {
     navigate("/selection");
-  };
-
-  const getSuccessRate = (interviews) => {
-    const total = interviews.length;
-    const totalSuccess = interviews.reduce((acc, cur) => {
-      if (cur.score == "Hire" || cur.score == "Strong Hire") {
-        return acc + 1;
-      }
-      return acc;
-    }, 0);
-    return Math.ceil((totalSuccess / total) * 100) + "%";
   };
 
   const handleNextPage = () => {
@@ -106,8 +115,9 @@ const Dashboard = () => {
               alignItems: "center",
             }}
           >
+            {/* TODO: Fix calculation */}
             <Typography>SUCCESS RATE</Typography>
-            <Typography>{getSuccessRate(interviews)}</Typography>
+            <Typography>{interviewStats.success_rate}</Typography>
           </Box>
         </Grid2>
         <Grid2
@@ -118,6 +128,7 @@ const Dashboard = () => {
             alignItems: "center",
           }}
         >
+          {/* TODO: Calculate # of completed based on score of hire or greater*/}
           <Typography color="#4caf50">Easy</Typography>
           <Typography>
             {interviews.reduce(

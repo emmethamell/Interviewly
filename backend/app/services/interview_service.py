@@ -46,7 +46,14 @@ class InterviewService:
             "summary": interview.feedback["summary"],
             "language": interview.language
         }
-
+        
+    def calculate_interview_stats(self, user_id: str) -> Dict:
+        """
+        Calculate interview statistics for a user.
+        returns: {success_rate, easy_successes, medium_successes, hard_successes}
+        """
+        return self.interview_repo.get_interview_stats(user_id)
+        
     def process_user_message(self, session_id: str, user_message: str, 
                            code: str, session_data: Dict) -> str:
         if not session_data:

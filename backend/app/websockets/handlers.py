@@ -22,7 +22,6 @@ def handle_disconnect():
 
 @socketio.on('select_difficulty')
 def handle_select_difficulty(data):
-    print("SELECTING DIFFICULTY")
     response = websocket_service.handle_difficulty_selection(request.sid, data.get('difficulty'))
     if 'error' in response:
         emit('bot_message', {'message': response['error']})

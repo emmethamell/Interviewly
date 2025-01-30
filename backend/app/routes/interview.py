@@ -33,7 +33,8 @@ def get_interviews():
             page=page,
             limit=limit
         )
-
+        print("INTERVIEWS: ", interviews_data)
+        print("TOTAL: ", total)
         return jsonify({
             "interviews": interviews_data, 
             "total": total
@@ -66,3 +67,18 @@ def get_single_interview():
     }
 
     return jsonify(interview_data), 200
+
+@interview_bp.route('get-interview-stats', methods=['GET'])
+@cross_origin()
+def get_interview_stats():
+    """
+    Get interview statistics for a user.
+    returns: {success_rate, easy_successes, medium_successes, hard_successes}
+    """
+    try:
+        auth0_user_id = request.args.get('auth0_user_id')
+        stats = interview_service.calculate_interview_stats(auth0_user_id)
+        print("STATS: ", stats)
+        return jsonify(stats), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500

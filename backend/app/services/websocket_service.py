@@ -45,7 +45,6 @@ class WebSocketService:
         return self.user_sessions.pop(sid, None)
 
     def handle_difficulty_selection(self, sid, difficulty):
-        print("GETTING THE QUESTION")
         question = self._get_question(difficulty)
         if isinstance(question, str):  
             return {'error': question}
