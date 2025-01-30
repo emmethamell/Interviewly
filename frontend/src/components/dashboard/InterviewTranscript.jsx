@@ -37,21 +37,8 @@ const InterviewTranscript = () => {
   return (
     <Box sx={{ p: 3 }}>
       <Typography variant="h4" gutterBottom>
-        Interview Transcript
+        Interview Report
       </Typography>
-      <Typography variant="subtitle1" gutterBottom>
-        Transcript for interview ID: {interviewId}
-      </Typography>
-      <Paper sx={{ p: 2, mb: 2 }}>
-        <Typography variant="h6">Transcript</Typography>
-        {interview.transcript}
-      </Paper>
-      <Paper sx={{ p: 2, mb: 2 }}>
-        <Typography variant="h6">Final Code</Typography>
-        <SyntaxHighlighter language={interview.language} style={solarizedlight}>
-          {interview.final_submission}
-        </SyntaxHighlighter>
-      </Paper>
       <Paper sx={{ p: 2, mb: 2 }}>
         <Typography variant="h6">Details</Typography>
         <Typography variant="body1">Score: {interview.score}</Typography>
@@ -63,6 +50,16 @@ const InterviewTranscript = () => {
           Problem Solving: {interview.problem_solving_score}
         </Typography>
         <Typography variant="body1">Summary: {interview.summary}</Typography>
+      </Paper>
+      <Paper sx={{ p: 2, mb: 2 }}>
+        <Typography variant="h6">Final Code</Typography>
+        <SyntaxHighlighter language={interview.language} style={solarizedlight}>
+          {interview.final_submission}
+        </SyntaxHighlighter>
+      </Paper>
+      <Paper sx={{ p: 2, mb: 2 }}>
+        <Typography variant="h6">Transcript</Typography>
+        {interview.transcript}
       </Paper>
     </Box>
   );
