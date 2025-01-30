@@ -34,7 +34,6 @@ const Dashboard = () => {
     const fetchData = async () => {
       try {
         const token = await getAccessTokenSilently();
-        
         // Fetch paginated interviews
         const interviewsResponse = await axios.get(
           "http://localhost:5001/interview/get-interviews",
@@ -51,7 +50,6 @@ const Dashboard = () => {
         );
         setInterviews(interviewsResponse.data.interviews);
         setTotalInterviews(interviewsResponse.data.total);
-
         // Fetch stats
         const statsResponse = await axios.get(
           "http://localhost:5001/interview/get-interview-stats",
@@ -182,7 +180,7 @@ const Dashboard = () => {
       >
         <Paper sx={{ boxShadow: "none" }}>
           <Box>
-            {[...interviews].reverse().map((interview, index) => (
+            {[...interviews].map((interview, index) => (
               <Interview
                 key={interview.id}
                 interview={interview}

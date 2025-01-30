@@ -13,7 +13,7 @@ class InterviewRepository:
         offset = (page - 1) * limit
         total = Interview.query.filter_by(auth0_user_id=auth0_user_id).count()
         interviews = Interview.query.filter_by(auth0_user_id=auth0_user_id)\
-            .offset(offset).limit(limit).all()
+            .order_by(Interview.date.desc()).offset(offset).limit(limit).all()
         return interviews, total
 
     def create_interview(self, user_id: int, auth0_user_id: str, question_id: int,
