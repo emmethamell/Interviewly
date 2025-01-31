@@ -3,14 +3,22 @@ import { useParams } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import axios from "axios";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { solarizedlight } from "react-syntax-highlighter/dist/esm/styles/prism";
-import { Box, Typography, Paper } from "@mui/material";
+import { oneLight, oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
+import { Box, Typography, Paper, IconButton } from "@mui/material";
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
 
 // Interview transcript, feedback, final code
 const InterviewTranscript = () => {
   const { interviewId } = useParams();
   const [interview, setInterview] = useState([]);
+  const [displayMode, setDisplayMode] = useState("light");
   const { user, getAccessTokenSilently } = useAuth0();
+  
+  const handleDisplayModeChange = (mode) => {
+    setDisplayMode(mode);
+  };
+
   useEffect(() => {
     const fetchInterviews = async () => {
       try {
@@ -34,11 +42,14 @@ const InterviewTranscript = () => {
 
     fetchInterviews();
   }, [user, getAccessTokenSilently]);
+
   return (
     <Box sx={{ p: 3 }}>
-      <Typography variant="h4" gutterBottom>
-        Interview Report
-      </Typography>
+      <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+        <Typography variant="h4" sx={{ flexGrow: 1 }}>
+          Interview Report
+        </Typography>
+      </Box>
       <Paper sx={{ p: 2, mb: 2 }}>
         <Typography variant="h6">Details</Typography>
         <Typography variant="body1">Score: {interview.score}</Typography>
@@ -52,8 +63,17 @@ const InterviewTranscript = () => {
         <Typography variant="body1">Summary: {interview.summary}</Typography>
       </Paper>
       <Paper sx={{ p: 2, mb: 2 }}>
-        <Typography variant="h6">Final Code</Typography>
-        <SyntaxHighlighter language={interview.language} style={solarizedlight}>
+        <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+          <Typography variant="h6">Final Code</Typography> 
+          <IconButton onClick={() => handleDisplayModeChange(displayMode === 'light' ? 'dark' : 'light')}>
+            {displayMode === 'light' ? <Brightness4Icon /> : <Brightness7Icon />}
+          </IconButton>
+        </Box>
+        <SyntaxHighlighter 
+          language={interview.language} 
+          style={displayMode === "light" ? oneLight : oneDark}
+          showLineNumbers={true}
+        >
           {interview.final_submission}
         </SyntaxHighlighter>
       </Paper>

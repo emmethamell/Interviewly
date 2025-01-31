@@ -199,6 +199,7 @@ const AIChat = ({ difficulty, socket, code }) => {
             {/* Message Text */}
             <Typography
               variant="body1"
+              className="ai-chat-message"
               sx={{
                 whiteSpace: "pre-wrap",
                 wordWrap: "break-word",
