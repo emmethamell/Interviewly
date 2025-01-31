@@ -105,8 +105,7 @@ const CodeEditor = ({ difficulty, code, setCode, socket }) => {
           minHeight: "25px",
           flexShrink: 0,
           borderBottom: "2px solid black",
-        }}
-      >
+        }}>
         <Button
           onClick={handleClick}
           endIcon={<KeyboardArrowDownIcon />}
@@ -117,18 +116,15 @@ const CodeEditor = ({ difficulty, code, setCode, socket }) => {
             border: "1px solid #BDBDBD",
             bgcolor: "#E0E0E0",
             "&:hover": { bgcolor: "#D6D6D6" },
-          }}
-        >
-          {languages.find((l) => l.value === language)?.label ||
-            "Select Language"}
+          }}>
+          {languages.find((l) => l.value === language)?.label || "Select Language"}
         </Button>
         <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
           {languages.map((lang) => (
             <MenuItem
               key={lang.value}
               onClick={() => handleLanguageSelect(lang.value)}
-              selected={language === lang.value}
-            >
+              selected={language === lang.value}>
               {lang.label}
             </MenuItem>
           ))}
@@ -146,8 +142,7 @@ const CodeEditor = ({ difficulty, code, setCode, socket }) => {
               backgroundColor: "#e08e57",
             },
           }}
-          onClick={() => handleSubmit()}
-        >
+          onClick={() => handleSubmit()}>
           Submit Solution
         </Button>
       </Box>
@@ -158,8 +153,7 @@ const CodeEditor = ({ difficulty, code, setCode, socket }) => {
           style={{
             width: "100%",
             height: "100%",
-          }}
-        >
+          }}>
           <MonacoEditor
             width={dimensions.width}
             height={dimensions.height}

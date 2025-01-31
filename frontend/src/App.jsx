@@ -1,12 +1,7 @@
 import { useState, useEffect } from "react";
 import "./App.css";
 import Layout from "./components/mock_interview/Layout";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  useLocation,
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import DifficultySelection from "./components/setup/DifficultySelection";
 import io from "socket.io-client";
@@ -115,51 +110,23 @@ function App() {
           <Route path="/" element={<LandingPage className="landing-page" />} />
 
           {/* Protected Routes */}
-          <Route
-            path="/dashboard"
-            element={
-              <ProtectedRoute
-                element={<Dashboard className="dashboard-page" />}
-              />
-            }
-          />
+          <Route path="/dashboard" element={<ProtectedRoute element={<Dashboard className="dashboard-page" />} />} />
           <Route
             path="/selection"
             element={
-              <ProtectedRoute
-                element={
-                  <DifficultySelection
-                    className="difficult-selection-page"
-                    socket={socket}
-                  />
-                }
-              />
+              <ProtectedRoute element={<DifficultySelection className="difficult-selection-page" socket={socket} />} />
             }
           />
           <Route
             path="/main"
-            element={
-              <ProtectedRoute
-                element={<Layout className="layout-page" socket={socket} />}
-              />
-            }
+            element={<ProtectedRoute element={<Layout className="layout-page" socket={socket} />} />}
           />
           <Route
             path="/score"
-            element={
-              <ProtectedRoute
-                element={<Score className="score-page" socket={socket} />}
-              />
-            }
+            element={<ProtectedRoute element={<Score className="score-page" socket={socket} />} />}
           />
-          <Route
-            path="/profile"
-            element={<ProtectedRoute element={<Profile />} />}
-          />
-          <Route
-            path="/transcript/:interviewId"
-            element={<ProtectedRoute element={<InterviewTranscript />} />}
-          />
+          <Route path="/profile" element={<ProtectedRoute element={<Profile />} />} />
+          <Route path="/transcript/:interviewId" element={<ProtectedRoute element={<InterviewTranscript />} />} />
         </Routes>
       </Router>
     </ThemeProvider>

@@ -55,13 +55,10 @@ export default function AppAppBar() {
         bgcolor: "transparent",
         backgroundImage: "none",
         mt: "calc(var(--template-frame-height, 0px) + 28px)",
-      }}
-    >
+      }}>
       <Container maxWidth="lg">
         <StyledToolbar variant="dense" disableGutters>
-          <Box
-            sx={{ flexGrow: 1, display: "flex", alignItems: "center", px: 0 }}
-          >
+          <Box sx={{ flexGrow: 1, display: "flex", alignItems: "center", px: 0 }}>
             <Logo />
           </Box>
           <Box
@@ -69,22 +66,11 @@ export default function AppAppBar() {
               display: { xs: "none", md: "flex" },
               gap: 1,
               alignItems: "center",
-            }}
-          >
-            <Button
-              onClick={() => loginWithRedirect()}
-              color="primary"
-              variant="text"
-              size="small"
-            >
+            }}>
+            <Button onClick={() => loginWithRedirect()} color="primary" variant="text" size="small">
               Sign in
             </Button>
-            <Button
-              onClick={() => redirectToSignup()}
-              color="primary"
-              variant="contained"
-              size="small"
-            >
+            <Button onClick={() => redirectToSignup()} color="primary" variant="contained" size="small">
               Sign up
             </Button>
           </Box>
@@ -100,15 +86,13 @@ export default function AppAppBar() {
                 sx: {
                   top: "var(--template-frame-height, 0px)",
                 },
-              }}
-            >
+              }}>
               <Box sx={{ p: 2, backgroundColor: "background.default" }}>
                 <Box
                   sx={{
                     display: "flex",
                     justifyContent: "flex-end",
-                  }}
-                >
+                  }}>
                   <IconButton onClick={toggleDrawer(false)}>
                     <CloseRoundedIcon />
                   </IconButton>

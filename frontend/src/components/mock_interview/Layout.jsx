@@ -27,8 +27,7 @@ const Layout = ({ socket }) => {
         height: "100%",
         overflow: "hidden",
         bgcolor: "#1e1e1e",
-      }}
-    >
+      }}>
       <SplitPane
         split="vertical"
         minSize={200}
@@ -37,8 +36,7 @@ const Layout = ({ socket }) => {
         style={{
           width: "100%",
           height: "100%",
-        }}
-      >
+        }}>
         {/* Left Pane */}
         <Box sx={{ height: "100%", overflow: "auto" }}>
           <AIChat difficulty={difficulty} socket={socket} code={code} />
@@ -46,12 +44,7 @@ const Layout = ({ socket }) => {
 
         {/* Right Pane */}
         <Box sx={{ height: "100%", overflow: "auto" }}>
-          <CodeEditor
-            difficulty={difficulty}
-            code={code}
-            setCode={setCode}
-            socket={socket}
-          />
+          <CodeEditor difficulty={difficulty} code={code} setCode={setCode} socket={socket} />
         </Box>
       </SplitPane>
     </Box>

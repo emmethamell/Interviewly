@@ -24,8 +24,7 @@ const items = [
   {
     icon: <EdgesensorHighRoundedIcon />,
     title: "Mobile integration",
-    description:
-      "This item could provide information about the mobile app version of the product.",
+    description: "This item could provide information about the mobile app version of the product.",
     imageLight: `url("${"https://mui.com"}/static/images/templates/templates-images/mobile-light.png")`,
     imageDark: `url("${"https://mui.com"}/static/images/templates/templates-images/mobile-dark.png")`,
   },
@@ -48,8 +47,7 @@ const Chip = styled(MuiChip)<ChipProps>(({ theme }) => ({
     {
       props: ({ selected }) => selected,
       style: {
-        background:
-          "linear-gradient(to bottom right, hsl(210, 98%, 48%), hsl(210, 98%, 35%))",
+        background: "linear-gradient(to bottom right, hsl(210, 98%, 48%), hsl(210, 98%, 35%))",
         color: "hsl(0, 0%, 100%)",
         borderColor: (theme.vars || theme).palette.primary.light,
         "& .MuiChip-label": {
@@ -69,11 +67,7 @@ interface MobileLayoutProps {
   selectedFeature: (typeof items)[0];
 }
 
-export function MobileLayout({
-  selectedItemIndex,
-  handleItemClick,
-  selectedFeature,
-}: MobileLayoutProps) {
+export function MobileLayout({ selectedItemIndex, handleItemClick, selectedFeature }: MobileLayoutProps) {
   if (!items[selectedItemIndex]) {
     return null;
   }
@@ -84,8 +78,7 @@ export function MobileLayout({
         display: { xs: "flex", sm: "none" },
         flexDirection: "column",
         gap: 2,
-      }}
-    >
+      }}>
       <Box sx={{ display: "flex", gap: 2, overflow: "auto" }}>
         {items.map(({ title }, index) => (
           <Chip
@@ -119,10 +112,7 @@ export function MobileLayout({
           }
         />
         <Box sx={{ px: 2, pb: 2 }}>
-          <Typography
-            gutterBottom
-            sx={{ color: "text.primary", fontWeight: "medium" }}
-          >
+          <Typography gutterBottom sx={{ color: "text.primary", fontWeight: "medium" }}>
             {selectedFeature.title}
           </Typography>
           <Typography variant="body2" sx={{ color: "text.secondary", mb: 1.5 }}>
@@ -146,21 +136,12 @@ export default function Features() {
   return (
     <Container id="features" sx={{ py: { xs: 8, sm: 16 } }}>
       <Box sx={{ width: { sm: "100%", md: "60%" } }}>
-        <Typography
-          component="h2"
-          variant="h4"
-          gutterBottom
-          sx={{ color: "text.primary" }}
-        >
+        <Typography component="h2" variant="h4" gutterBottom sx={{ color: "text.primary" }}>
           Product features
         </Typography>
-        <Typography
-          variant="body1"
-          sx={{ color: "text.secondary", mb: { xs: 2, sm: 4 } }}
-        >
-          Provide a brief overview of the key features of the product. For
-          example, you could list the number of features, their types or
-          benefits, and add-ons.
+        <Typography variant="body1" sx={{ color: "text.secondary", mb: { xs: 2, sm: 4 } }}>
+          Provide a brief overview of the key features of the product. For example, you could list the number of
+          features, their types or benefits, and add-ons.
         </Typography>
       </Box>
       <Box
@@ -168,8 +149,7 @@ export default function Features() {
           display: "flex",
           flexDirection: { xs: "column", md: "row-reverse" },
           gap: 2,
-        }}
-      >
+        }}>
         <div>
           <Box
             sx={{
@@ -177,8 +157,7 @@ export default function Features() {
               flexDirection: "column",
               gap: 2,
               height: "100%",
-            }}
-          >
+            }}>
             {items.map(({ icon, title, description }, index) => (
               <Box
                 key={index}
@@ -190,15 +169,13 @@ export default function Features() {
                     height: "100%",
                     width: "100%",
                     "&:hover": {
-                      backgroundColor: (theme.vars || theme).palette.action
-                        .hover,
+                      backgroundColor: (theme.vars || theme).palette.action.hover,
                     },
                   }),
                   selectedItemIndex === index && {
                     backgroundColor: "action.selected",
                   },
-                ]}
-              >
+                ]}>
                 <Box
                   sx={[
                     {
@@ -214,8 +191,7 @@ export default function Features() {
                     selectedItemIndex === index && {
                       color: "text.primary",
                     },
-                  ]}
-                >
+                  ]}>
                   {icon}
 
                   <Typography variant="h6">{title}</Typography>
@@ -235,8 +211,7 @@ export default function Features() {
             display: { xs: "none", sm: "flex" },
             width: { xs: "100%", md: "70%" },
             height: "var(--items-image-height)",
-          }}
-        >
+          }}>
           <Card
             variant="outlined"
             sx={{
@@ -244,8 +219,7 @@ export default function Features() {
               width: "100%",
               display: { xs: "none", sm: "flex" },
               pointerEvents: "none",
-            }}
-          >
+            }}>
             <Box
               sx={(theme) => ({
                 m: "auto",

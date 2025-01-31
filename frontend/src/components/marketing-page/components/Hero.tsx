@@ -54,14 +54,11 @@ export default function Hero() {
       sx={(theme) => ({
         width: "100%",
         backgroundRepeat: "no-repeat",
-        backgroundImage:
-          "radial-gradient(ellipse 80% 50% at 50% -20%, #, white)",
+        backgroundImage: "radial-gradient(ellipse 80% 50% at 50% -20%, #, white)",
         ...theme.applyStyles("dark", {
-          backgroundImage:
-            "radial-gradient(ellipse 80% 50% at 50% -20%, hsl(210, 100%, 16%), transparent)",
+          backgroundImage: "radial-gradient(ellipse 80% 50% at 50% -20%, hsl(210, 100%, 16%), transparent)",
         }),
-      })}
-    >
+      })}>
       <Container
         sx={{
           display: "flex",
@@ -69,13 +66,8 @@ export default function Hero() {
           alignItems: "center",
           pt: { xs: 14, sm: 20 },
           pb: { xs: 8, sm: 12 },
-        }}
-      >
-        <Stack
-          spacing={2}
-          useFlexGap
-          sx={{ alignItems: "center", width: { xs: "100%", sm: "70%" } }}
-        >
+        }}>
+        <Stack spacing={2} useFlexGap sx={{ alignItems: "center", width: { xs: "100%", sm: "70%" } }}>
           <Typography
             variant="h1"
             sx={{
@@ -84,16 +76,14 @@ export default function Hero() {
               alignItems: "center",
               fontSize: "clamp(3rem, 10vw, 3.5rem)",
               textAlign: "center",
-            }}
-          >
+            }}>
             <Typography
               component="span"
               variant="h1"
               sx={{
                 fontSize: "inherit",
                 color: "primary.main",
-              }}
-            >
+              }}>
               AI-Powered&nbsp;
             </Typography>
             <Typography
@@ -102,8 +92,7 @@ export default function Hero() {
               sx={{
                 fontSize: "inherit",
                 color: "black",
-              }}
-            >
+              }}>
               Technical&nbsp;
             </Typography>
           </Typography>
@@ -114,8 +103,7 @@ export default function Hero() {
             sx={{
               color: "black",
               fontSize: "clamp(3rem, 10vw, 3.5rem)",
-            }}
-          >
+            }}>
             Interview Prep
           </Typography>
           <Typography
@@ -123,10 +111,8 @@ export default function Hero() {
               textAlign: "center",
               color: "text.secondary",
               width: { sm: "100%", md: "80%" },
-            }}
-          >
-            Simulate real technical interviews with AI. Get follow-up questions
-            and detailed feedback.
+            }}>
+            Simulate real technical interviews with AI. Get follow-up questions and detailed feedback.
           </Typography>
 
           <Button
@@ -134,16 +120,11 @@ export default function Hero() {
             color="primary"
             size="small"
             sx={{ minWidth: "fit-content" }}
-            onClick={() => redirectToSignup()}
-          >
+            onClick={() => redirectToSignup()}>
             Create Account
           </Button>
 
-          <Typography
-            variant="caption"
-            color="text.secondary"
-            sx={{ textAlign: "center" }}
-          >
+          <Typography variant="caption" color="text.secondary" sx={{ textAlign: "center" }}>
             By clicking &quot;Start now&quot; you agree to our&nbsp;
             <Link href="#" color="primary">
               Terms & Conditions

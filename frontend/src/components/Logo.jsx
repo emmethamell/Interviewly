@@ -18,8 +18,7 @@ const Logo = () => {
           fontWeight: "bold",
           fontSize: "1.1rem",
           padding: "1px",
-        }}
-      >
+        }}>
         Interviewly
       </Typography>
     </Box>

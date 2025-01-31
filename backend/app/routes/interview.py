@@ -63,7 +63,10 @@ def get_single_interview():
         "technical_ability": interview.feedback["ratings"]["technical_ability"],
         "problem_solving_score": interview.feedback["ratings"]["problem_solving_skills"],
         "summary": interview.feedback["summary"],
-        "language": interview.language
+        "language": interview.language,
+        "question_name": interview.question.name,
+        "question_difficulty": interview.question.difficulty.value,
+        "question_id": interview.question_id,
     }
 
     return jsonify(interview_data), 200

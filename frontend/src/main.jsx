@@ -17,8 +17,7 @@ createRoot(document.getElementById("root")).render(
     clientId={clientId}
     authorizationParams={{
       redirect_uri: `${window.location.origin}/dashboard`, //Where to redirect to after successful auth
-    }}
-  >
+    }}>
     <StrictMode>
       <App />
     </StrictMode>

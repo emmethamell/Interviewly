@@ -19,8 +19,7 @@ const Navbar = () => {
             color="inherit"
             aria-label="menu"
             sx={{ mr: 2 }}
-            onClick={handleLogoClick}
-          >
+            onClick={handleLogoClick}>
             <Logo />
           </IconButton>
           {/* Buttons */}

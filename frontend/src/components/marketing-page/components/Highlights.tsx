@@ -16,20 +16,17 @@ const items = [
   {
     icon: <SettingsSuggestRoundedIcon />,
     title: "Adaptable performance",
-    description:
-      "Our product effortlessly adjusts to your needs, boosting efficiency and simplifying your tasks.",
+    description: "Our product effortlessly adjusts to your needs, boosting efficiency and simplifying your tasks.",
   },
   {
     icon: <ConstructionRoundedIcon />,
     title: "Built to last",
-    description:
-      "Experience unmatched durability that goes above and beyond with lasting investment.",
+    description: "Experience unmatched durability that goes above and beyond with lasting investment.",
   },
   {
     icon: <ThumbUpAltRoundedIcon />,
     title: "Great user experience",
-    description:
-      "Integrate our product into your routine with an intuitive and easy-to-use interface.",
+    description: "Integrate our product into your routine with an intuitive and easy-to-use interface.",
   },
   {
     icon: <AutoFixHighRoundedIcon />,
@@ -40,8 +37,7 @@ const items = [
   {
     icon: <SupportAgentRoundedIcon />,
     title: "Reliable support",
-    description:
-      "Count on our responsive customer support, offering assistance that goes beyond the purchase.",
+    description: "Count on our responsive customer support, offering assistance that goes beyond the purchase.",
   },
   {
     icon: <QueryStatsRoundedIcon />,
@@ -60,8 +56,7 @@ export default function Highlights() {
         pb: { xs: 8, sm: 16 },
         color: "white",
         bgcolor: "grey.900",
-      }}
-    >
+      }}>
       <Container
         sx={{
           position: "relative",
@@ -69,21 +64,18 @@ export default function Highlights() {
           flexDirection: "column",
           alignItems: "center",
           gap: { xs: 3, sm: 6 },
-        }}
-      >
+        }}>
         <Box
           sx={{
             width: { sm: "100%", md: "60%" },
             textAlign: { sm: "left", md: "center" },
-          }}
-        >
+          }}>
           <Typography component="h2" variant="h4" gutterBottom>
             Highlights
           </Typography>
           <Typography variant="body1" sx={{ color: "grey.400" }}>
-            Explore why our product stands out: adaptability, durability,
-            user-friendly design, and innovation. Enjoy reliable customer
-            support and precision in every detail.
+            Explore why our product stands out: adaptability, durability, user-friendly design, and innovation. Enjoy
+            reliable customer support and precision in every detail.
           </Typography>
         </Box>
         <Grid container spacing={2}>
@@ -100,8 +92,7 @@ export default function Highlights() {
                   height: "100%",
                   borderColor: "hsla(220, 25%, 25%, 0.3)",
                   backgroundColor: "grey.800",
-                }}
-              >
+                }}>
                 <Box sx={{ opacity: "50%" }}>{item.icon}</Box>
                 <div>
                   <Typography gutterBottom sx={{ fontWeight: "medium" }}>

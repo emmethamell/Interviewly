@@ -36,31 +36,24 @@ export default function Footer() {
         gap: { xs: 4, sm: 8 },
         py: { xs: 8, sm: 10 },
         textAlign: { sm: "center", md: "left" },
-      }}
-    >
+      }}>
       <Box
         sx={{
           display: "flex",
           flexDirection: { xs: "column", sm: "row" },
           width: "100%",
           justifyContent: "space-between",
-        }}
-      >
+        }}>
         <Box
           sx={{
             display: "flex",
             flexDirection: "column",
             gap: 4,
             minWidth: { xs: "100%", sm: "60%" },
-          }}
-        >
+          }}>
           <Box sx={{ width: { xs: "100%", sm: "60%" } }}>
             <SitemarkIcon />
-            <Typography
-              variant="body2"
-              gutterBottom
-              sx={{ fontWeight: 600, mt: 2 }}
-            >
+            <Typography variant="body2" gutterBottom sx={{ fontWeight: 600, mt: 2 }}>
               Join the newsletter
             </Typography>
             <Typography variant="body2" sx={{ color: "text.secondary", mb: 2 }}>
@@ -84,12 +77,7 @@ export default function Footer() {
                 }}
                 sx={{ width: "250px" }}
               />
-              <Button
-                variant="contained"
-                color="primary"
-                size="small"
-                sx={{ flexShrink: 0 }}
-              >
+              <Button variant="contained" color="primary" size="small" sx={{ flexShrink: 0 }}>
                 Subscribe
               </Button>
             </Stack>
@@ -100,8 +88,7 @@ export default function Footer() {
             display: { xs: "none", sm: "flex" },
             flexDirection: "column",
             gap: 1,
-          }}
-        >
+          }}>
           <Typography variant="body2" sx={{ fontWeight: "medium" }}>
             Product
           </Typography>
@@ -126,8 +113,7 @@ export default function Footer() {
             display: { xs: "none", sm: "flex" },
             flexDirection: "column",
             gap: 1,
-          }}
-        >
+          }}>
           <Typography variant="body2" sx={{ fontWeight: "medium" }}>
             Company
           </Typography>
@@ -146,8 +132,7 @@ export default function Footer() {
             display: { xs: "none", sm: "flex" },
             flexDirection: "column",
             gap: 1,
-          }}
-        >
+          }}>
           <Typography variant="body2" sx={{ fontWeight: "medium" }}>
             Legal
           </Typography>
@@ -170,33 +155,24 @@ export default function Footer() {
           width: "100%",
           borderTop: "1px solid",
           borderColor: "divider",
-        }}
-      >
+        }}>
         <div>
           <Link color="text.secondary" variant="body2" href="#">
             Privacy Policy
           </Link>
-          <Typography sx={{ display: "inline", mx: 0.5, opacity: 0.5 }}>
-            &nbsp;•&nbsp;
-          </Typography>
+          <Typography sx={{ display: "inline", mx: 0.5, opacity: 0.5 }}>&nbsp;•&nbsp;</Typography>
           <Link color="text.secondary" variant="body2" href="#">
             Terms of Service
           </Link>
           <Copyright />
         </div>
-        <Stack
-          direction="row"
-          spacing={1}
-          useFlexGap
-          sx={{ justifyContent: "left", color: "text.secondary" }}
-        >
+        <Stack direction="row" spacing={1} useFlexGap sx={{ justifyContent: "left", color: "text.secondary" }}>
           <IconButton
             color="inherit"
             size="small"
             href="https://github.com/mui"
             aria-label="GitHub"
-            sx={{ alignSelf: "center" }}
-          >
+            sx={{ alignSelf: "center" }}>
             <FacebookIcon />
           </IconButton>
           <IconButton
@@ -204,8 +180,7 @@ export default function Footer() {
             size="small"
             href="https://x.com/MaterialUI"
             aria-label="X"
-            sx={{ alignSelf: "center" }}
-          >
+            sx={{ alignSelf: "center" }}>
             <TwitterIcon />
           </IconButton>
           <IconButton
@@ -213,8 +188,7 @@ export default function Footer() {
             size="small"
             href="https://www.linkedin.com/company/mui/"
             aria-label="LinkedIn"
-            sx={{ alignSelf: "center" }}
-          >
+            sx={{ alignSelf: "center" }}>
             <LinkedInIcon />
           </IconButton>
         </Stack>

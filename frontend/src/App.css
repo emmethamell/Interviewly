@@ -40,7 +40,7 @@
   pointer-events: none; /* Prevent interaction */
 }
 
-/* React markdown inline code styling - only apply to the code in ai chat*/
+/* React markdown inline code styling - only apply to the code in ai chat */
 .ai-chat-message code {
   padding: 0.5px 2px;
   border-radius: 4px;
@@ -61,4 +61,11 @@
 .dashboard-container {
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Targets the speedometer labels */
+.segment-value,
+.current-value,
+.segment-label {
+  font-family: "Roboto";
 }

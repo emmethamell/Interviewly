@@ -1,11 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import {
-  Box,
-  TextField,
-  Typography,
-  IconButton,
-  CircularProgress,
-} from "@mui/material";
+import { Box, TextField, Typography, IconButton, CircularProgress } from "@mui/material";
 import { BiUpArrowCircle } from "react-icons/bi";
 import { Visibility, VisibilityOff, SmartToy } from "@mui/icons-material";
 import ReactMarkdown from "react-markdown";
@@ -80,7 +74,7 @@ const AIChat = ({ difficulty, socket, code }) => {
       socket.emit("user_message", {
         message: curInput,
         code: isCodeContext ? code : "",
-      }); 
+      });
     }
   };
 
@@ -104,8 +98,7 @@ const AIChat = ({ difficulty, socket, code }) => {
           flexShrink: 0,
           borderBottom: "2px solid black",
           justifyContent: "space-between",
-        }}
-      >
+        }}>
         <Logo onClick={handleLogoClick} />
 
         <Box
@@ -115,22 +108,19 @@ const AIChat = ({ difficulty, socket, code }) => {
             pb: "4px",
             pl: "4px",
             pr: "4px",
-          }}
-        >
+          }}>
           <Typography
             variant="h6"
             sx={{
-              color:
-                difficulty === "Easy"
-                  ? "#4caf50"
-                  : difficulty === "Medium"
-                    ? "#ffeb3b"
-                    : "#f44336",
+              color: difficulty === "Easy" 
+                ? "#4caf50"  // Green 
+                : difficulty === "Medium" 
+                ? "#ffa000"  // Amber 
+                : "#f44336", // Red 
               fontWeight: "bold",
               fontSize: "0.8rem",
               padding: "1px",
-            }}
-          >
+            }}>
             {difficulty}
           </Typography>
         </Box>
@@ -146,8 +136,7 @@ const AIChat = ({ difficulty, socket, code }) => {
         color="black"
         sx={{
           bgcolor: "#FFFFFF",
-        }}
-      >
+        }}>
         {messages.map((message, index) => (
           <Box key={index} mb={2}>
             <Box
@@ -156,16 +145,14 @@ const AIChat = ({ difficulty, socket, code }) => {
                 alignItems: "center",
                 gap: 1,
                 mb: 0.5,
-              }}
-            >
+              }}>
               {message.sender === "You" ? (
                 <Typography
                   variant="caption"
                   sx={{
                     color: "#f4a261",
                     fontWeight: "bold",
-                  }}
-                >
+                  }}>
                   {message.sender}
                 </Typography>
               ) : (
@@ -182,8 +169,7 @@ const AIChat = ({ difficulty, socket, code }) => {
                     sx={{
                       color: "#569cd6",
                       fontWeight: "bold",
-                    }}
-                  >
+                    }}>
                     Cody
                   </Typography>
                 </Box>
@@ -205,20 +191,14 @@ const AIChat = ({ difficulty, socket, code }) => {
                 wordWrap: "break-word",
                 overflowWrap: "break-word",
                 maxWidth: "100%",
-              }}
-            >
+              }}>
               <ReactMarkdown>{message.text}</ReactMarkdown>
             </Typography>
           </Box>
         ))}
         <div ref={messagesEndRef} />
         {loading && (
-          <Box
-            display="flex"
-            justifyContent="flex-start"
-            alignItems="left"
-            mt={2}
-          >
+          <Box display="flex" justifyContent="flex-start" alignItems="left" mt={2}>
             <CircularProgress color="inherit" size={20} />
           </Box>
         )}
@@ -229,8 +209,7 @@ const AIChat = ({ difficulty, socket, code }) => {
         sx={{
           borderTop: "2px solid black",
           bgcolor: "#F5F5F5",
-        }}
-      >
+        }}>
         <Box display="flex" flexDirection="column" gap={0.5} p={1}>
           <Box display="flex" alignItems="center" gap={1}>
             <TextField
@@ -254,11 +233,7 @@ const AIChat = ({ difficulty, socket, code }) => {
             />
           </Box>
 
-          <Box
-            display="flex"
-            justifyContent="space-between"
-            alignItems="center"
-          >
+          <Box display="flex" justifyContent="space-between" alignItems="center">
             <Box
               display="flex"
               alignItems="center"
@@ -267,8 +242,7 @@ const AIChat = ({ difficulty, socket, code }) => {
                 border: "1px solid #f4a261",
                 borderRadius: 1,
                 padding: "0px 8px",
-              }}
-            >
+              }}>
               <Typography
                 variant="caption"
                 sx={{
@@ -276,8 +250,7 @@ const AIChat = ({ difficulty, socket, code }) => {
                   userSelect: "none",
                   textDecoration: isCodeContext ? "none" : "line-through",
                   fontStyle: isCodeContext ? "normal" : "italic",
-                }}
-              >
+                }}>
                 Current Code
               </Typography>
               <IconButton
@@ -285,8 +258,7 @@ const AIChat = ({ difficulty, socket, code }) => {
                 onClick={() => setIsCodeContext(!isCodeContext)}
                 sx={{
                   color: isCodeContext ? "primary.main" : "#666",
-                }}
-              >
+                }}>
                 {isCodeContext ? <Visibility /> : <VisibilityOff />}
               </IconButton>
             </Box>
