@@ -92,7 +92,7 @@ class WebSocketService:
         try:
             final_analysis = self._process_final_analysis(session, code)
             interview = self._save_interview(session, user_id, code, language, final_analysis)
-            return {'analysis': final_analysis, 'question': session['question']}
+            return {'analysis': final_analysis, 'question': session['question'], 'interview_id': interview.id}
         except Exception as e:
             db.session.rollback()
             return {'error': f'Failed to save interview: {str(e)}'}
