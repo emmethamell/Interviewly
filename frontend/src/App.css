@@ -50,6 +50,15 @@
   border: 1px solid #dee2e6;
 }
 
+.score-card-code code{
+  font-family: monospace;
+  color: #3c3c3c;
+  background-color: #f8f9fa;
+  border: 1px solid #d7dbde;
+  padding: 0.5px 2px;
+  border-radius: 4px;
+}
+
 .landing-page {
   color: white;
 }

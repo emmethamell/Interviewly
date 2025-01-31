@@ -5,9 +5,6 @@ import { useNavigate } from "react-router-dom";
 
 const Interview = ({ interview, index, sx }) => {
   const navigate = useNavigate();
-  const getDifficultyColor = (difficulty) => {
-    return difficulty === "Easy" ? "#4caf50" : difficulty === "Medium" ? "#ffeb3b" : "#f44336";
-  };
 
   const getScoreColor = (score) => {
     switch (score) {

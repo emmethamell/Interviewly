@@ -67,6 +67,7 @@ def get_single_interview():
         "question_name": interview.question.name,
         "question_difficulty": interview.question.difficulty.value,
         "question_id": interview.question_id,
+        "question_content": interview.question.content,
     }
 
     return jsonify(interview_data), 200

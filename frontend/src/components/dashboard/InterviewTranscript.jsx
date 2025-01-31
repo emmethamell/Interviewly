@@ -4,12 +4,13 @@ import { useAuth0 } from "@auth0/auth0-react";
 import axios from "axios";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneLight, oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
-import { Box, Typography, Paper, IconButton } from "@mui/material";
+import { Box, Typography, Paper, IconButton, Tooltip } from "@mui/material";
 import Grid2 from "@mui/material/Grid2";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
 import ReactSpeedometer from "react-d3-speedometer";
 import confetti from "canvas-confetti";
+import ReactMarkdown from "react-markdown";
 
 // Interview transcript, feedback, final code
 const InterviewTranscript = () => {
@@ -105,9 +106,44 @@ const InterviewTranscript = () => {
     <Box sx={{ pl: 5, pr: 5, pt: 2 }}>
       <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
         <Box>
-          <Typography variant="h6" color="#60a5fa" sx={{ flexGrow: 1, p: 1 }}>
-            {interview.question_name}
-          </Typography>
+          <Tooltip 
+            title={
+              <ReactMarkdown className="score-card-code">{interview.question_content}</ReactMarkdown>
+            }
+            arrow
+            placement="right-start"
+            componentsProps={{
+              tooltip: {
+                sx: {
+                  bgcolor: 'background.paper',
+                  color: 'text.primary',
+                  border: '1px solid',
+                  borderColor: 'divider',
+                  p: 2,
+                  maxWidth: '600px',
+                  fontSize: '1rem',
+                  boxShadow: 1,
+                  '& p': { 
+                    m: 0,
+                    whiteSpace: 'pre-wrap',
+                    wordWrap: 'break-word',
+                    overflowWrap: 'break-word',
+                  }
+                }
+              }
+            }}
+          >
+            <Typography 
+              variant="h6" 
+              color="#60a5fa" 
+              sx={{ 
+                cursor: 'help',
+                display: 'inline-block' 
+              }}
+            >
+              {interview.question_name}
+            </Typography>
+          </Tooltip>
           <Typography variant="h4" sx={{ flexGrow: 1, p: 1 }}>
             Interview Report
           </Typography>
