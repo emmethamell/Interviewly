@@ -9,7 +9,6 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
 const Dashboard = () => {
-  console.log("Dashboard");
   const { user, getAccessTokenSilently } = useAuth0();
   const [interviews, setInterviews] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -45,7 +44,6 @@ const Dashboard = () => {
           params: { auth0_user_id: user.sub },
           headers: { Authorization: `Bearer ${token}` },
         });
-        console.log(statsResponse.data);
         setInterviewStats(statsResponse.data);
       } catch (error) {
         console.error("Error fetching data:", error);

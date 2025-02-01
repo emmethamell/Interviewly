@@ -10,6 +10,7 @@ import * as monaco from "monaco-editor"; // don't remove this
 const CodeEditor = ({ difficulty, code, setCode, socket }) => {
   const [language, setLanguage] = useState("javascript");
   const [anchorEl, setAnchorEl] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const open = Boolean(anchorEl);
   const navigate = useNavigate();
   const { user } = useAuth0();
@@ -26,9 +27,8 @@ const CodeEditor = ({ difficulty, code, setCode, socket }) => {
   useEffect(() => {
     if (socket) {
       socket.on("final_analysis", (data) => {
-        navigate("/score", {
-          state: { analysis: data.analysis, loading: false },
-        });
+        setIsSubmitting(false);
+        navigate(`/transcript/${data.interview_id}`);
       });
 
       return () => {
@@ -39,8 +39,8 @@ const CodeEditor = ({ difficulty, code, setCode, socket }) => {
 
   const handleSubmit = () => {
     if (socket) {
+      setIsSubmitting(true);
       socket.emit("submit_solution", { userId, code, language });
-      navigate("/score", { state: { loading: true } });
     }
   };
 
@@ -134,6 +134,7 @@ const CodeEditor = ({ difficulty, code, setCode, socket }) => {
         <Button
           variant="outlined"
           size="small"
+          disabled={isSubmitting}
           sx={{
             backgroundColor: "#f4a261",
             border: "1px solid #e76f51",
@@ -141,11 +142,40 @@ const CodeEditor = ({ difficulty, code, setCode, socket }) => {
             "&:hover": {
               backgroundColor: "#e08e57",
             },
+            "&:disabled": {
+              backgroundColor: "#cccccc",
+              borderColor: "#999999",
+            }
           }}
           onClick={() => handleSubmit()}>
-          Submit Solution
+          {isSubmitting ? "Processing..." : "Submit Solution"}
         </Button>
       </Box>
+
+      {isSubmitting && (
+        <Box
+          position="absolute"
+          top={0}
+          left={0}
+          right={0}
+          bottom={0}
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          bgcolor="rgba(0, 0, 0, 0.5)"
+          zIndex={1000}>
+          <Box
+            sx={{
+              bgcolor: "white",
+              p: 3,
+              borderRadius: 2,
+              textAlign: "center"
+            }}>
+            <div>Analyzing your solution...</div>
+            {/* You can add a spinner component here */}
+          </Box>
+        </Box>
+      )}
 
       <Box flex={1} position="relative" minHeight="200px">
         <div
