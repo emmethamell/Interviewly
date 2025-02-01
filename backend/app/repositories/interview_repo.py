@@ -2,8 +2,7 @@ from app.models.interview import Interview
 from app.models.user import User
 from app import db
 from typing import Dict, Tuple
-from sqlalchemy import func, case
-from app.models.question import Question, DifficultyLevel
+from sqlalchemy import text
 
 class InterviewRepository:
     def get_by_id(self, interview_id: int) -> Interview:
@@ -35,42 +34,57 @@ class InterviewRepository:
     
     def get_interview_stats(self, auth0_user_id: str) -> Dict:
         """Get interview statistics using joins instead of loading full objects"""
-        stats = db.session.query(
-            func.count(Interview.id).label('total_interviews'),
-            func.count(case(
-                (Interview.score.in_(["Hire", "Strong Hire"]), 1)
-            )).label('successful_interviews'),
-            func.count(case(
-                (
-                    (Question.difficulty == DifficultyLevel.EASY) & 
-                    Interview.score.in_(["Hire", "Strong Hire"]),
-                    1
-                )
-            )).label('easy_successes'),
-            func.count(case(
-                (
-                    (Question.difficulty == DifficultyLevel.MEDIUM) & 
-                    Interview.score.in_(["Hire", "Strong Hire"]),
-                    1
-                )
-            )).label('medium_successes'),
-            func.count(case(
-                (
-                    (Question.difficulty == DifficultyLevel.HARD) & 
-                    Interview.score.in_(["Hire", "Strong Hire"]),
-                    1
-                )
-            )).label('hard_successes')
-        ).join(
-            Question,
-            Interview.question_id == Question.id
-        ).filter(
-            Interview.auth0_user_id == auth0_user_id
-        ).first()
-
+        total_interviews_sql = text("""
+        SELECT COUNT(*)
+        FROM interviews
+        WHERE auth0_user_id = :auth0_user_id
+        """)
+        
+        total_successful_interviews_sql = text("""
+        SELECT COUNT(*)
+        FROM interviews
+        WHERE auth0_user_id = :auth0_user_id 
+        AND (score = 'Hire' OR score = 'Strong Hire')
+        """)
+        
+        total_easy_successes_sql = text("""
+        SELECT COUNT(*)
+        FROM interviews i
+        JOIN questions q ON i.question_id = q.id
+        WHERE i.auth0_user_id = :auth0_user_id 
+        AND (i.score = 'Hire' OR i.score = 'Strong Hire')
+        AND q.difficulty = 'EASY'
+        """)
+        
+        total_medium_successes_sql = text("""
+        SELECT COUNT(*)
+        FROM interviews i
+        JOIN questions q ON i.question_id = q.id
+        WHERE i.auth0_user_id = :auth0_user_id 
+        AND (i.score = 'Hire' OR i.score = 'Strong Hire')
+        AND q.difficulty = 'MEDIUM'
+        """)
+        
+        total_hard_successes_sql = text("""
+        SELECT COUNT(*)
+        FROM interviews i
+        JOIN questions q ON i.question_id = q.id
+        WHERE i.auth0_user_id = :auth0_user_id 
+        AND (i.score = 'Hire' OR i.score = 'Strong Hire')
+        AND q.difficulty = 'HARD'
+        """)
+        
+        total_interviews = db.session.execute(total_interviews_sql, {"auth0_user_id": auth0_user_id}).scalar() or 0
+        total_successful_interviews = db.session.execute(total_successful_interviews_sql, {"auth0_user_id": auth0_user_id}).scalar() or 0
+        total_easy_successes = db.session.execute(total_easy_successes_sql, {"auth0_user_id": auth0_user_id}).scalar() or 0
+        total_medium_successes = db.session.execute(total_medium_successes_sql, {"auth0_user_id": auth0_user_id}).scalar() or 0
+        total_hard_successes = db.session.execute(total_hard_successes_sql, {'auth0_user_id': auth0_user_id}).scalar() or 0
+        
+        success_rate = (total_successful_interviews / total_interviews) if total_interviews > 0 else 0
+        
         return {
-            'success_rate': stats.successful_interviews / stats.total_interviews,
-            'easy_successes': stats.easy_successes,
-            'medium_successes': stats.medium_successes,
-            'hard_successes': stats.hard_successes
+            'success_rate': success_rate,
+            'easy_successes': total_easy_successes,
+            'medium_successes': total_medium_successes,
+            'hard_successes': total_hard_successes
         }
