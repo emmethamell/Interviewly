@@ -15,7 +15,6 @@ const Layout = ({ socket }) => {
 
   useEffect(() => {
     if (socket && !hasEmittedRef.current) {
-      console.log("Emitting select_difficulty event from AIChat");
       socket.emit("select_difficulty", { difficulty });
       hasEmittedRef.current = true;
     }

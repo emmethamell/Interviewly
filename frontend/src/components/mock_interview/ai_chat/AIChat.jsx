@@ -30,7 +30,6 @@ const AIChat = ({ difficulty, socket, code }) => {
 
   useEffect(() => {
     if (socket) {
-      console.log("Setting up socket event listeners");
       socket.on("bot_message", (message) => {
         //on bot_message event
         if (message.first_message) {

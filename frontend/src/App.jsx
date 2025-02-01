@@ -5,7 +5,6 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from "react-route
 import { useAuth0 } from "@auth0/auth0-react";
 import DifficultySelection from "./components/setup/DifficultySelection";
 import io from "socket.io-client";
-import Score from "./components/interview_analysis/Score";
 import Profile from "./components/profile/Profile";
 import LandingPage from "./components/landing_page/LandingPage";
 import Dashboard from "./components/dashboard/Dashboard";
@@ -73,27 +72,24 @@ function App() {
   useEffect(() => {
     if (isAuthenticated && user) {
       const storeUser = async () => {
-        const token = await getAccessTokenSilently();
-        const auth0_user_id = user.sub;
-        const name = user.name;
-        const email = user.email;
+        try {
+          const token = await getAccessTokenSilently();
+          const auth0_user_id = user.sub;
+          const name = user.name;
+          const email = user.email;
 
-        axios
-          .post(
+          const response = await axios.post(
             "http://localhost:5001/auth/signup",
             { auth0_user_id, name, email },
             {
               headers: {
                 Authorization: `Bearer ${token}`,
               },
-            },
-          )
-          .then((response) => {
-            console.log(response.data);
-          })
-          .catch((error) => {
-            console.error(error);
-          });
+            }
+          );
+        } catch (error) {
+          console.error(error);
+        }
       };
 
       storeUser();
@@ -120,10 +116,6 @@ function App() {
           <Route
             path="/main"
             element={<ProtectedRoute element={<Layout className="layout-page" socket={socket} />} />}
-          />
-          <Route
-            path="/score"
-            element={<ProtectedRoute element={<Score className="score-page" socket={socket} />} />}
           />
           <Route path="/profile" element={<ProtectedRoute element={<Profile />} />} />
           <Route path="/transcript/:interviewId" element={<ProtectedRoute element={<InterviewTranscript />} />} />
