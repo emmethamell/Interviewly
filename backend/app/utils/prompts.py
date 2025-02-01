@@ -30,10 +30,6 @@ class Prompts:
     Evaluate the following interview conversation and provide the results in the following JSON format:
     {
         "qualitative_score": "Strong No Hire | No Hire | Lean No Hire | Lean Hire | Hire | Strong Hire",
-        "ratings": {
-            "technical_ability": "Numeric value out of 10",
-            "problem_solving_skills": "Numeric value out of 10"
-        },
         "summary": "Short justification for the scores and qualitative rating."
     }
     """
