@@ -10,11 +10,14 @@ const Profile = () => {
 
   return (
     isAuthenticated && (
-      <Box>
-        <img src={user.picture} alt={user.name} />
+      <Box sx={{ 
+        display: 'flex', 
+        flexDirection: 'column', 
+        alignItems: 'center',
+        justifyContent: 'center'
+      }}>
         <h2>{user.name}</h2>
         <p>{user.email}</p>
-        <p>{user.sub}</p>
       </Box>
     )
   );

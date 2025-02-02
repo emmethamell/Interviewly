@@ -112,14 +112,12 @@ const Dashboard = () => {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
+            justifyContent: "center",
           }}>
+          <Typography>{interviewStats.easy_successes}</Typography>
           <Typography color="#4caf50" sx={{ fontWeight: "bold" }}>
             Easy
           </Typography>
-          <Typography variant="caption" color="text.secondary">
-            Successful Interviews:
-          </Typography>
-          <Typography>{interviewStats.easy_successes}</Typography>
         </Grid2>
         <Grid2
           size={3}
@@ -127,14 +125,12 @@ const Dashboard = () => {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
+            justifyContent: "center",
           }}>
+          <Typography>{interviewStats.medium_successes}</Typography>
           <Typography color="#ffa000" sx={{ fontWeight: "bold" }}>
             Medium
           </Typography>
-          <Typography variant="caption" color="text.secondary">
-            Successful Interviews:
-          </Typography>
-          <Typography>{interviewStats.medium_successes}</Typography>
         </Grid2>
         <Grid2
           size={3}
@@ -142,14 +138,12 @@ const Dashboard = () => {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
+            justifyContent: "center",
           }}>
+          <Typography>{interviewStats.hard_successes}</Typography>
           <Typography color="#f44336" sx={{ fontWeight: "bold" }}>
             Hard
           </Typography>
-          <Typography variant="caption" color="text.secondary">
-            Successful Interviews:
-          </Typography>
-          <Typography>{interviewStats.hard_successes}</Typography>
         </Grid2>
       </Grid2>
 
