@@ -17,6 +17,7 @@
     "@mui/icons-material": "^6.1.8",
     "@mui/material": "^6.1.8",
     "@reduxjs/toolkit": "^2.3.0",
+    "axios": "^1.7.9",
     "canvas-confetti": "^1.9.3",
     "date-fns": "^4.1.0",
     "inline-style-prefixer": "^5.1.2",
