@@ -76,8 +76,6 @@ const Interview = ({ interview, index, sx }) => {
               sx={{
                 cursor: "pointer",
                 display: "inline-block",
-                fontWeight: "bold",
-                textDecoration: "underline",
                 "&:hover": {
                   color: "#2196f3",
                 },

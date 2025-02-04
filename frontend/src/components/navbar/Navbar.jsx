@@ -11,7 +11,7 @@ const Navbar = () => {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" color="#F5F5F5" elevation={1}>
-        <Toolbar sx={{ p: "4px" }}>
+        <Toolbar sx={{ p: "4px"}}>
           {/* Menu Icon */}
           <IconButton
             size="large"
