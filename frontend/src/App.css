@@ -22,25 +22,6 @@
   height: 100%;
 }
 
-/* Split Pane Divider */
-.custom-split-pane .Resizer {
-  background-color: #BDBDBD; 
-  cursor: col-resize;
-  width: 5px; 
-  position: relative;
-}
-
-/* Split Pane Divider Resizer (dots) etc. */
-.custom-split-pane .Resizer::before {
-  content: "⋮"; 
-  position: absolute;
-  top: 45%;
-  left: 35%;
-  transform: translate(-50%, -50%);
-  color: white; 
-  font-size: 35px; 
-  pointer-events: none; /* Prevent interaction */
-}
 
 /* React markdown inline code styling - only apply to the code in ai chat */
 .ai-chat-message code {
@@ -79,4 +60,30 @@
 .current-value,
 .segment-label {
   font-family: "Roboto";
+}
+
+.gutter {
+  background-color: #BDBDBD;
+  background-repeat: no-repeat;
+  background-position: 50%;
+}
+
+.gutter.gutter-horizontal {
+  cursor: col-resize;
+  width: 4px;
+}
+
+.split {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+.gutter {
+  background-color: #BDBDBD;
+  cursor: col-resize;
+}
+
+.gutter.gutter-horizontal {
+  width: 4px;
 }
