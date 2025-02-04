@@ -95,7 +95,7 @@ const AIChat = ({ difficulty, socket, code }) => {
           p: 2,
           minHeight: "38px",
           flexShrink: 0,
-          borderBottom: "2px solid black",
+          borderBottom: "2px solid #BDBDBD", // BORDER - top
           justifyContent: "space-between",
         }}>
         <Logo onClick={handleLogoClick} />
@@ -206,7 +206,7 @@ const AIChat = ({ difficulty, socket, code }) => {
       {/* Input Box */}
       <Box
         sx={{
-          borderTop: "2px solid black",
+          borderTop: "2px solid #BDBDBD", // BORDER - bottom
           bgcolor: "#F5F5F5",
         }}>
         <Box display="flex" flexDirection="column" gap={0.5} p={1}>

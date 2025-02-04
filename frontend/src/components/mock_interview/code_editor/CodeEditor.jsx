@@ -104,7 +104,7 @@ const CodeEditor = ({ difficulty, code, setCode, socket }) => {
           p: 2,
           minHeight: "25px",
           flexShrink: 0,
-          borderBottom: "2px solid black",
+          borderBottom: "2px solid #BDBDBD", // BORDER - top
         }}>
         <Button
           onClick={handleClick}
@@ -172,7 +172,6 @@ const CodeEditor = ({ difficulty, code, setCode, socket }) => {
               textAlign: "center"
             }}>
             <div>Analyzing your solution...</div>
-            {/* You can add a spinner component here */}
           </Box>
         </Box>
       )}
