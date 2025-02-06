@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: interviewly-backend
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn --worker-class eventlet -w 1 'app:create_app()'
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: codeprepai
+          property: connectionString
+      - key: PYTHON_VERSION
+        value: 3.9.0
+      - key: SECRET_KEY
+        generateValue: true
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: ALLOWED_ORIGINS
+        value: https://codeprep.ai,http://localhost:5173

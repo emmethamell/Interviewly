@@ -20,6 +20,7 @@ def handle_disconnect():
         print(f"No session found for {request.sid}.")
     print("Client disconnected")
 
+# TODO: Don't select questions with topic "Database"
 @socketio.on('select_difficulty')
 def handle_select_difficulty(data):
     response = websocket_service.handle_difficulty_selection(request.sid, data.get('difficulty'))

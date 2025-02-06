@@ -19,9 +19,16 @@ def create_app():
 
     # Initialize sqlalchemy
     db.init_app(flask_app)
-
-    CORS(flask_app)
+    allowed_origins = os.getenv('ALLOWED_ORIGINS', 'http://localhost:5173').split(',')
+    
+    CORS(flask_app, resources={
+        r"/*": {
+            "origins": allowed_origins
+        }
+    })
+    
     flask_app.config['CORS_HEADERS'] = 'Content-Type'
+    
 
     # Import models in correct order
     from app.models.user import User
@@ -41,7 +48,7 @@ def create_app():
     # Initialize SocketIO
     socketio.init_app(
         flask_app,
-        cors_allowed_origins="*",  
+        cors_allowed_origins=allowed_origins,  
     )
 
     import app.websockets.handlers
