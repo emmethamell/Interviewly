@@ -1,14 +1,17 @@
 import os
+import eventlet
+eventlet.monkey_patch()  
+
 from flask import Flask
 from flask_socketio import SocketIO
 from flask_sqlalchemy import SQLAlchemy
 from dotenv import load_dotenv
 from flask_cors import CORS
-from sqlalchemy.pool import QueuePool
+from sqlalchemy.pool import NullPool  
 
 load_dotenv()
 
-socketio = SocketIO(async_mode='eventlet')
+socketio = SocketIO()
 db = SQLAlchemy()
 
 def create_app():
@@ -23,7 +26,7 @@ def create_app():
             "connect_args": {
                 "sslmode": "require"
             },
-            'poolclass': QueuePool,
+            'poolclass': NullPool, 
             'pool_size': 10,
             'max_overflow': 20,
             'pool_pre_ping': True,
@@ -69,6 +72,7 @@ def create_app():
     socketio.init_app(
         flask_app,
         cors_allowed_origins=allowed_origins,  
+        async_mode='eventlet'
     )
 
     import app.websockets.handlers
