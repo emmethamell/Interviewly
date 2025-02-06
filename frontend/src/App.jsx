@@ -63,7 +63,7 @@ function App() {
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
-    const newSocket = io("http://localhost:5001");
+    const newSocket = io(import.meta.env.VITE_API_URL);
     setSocket(newSocket);
 
     return () => newSocket.close();
@@ -79,7 +79,7 @@ function App() {
           const email = user.email;
 
           const response = await axios.post(
-            "http://localhost:5001/auth/signup",
+            `${import.meta.env.VITE_API_URL}/auth/signup`,
             { auth0_user_id, name, email },
             {
               headers: {

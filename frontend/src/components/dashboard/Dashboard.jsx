@@ -27,7 +27,7 @@ const Dashboard = () => {
       try {
         const token = await getAccessTokenSilently();
         // Fetch paginated interviews
-        const interviewsResponse = await axios.get("http://localhost:5001/interview/get-interviews", {
+        const interviewsResponse = await axios.get(`${import.meta.env.VITE_API_URL}/interview/get-interviews`, {
           params: {
             auth0_user_id: user.sub,
             page: currentPage,
@@ -40,7 +40,7 @@ const Dashboard = () => {
         setInterviews(interviewsResponse.data.interviews);
         setTotalInterviews(interviewsResponse.data.total);
         // Fetch stats
-        const statsResponse = await axios.get("http://localhost:5001/interview/get-interview-stats", {
+        const statsResponse = await axios.get(`${import.meta.env.VITE_API_URL}/interview/get-interview-stats`, {
           params: { auth0_user_id: user.sub },
           headers: { Authorization: `Bearer ${token}` },
         });

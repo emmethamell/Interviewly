@@ -26,7 +26,7 @@ const InterviewTranscript = () => {
   const fetchInterviews = useCallback(async () => {
     try {
       const token = await getAccessTokenSilently();
-      const response = await axios.get("http://localhost:5001/interview/get-single-interview", {
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/interview/get-single-interview`, {
         params: {
           interviewId,
         },
