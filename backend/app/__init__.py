@@ -4,6 +4,7 @@ from flask_socketio import SocketIO
 from flask_sqlalchemy import SQLAlchemy
 from dotenv import load_dotenv
 from flask_cors import CORS
+from sqlalchemy.pool import QueuePool
 
 load_dotenv()
 
@@ -21,7 +22,12 @@ def create_app():
         flask_app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
             "connect_args": {
                 "sslmode": "require"
-            }
+            },
+            'poolclass': QueuePool,
+            'pool_size': 10,
+            'max_overflow': 20,
+            'pool_pre_ping': True,
+            'pool_recycle': 3600
         }
     else:
         flask_app.config['SQLALCHEMY_DATABASE_URI'] = database_url
