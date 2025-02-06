@@ -13,7 +13,18 @@ db = SQLAlchemy()
 def create_app():
     flask_app = Flask(__name__)  
     flask_app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
-    flask_app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL') 
+    database_url = os.getenv('DATABASE_URL')
+    
+    if 'render.com' in database_url:
+        database_url = database_url.replace('?ssl=true', '')
+        flask_app.config['SQLALCHEMY_DATABASE_URI'] = database_url
+        flask_app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
+            "connect_args": {
+                "sslmode": "require"
+            }
+        }
+    else:
+        flask_app.config['SQLALCHEMY_DATABASE_URI'] = database_url
     flask_app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     flask_app.config['SQLALCHEMY_ECHO'] = True
 
