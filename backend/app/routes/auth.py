@@ -12,7 +12,6 @@ auth_bp = Blueprint('auth', __name__)
 @cross_origin()
 def signup():
     data = request.get_json()
-    print("DATA: ", data)
     auth0_user_id = data.get('auth0_user_id')
     name = data.get('name')
     email = data.get('email')
@@ -21,9 +20,8 @@ def signup():
         return jsonify({"error": "Auth0 user ID is required"}), 400
 
     try:
-        session = db.create_scoped_session()
-        
-        user = session.query(User).filter_by(auth0_user_id=auth0_user_id).first()
+        # Use the existing db.session with a transaction
+        user = User.query.filter_by(auth0_user_id=auth0_user_id).first()
         
         if not user:
             user = User(
@@ -31,11 +29,8 @@ def signup():
                 name=name,
                 email=email
             )
-            session.add(user)
-            session.commit()
-            
-        # Close the session
-        session.close()
+            db.session.add(user)
+            db.session.commit()
         
         return jsonify({
             'id': user.id,
@@ -45,9 +40,7 @@ def signup():
         }), 200
         
     except Exception as e:
-        # Make sure to rollback on error
-        if 'session' in locals():
-            session.rollback()
-            session.close()
+        print(f"Signup error: {str(e)}") 
+        db.session.rollback()
         return jsonify({'error': str(e)}), 500
 
