@@ -30,11 +30,14 @@ def create_app():
 
     # Initialize sqlalchemy
     db.init_app(flask_app)
-    allowed_origins = os.getenv('ALLOWED_ORIGINS', 'http://localhost:5173').split(',')
+    allowed_origins = os.getenv('ALLOWED_ORIGINS', 'http://localhost:5173,https://codeprep.ai').split(',')
     
     CORS(flask_app, resources={
         r"/*": {
-            "origins": allowed_origins
+            "origins": allowed_origins,
+            "supports_credentials": True,
+            "allow_headers": ["Content-Type", "Authorization"],
+            "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
         }
     })
     
