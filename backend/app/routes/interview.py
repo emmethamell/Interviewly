@@ -24,7 +24,7 @@ message_queue_lock = threading.Lock()
 
 def cors_headers():
     return {
-        'Access-Control-Allow-Origin': 'http://localhost:5173',
+        'Access-Control-Allow-Origin': 'https://codeprep.ai',
         'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
         'Access-Control-Allow-Headers': 'Content-Type',
         'Access-Control-Allow-Credentials': 'true'
