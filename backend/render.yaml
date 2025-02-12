@@ -3,7 +3,7 @@ services:
     name: interviewly-backend
     env: python
     buildCommand: pip install -r requirements.txt
-    startCommand: startCommand: gunicorn --worker-class eventlet -w 1 'wsgi:app'
+    startCommand: startCommand: startCommand: gunicorn -w 1 'wsgi:app'
     envVars:
       - key: DATABASE_URL
         fromDatabase:
@@ -16,4 +16,4 @@ services:
       - key: OPENAI_API_KEY
         sync: false
       - key: ALLOWED_ORIGINS
-        value: https://codeprep.ai,http://localhost:5173
+        value: https://codeprep.ai,http://localhost:5173,https://www.codeprep.ai

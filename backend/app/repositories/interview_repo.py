@@ -75,6 +75,7 @@ class InterviewRepository:
         """)
         
         total_interviews = db.session.execute(total_interviews_sql, {"auth0_user_id": auth0_user_id}).scalar() or 0
+        
         total_successful_interviews = db.session.execute(total_successful_interviews_sql, {"auth0_user_id": auth0_user_id}).scalar() or 0
         total_easy_successes = db.session.execute(total_easy_successes_sql, {"auth0_user_id": auth0_user_id}).scalar() or 0
         total_medium_successes = db.session.execute(total_medium_successes_sql, {"auth0_user_id": auth0_user_id}).scalar() or 0

@@ -16,12 +16,7 @@ def create_app():
     db.init_app(flask_app)
     
     allowed_origins = os.getenv('ALLOWED_ORIGINS').split(',')
-    CORS(flask_app, resources={
-        r"/*": {
-            "origins": allowed_origins,
-            "supports_credentials": True
-        }
-    })
+    CORS(flask_app, origins=["http://localhost:5173", "https://codeprep.ai"])
 
     # Import models
     from app.models.user import User

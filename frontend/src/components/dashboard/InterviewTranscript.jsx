@@ -167,7 +167,7 @@ const InterviewTranscript = () => {
               { text: "H", position: "OUTSIDE", color: "#555", fontSize: "12px" },
               { text: "SH", position: "OUTSIDE", color: "#555", fontSize: "12px" },
             ]}
-            value={scoreToValue(interview.summary)}
+            value={scoreToValue(interview.score)}
             minValue={0}
             maxValue={100}
             currentValueText={interview.score}
