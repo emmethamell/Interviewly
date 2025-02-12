@@ -248,11 +248,15 @@ def chat():
                 
                 collected_message = ""
                 
+                # Handle both string and ChatCompletion responses
                 for chunk in response_stream:
-                    if chunk.choices[0].delta.content:
-                        content = chunk.choices[0].delta.content
-                        collected_message += content
+                    if isinstance(chunk, str):
+                        content = chunk
+                    else:
+                        content = chunk.choices[0].delta.content if chunk.choices[0].delta.content else ""
                         
+                    if content:
+                        collected_message += content
                         yield f"data: {json.dumps({'type': 'chunk', 'content': content})}\n\n"
                 
                 # After collecting the full message, update the conversation
