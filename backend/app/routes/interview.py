@@ -70,7 +70,7 @@ def get_single_interview():
 
     return jsonify(interview_data), 200
 
-@interview_bp.route('get-interview-stats', methods=['GET'])
+@interview_bp.route('/get-interview-stats', methods=['GET'])
 @cross_origin()
 def get_interview_stats():
     """
