@@ -2,6 +2,8 @@ from openai import OpenAI
 import os
 from typing import List, Dict
 from app.utils.prompts import Prompts
+import re 
+import json
 
 class ChatbotManager:
                 
@@ -19,31 +21,39 @@ class ChatbotManager:
                 model=self.model,
                 messages=conversation,
                 max_tokens=500,
-                temperature=self.temperature
+                temperature=self.temperature,
+                stream=True  # Enable streaming
             )
-            return response.choices[0].message.content
+            
+            # Return the stream object directly
+            return response
+            
         except Exception as e:
             return f"Error generating response: {str(e)}"
         
     def generate_final_analysis(self, conversation: List[Dict], final_code: str):
-        new_convo = self.format_conversation(conversation)
-        final_convo = [
-            {"role": "system", "content": Prompts.FINAL_ANALYSIS_SYSTEM_PROMPT},
-            {"role": "user", "content": Prompts.FINAL_ANALYSIS_PROMPT},
-            {"role": "user", "content": new_convo},
-            {"role": "user", "content": f"Final Code: {final_code}"}
-        ]
-
         try:
+            new_convo = self.format_conversation(conversation)
+            final_convo = [
+                {"role": "system", "content": Prompts.FINAL_ANALYSIS_SYSTEM_PROMPT},
+                {"role": "user", "content": Prompts.FINAL_ANALYSIS_PROMPT},
+                {"role": "user", "content": new_convo},
+                {"role": "user", "content": f"Final Code: {final_code}"}
+            ]
+
             response = self.client.chat.completions.create(
                 model=self.model,
                 messages=final_convo,
                 max_tokens=500,
                 temperature=self.temperature
             )
-            return response.choices[0].message.content
+            final_analysis = response.choices[0].message.content 
+            final_analysis = re.sub(r'```json|```', '', final_analysis).strip()
+            return json.loads(final_analysis)
+          
+            
         except Exception as e:
-            return f"Error generating response: {str(e)}"
+            print(f"Error generating final analysis: {str(e)}")
     
     def format_conversation(self, conversation: List[Dict]) -> str:
         return "\n".join(

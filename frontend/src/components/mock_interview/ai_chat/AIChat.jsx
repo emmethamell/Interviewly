@@ -4,15 +4,273 @@ import { BiUpArrowCircle } from "react-icons/bi";
 import { Visibility, VisibilityOff, SmartToy } from "@mui/icons-material";
 import ReactMarkdown from "react-markdown";
 import Logo from "../../Logo";
+import axios from "axios";
 
-const AIChat = ({ difficulty, socket, code }) => {
+const AIChat = ({ difficulty, code, auth0UserId }) => {
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState([]);
+  const [sessionData, setSessionData] = useState(null);
   const messagesEndRef = useRef(null);
   const [loading, setLoading] = useState(false);
-  const [questionContents, setQuestionContents] = useState(null);
-
   const [isCodeContext, setIsCodeContext] = useState(true);
+  const eventSourceRef = useRef(null);
+  const [user, setUser] = useState(null);
+
+  // Get question and save initial convo, update messages array
+  useEffect(() => {
+    const startInterview = async () => {
+      try {
+        const response = await axios.post(`${import.meta.env.VITE_API_URL}/interview/start-interview`, {
+          difficulty: difficulty,
+        });
+
+        const { message, question } = response.data;
+        const initialConversation = [
+          {
+            role: "system",
+            content: [
+              {
+                type: "text",
+                text: `You are an AI technical interviewer named Cody. You are conducting a coding interview.
+                     Your role is to:
+                     1. Guide the candidate through the coding problem
+                     2. Provide hints when they're stuck
+                     3. Ask follow-up questions about their solution
+                     4. Evaluate their problem-solving approach
+                     5. Keep responses clear and concise
+                     Be professional but friendly, and focus on helping the candidate demonstrate their skills.`,
+              },
+            ],
+          },
+          {
+            role: "assistant",
+            content: [{ type: "text", text: message }],
+          },
+        ];
+
+        setSessionData({
+          sessionId: auth0UserId,
+          conversation: initialConversation,
+        });
+        setMessages([{ sender: "Bot", text: message }]);
+
+        // Store question ID and conversation for submission
+        sessionStorage.setItem("currentQuestionId", question.id);
+        sessionStorage.setItem("conversation", JSON.stringify(initialConversation));
+      } catch (error) {
+        console.error("Error starting interview:", error);
+      }
+    };
+
+    startInterview();
+    return () => {
+      if (eventSourceRef.current) {
+        eventSourceRef.current.close();
+      }
+    };
+  }, [difficulty]);
+
+  // Initialize the SSE connection
+  useEffect(() => {
+    const initializeSSE = () => {
+      console.log("Initializing SSE connection");
+
+      if (eventSourceRef.current) {
+        console.log("Closing existing SSE connection");
+        eventSourceRef.current.close();
+      }
+
+      // Try and establish connection using auth0 user id
+      const eventSource = new EventSource(
+        `${import.meta.env.VITE_API_URL}/interview/stream?auth0_user_id=${user?.sub}`,
+        { withCredentials: true },
+      );
+
+      eventSource.onopen = () => {
+        console.log("SSE connection opened");
+      };
+
+      eventSource.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        if (data.type === "heartbeat") {
+          console.log("Received heartbeat");
+        }
+      };
+
+      eventSource.onerror = (error) => {
+        console.error("SSE Error:", error);
+        eventSource.close();
+        setTimeout(initializeSSE, 5000);
+      };
+
+      eventSourceRef.current = eventSource;
+    };
+
+    if (user?.sub) {
+      initializeSSE();
+    }
+
+    return () => {
+      if (eventSourceRef.current) {
+        console.log("Cleaning up SSE connection");
+        eventSourceRef.current.close();
+      }
+    };
+  }, [user?.sub]);
+
+  // Send message to chatbot
+  const handleSend = async () => {
+    if (!input.trim()) return;
+
+    // Retrieve the current input and reset
+    const curInput = input;
+    setInput("");
+    setLoading(true);
+
+    // Update messages with the new message from the user
+    const newUserMessage = { sender: "You", text: curInput };
+    setMessages((prev) => [...prev, newUserMessage]);
+
+    try {
+      // Call api to get response containing readable stream
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/interview/chat`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          message: curInput,
+          code: isCodeContext ? code : "",
+          session_data: sessionData,
+        }),
+      });
+
+      // Reader to process the stream
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      let botMessage = "";
+
+      // Process stream
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done) break;
+
+        const chunk = decoder.decode(value);
+        const lines = chunk.split("\n");
+
+        for (const line of lines) {
+          if (line.startsWith("data: ")) {
+            const data = JSON.parse(line.slice(5));
+
+            if (data.type === "chunk") {
+              botMessage += data.content;
+              setMessages((prev) => {
+                const newMessages = [...prev];
+                // Update or add the bot's message
+                const lastMessage = newMessages[newMessages.length - 1];
+                if (lastMessage.sender === "Bot") {
+                  lastMessage.text = botMessage;
+                } else {
+                  newMessages.push({ sender: "Bot", text: botMessage });
+                }
+                return newMessages;
+              });
+            } else if (data.type === "done") {
+              setSessionData(data.session_data);
+              sessionStorage.setItem("conversation", JSON.stringify(data.session_data.conversation));
+              setLoading(false);
+            }
+          }
+        }
+      }
+    } catch (error) {
+      console.error("Error sending message:", error);
+      setMessages((prev) => [
+        ...prev,
+        {
+          sender: "Bot",
+          text: "Sorry, there was an error processing your message.",
+        },
+      ]);
+      setLoading(false);
+    }
+  };
+
+
+  
+  const handleSubmitSolution = async () => {
+    if (!code.trim()) {
+      setMessages((prev) => [
+        ...prev,
+        {
+          sender: "Bot",
+          text: "Please write some code before submitting.",
+        },
+      ]);
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/interview/submit-solution`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          code: code,
+          session_data: sessionData,
+        }),
+      });
+
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      let botMessage = "";
+
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done) break;
+
+        const chunk = decoder.decode(value);
+        const lines = chunk.split("\n");
+
+        for (const line of lines) {
+          if (line.startsWith("data: ")) {
+            const data = JSON.parse(line.slice(5));
+
+            if (data.type === "chunk") {
+              botMessage += data.content;
+              setMessages((prev) => {
+                const newMessages = [...prev];
+                // Update or add the bot's message
+                const lastMessage = newMessages[newMessages.length - 1];
+                if (lastMessage.sender === "Bot") {
+                  lastMessage.text = botMessage;
+                } else {
+                  newMessages.push({ sender: "Bot", text: botMessage });
+                }
+                return newMessages;
+              });
+            } else if (data.type === "done") {
+              setSessionData(data.session_data);
+              sessionStorage.setItem("conversation", JSON.stringify(data.session_data.conversation));
+            }
+          }
+        }
+      }
+    } catch (error) {
+      console.error("Error submitting solution:", error);
+      setMessages((prev) => [
+        ...prev,
+        {
+          sender: "Bot",
+          text: "Sorry, there was an error analyzing your solution. Please try again.",
+        },
+      ]);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const scrollToBottom = () => {
     if (messagesEndRef.current) {
@@ -27,55 +285,6 @@ const AIChat = ({ difficulty, socket, code }) => {
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
-
-  useEffect(() => {
-    if (socket) {
-      socket.on("bot_message", (message) => {
-        //on bot_message event
-        if (message.first_message) {
-          setQuestionContents({
-            id: message.question_id,
-            content: message.question_content,
-            difficulty: message.question_difficulty,
-            name: message.question_name,
-          });
-        }
-        setMessages((prevMessages) => [
-          //update the messages state
-          ...prevMessages,
-          { sender: "Bot", text: message.message, hasCodeContext: false },
-        ]);
-        setLoading(false);
-      });
-    }
-    return () => {
-      if (socket) {
-        socket.off("bot_message");
-      }
-    };
-  }, [socket]);
-
-  const handleSend = () => {
-    if (!input.trim()) return;
-
-    const curInput = input;
-    setInput("");
-    setLoading(true);
-
-    // update the messages to re-render the state
-    setMessages((prevMessages) => [
-      ...prevMessages,
-      { sender: "You", text: curInput, code: isCodeContext ? code : "" },
-    ]);
-
-    // send to server using emit
-    if (socket) {
-      socket.emit("user_message", {
-        message: curInput,
-        code: isCodeContext ? code : "",
-      });
-    }
-  };
 
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
@@ -111,11 +320,12 @@ const AIChat = ({ difficulty, socket, code }) => {
           <Typography
             variant="h6"
             sx={{
-              color: difficulty === "Easy" 
-                ? "#4caf50"  // Green 
-                : difficulty === "Medium" 
-                ? "#ffa000"  // Amber 
-                : "#f44336", // Red 
+              color:
+                difficulty === "Easy"
+                  ? "#4caf50" // Green
+                  : difficulty === "Medium"
+                    ? "#ffa000" // Amber
+                    : "#f44336", // Red
               fontWeight: "bold",
               fontSize: "0.8rem",
               padding: "1px",

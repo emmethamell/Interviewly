@@ -6,21 +6,20 @@ const LogoutButton = () => {
 
   return (
     <Button
-    onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}
-    variant="outlined"
-    size="small"
-    sx={{
-      color: "black",
-      borderColor: "primary.main",
-      '&:hover': {
-        backgroundColor: "primary.main",
+      onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}
+      variant="outlined"
+      size="small"
+      sx={{
+        color: "black",
         borderColor: "primary.main",
-        color: "white"
-      }
-    }}
-  >
-    Log Out
-  </Button>
+        "&:hover": {
+          backgroundColor: "primary.main",
+          borderColor: "primary.main",
+          color: "white",
+        },
+      }}>
+      Log Out
+    </Button>
   );
 };
 

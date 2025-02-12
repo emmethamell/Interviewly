@@ -5,9 +5,10 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { Timer } from "./Timer";
 import { useNavigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
+import axios from "axios";
 import * as monaco from "monaco-editor"; // don't remove this
 
-const CodeEditor = ({ difficulty, code, setCode, socket }) => {
+const CodeEditor = ({ difficulty, code, setCode, auth0UserId }) => {
   const [language, setLanguage] = useState("javascript");
   const [anchorEl, setAnchorEl] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -24,23 +25,25 @@ const CodeEditor = ({ difficulty, code, setCode, socket }) => {
     { label: "TypeScript", value: "typescript" },
   ];
 
-  useEffect(() => {
-    if (socket) {
-      socket.on("final_analysis", (data) => {
-        setIsSubmitting(false);
-        navigate(`/transcript/${data.interview_id}`);
+  const handleSubmit = async () => {
+    setIsSubmitting(true);
+    try {
+      const storedConversation = JSON.parse(sessionStorage.getItem("conversation") || "[]");
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/interview/submit`, {
+        userId,
+        code,
+        language,
+        questionId: sessionStorage.getItem("currentQuestionId"),
+        conversation: storedConversation,
       });
 
-      return () => {
-        socket.off("final_analysis");
-      };
-    }
-  }, [socket, navigate]);
 
-  const handleSubmit = () => {
-    if (socket) {
-      setIsSubmitting(true);
-      socket.emit("submit_solution", { userId, code, language });
+      navigate(`/transcript/${response.data.interview_id}`);
+    } catch (error) {
+      console.error("Error submitting solution:", error);
+      // Add error handling UI feedback here if needed
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -145,7 +148,7 @@ const CodeEditor = ({ difficulty, code, setCode, socket }) => {
             "&:disabled": {
               backgroundColor: "#cccccc",
               borderColor: "#999999",
-            }
+            },
           }}
           onClick={() => handleSubmit()}>
           {isSubmitting ? "Processing..." : "Submit Solution"}
@@ -169,7 +172,7 @@ const CodeEditor = ({ difficulty, code, setCode, socket }) => {
               bgcolor: "white",
               p: 3,
               borderRadius: 2,
-              textAlign: "center"
+              textAlign: "center",
             }}>
             <div>Analyzing your solution...</div>
           </Box>

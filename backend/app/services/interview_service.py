@@ -3,6 +3,8 @@ from app.repositories.interview_repo import InterviewRepository
 from app.services.ai_service import ChatbotManager
 from typing import Dict, List
 from app.models.interview import Interview
+from app.models.question import Question, DifficultyLevel
+import random
 
 class InterviewService:
     def __init__(self, interview_repo: InterviewRepository, ai_service: ChatbotManager):
@@ -76,3 +78,50 @@ class InterviewService:
         })
         
         return bot_reply
+
+    def get_random_question(self, difficulty: str):
+        try:
+            difficulty_enum = DifficultyLevel[difficulty.upper()]
+        except KeyError:
+            return "Invalid difficulty. Please choose Easy, Medium, or Hard."
+
+        questions = Question.query.filter_by(difficulty=difficulty_enum).all()
+        if not questions:
+            return "No questions available for the selected difficulty."
+
+        return random.choice(questions)
+
+    def submit_solution(self, user_id: str, question_id: int, code: str, 
+                       language: str, conversation: List) -> Dict:
+        try:
+            final_analysis = self.ai_service.generate_final_analysis(conversation, code)
+            
+            # Default score to 0 for now - you can implement scoring logic later
+            score = 0
+            
+            interview = self.interview_repo.create_interview(
+                user_id=user_id,
+                auth0_user_id=user_id,
+                question_id=question_id,
+                transcript=self._clean_conversation(conversation),
+                final_submission=code,
+                feedback=final_analysis,
+                language=language,
+                score=score  # Add the required score parameter
+            )
+            
+            return {
+                'analysis': final_analysis,
+                'interview_id': interview.id
+            }
+            
+        except Exception as e:
+            raise Exception(f'Failed to save interview: {str(e)}')
+
+    def _clean_conversation(self, conversation: List) -> str:
+        new_convo = ""
+        for m in conversation:
+            if m["role"] in ["assistant", "user"]:
+                for content in m["content"]:
+                    new_convo += f"{'Interviewer' if m['role'] == 'assistant' else 'Candidate'}: {content['text']}\n"
+        return new_convo

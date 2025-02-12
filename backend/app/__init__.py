@@ -1,13 +1,10 @@
-import os
 from flask import Flask
-from flask_socketio import SocketIO
 from flask_sqlalchemy import SQLAlchemy
 from dotenv import load_dotenv
 from flask_cors import CORS
+import os
 
 load_dotenv()
-
-socketio = SocketIO()
 db = SQLAlchemy()
 
 def create_app():
@@ -40,10 +37,6 @@ def create_app():
     flask_app.register_blueprint(interview_bp, url_prefix='/interview')
     flask_app.register_blueprint(auth_bp, url_prefix='/auth')
     flask_app.register_blueprint(health_bp, url_prefix='/health')
-    
-    socketio.init_app(flask_app, cors_allowed_origins=allowed_origins)
-
-    import app.websockets.handlers
 
     with flask_app.app_context():
         db.create_all()

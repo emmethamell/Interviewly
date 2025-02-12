@@ -4,7 +4,6 @@ import Layout from "./components/mock_interview/Layout";
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import DifficultySelection from "./components/setup/DifficultySelection";
-import io from "socket.io-client";
 import Profile from "./components/profile/Profile";
 import LandingPage from "./components/landing_page/LandingPage";
 import Dashboard from "./components/dashboard/Dashboard";
@@ -60,14 +59,6 @@ function ScrollHandler() {
 
 function App() {
   const { isAuthenticated, user, getAccessTokenSilently } = useAuth0();
-  const [socket, setSocket] = useState(null);
-
-  useEffect(() => {
-    const newSocket = io(import.meta.env.VITE_API_URL);
-    setSocket(newSocket);
-
-    return () => newSocket.close();
-  }, []);
 
   useEffect(() => {
     if (isAuthenticated && user) {
@@ -78,15 +69,15 @@ function App() {
           const name = user.name;
           const email = user.email;
 
-          const response = await axios.post(
+          await axios.post(
             `${import.meta.env.VITE_API_URL}/auth/signup`,
             { auth0_user_id, name, email },
             {
               headers: {
-                'Content-Type': 'application/json',
+                "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`,
               },
-            }
+            },
           );
         } catch (error) {
           console.error(error);
@@ -103,20 +94,15 @@ function App() {
         <ScrollHandler />
         <ConditionalNavbar />
         <Routes>
-          {/* Public Route */}
           <Route path="/" element={<LandingPage className="landing-page" />} />
-
-          {/* Protected Routes */}
           <Route path="/dashboard" element={<ProtectedRoute element={<Dashboard className="dashboard-page" />} />} />
           <Route
             path="/selection"
-            element={
-              <ProtectedRoute element={<DifficultySelection className="difficult-selection-page" socket={socket} />} />
-            }
+            element={<ProtectedRoute element={<DifficultySelection className="difficulty-selection-page" />} />}
           />
           <Route
             path="/main"
-            element={<ProtectedRoute element={<Layout className="layout-page" socket={socket} />} />}
+            element={<ProtectedRoute element={<Layout className="layout-page" auth0UserId={user?.sub} />} />}
           />
           <Route path="/profile" element={<ProtectedRoute element={<Profile />} />} />
           <Route path="/transcript/:interviewId" element={<ProtectedRoute element={<InterviewTranscript />} />} />

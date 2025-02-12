@@ -105,41 +105,37 @@ const InterviewTranscript = () => {
     <Box sx={{ pl: 5, pr: 5, pt: 2 }}>
       <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
         <Box>
-          <Tooltip 
-            title={
-              <ReactMarkdown className="score-card-code">{interview.question_content}</ReactMarkdown>
-            }
+          <Tooltip
+            title={<ReactMarkdown className="score-card-code">{interview.question_content}</ReactMarkdown>}
             arrow
             placement="right-start"
             componentsProps={{
               tooltip: {
                 sx: {
-                  bgcolor: 'background.paper',
-                  color: 'text.primary',
-                  border: '1px solid',
-                  borderColor: 'divider',
+                  bgcolor: "background.paper",
+                  color: "text.primary",
+                  border: "1px solid",
+                  borderColor: "divider",
                   p: 2,
-                  maxWidth: '600px',
-                  fontSize: '1rem',
+                  maxWidth: "600px",
+                  fontSize: "1rem",
                   boxShadow: 1,
-                  '& p': { 
+                  "& p": {
                     m: 0,
-                    whiteSpace: 'pre-wrap',
-                    wordWrap: 'break-word',
-                    overflowWrap: 'break-word',
-                  }
-                }
-              }
-            }}
-          >
-            <Typography 
-              variant="h6" 
-              color="#60a5fa" 
-              sx={{ 
-                cursor: 'help',
-                display: 'inline-block' 
-              }}
-            >
+                    whiteSpace: "pre-wrap",
+                    wordWrap: "break-word",
+                    overflowWrap: "break-word",
+                  },
+                },
+              },
+            }}>
+            <Typography
+              variant="h6"
+              color="#60a5fa"
+              sx={{
+                cursor: "help",
+                display: "inline-block",
+              }}>
               {interview.question_name}
             </Typography>
           </Tooltip>
@@ -171,7 +167,7 @@ const InterviewTranscript = () => {
               { text: "H", position: "OUTSIDE", color: "#555", fontSize: "12px" },
               { text: "SH", position: "OUTSIDE", color: "#555", fontSize: "12px" },
             ]}
-            value={scoreToValue(interview.score)}
+            value={scoreToValue(interview.summary)}
             minValue={0}
             maxValue={100}
             currentValueText={interview.score}
