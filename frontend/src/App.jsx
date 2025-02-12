@@ -83,6 +83,7 @@ function App() {
             { auth0_user_id, name, email },
             {
               headers: {
+                'Content-Type': 'application/json',
                 Authorization: `Bearer ${token}`,
               },
             }

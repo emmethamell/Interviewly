@@ -5,7 +5,6 @@ import axios from "axios";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneLight, oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { Box, Typography, Paper, IconButton, Tooltip } from "@mui/material";
-import Grid2 from "@mui/material/Grid2";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
 import ReactSpeedometer from "react-d3-speedometer";

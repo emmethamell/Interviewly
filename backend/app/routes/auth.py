@@ -14,8 +14,7 @@ def db_transaction():
     except Exception:
         db.session.rollback()
         raise
-    finally:
-        db.session.remove()  
+        
 
 @auth_bp.route('/signup', methods=['POST'])
 @cross_origin()
