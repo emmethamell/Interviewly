@@ -8,7 +8,6 @@ import { Box, Typography, Paper, IconButton, Tooltip } from "@mui/material";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
 import ReactSpeedometer from "react-d3-speedometer";
-import confetti from "canvas-confetti";
 import ReactMarkdown from "react-markdown";
 
 // Interview transcript, feedback, final code
@@ -43,44 +42,7 @@ const InterviewTranscript = () => {
     fetchInterviews();
   }, [user, getAccessTokenSilently, fetchInterviews]);
 
-  // Confetti
-  useEffect(() => {
-    if (interview.score === "Strong Hire") {
-      // First burst
-      confetti({
-        particleCount: 200,
-        spread: 90,
-        origin: { y: 0.6, x: 0.4 },
-        colors: ["#22c55e", "#15803d", "#84cc16", "#facc15"],
-        gravity: 2,
-        decay: 0.94,
-      });
 
-      // Second burst after a small delay
-      setTimeout(() => {
-        confetti({
-          particleCount: 200,
-          spread: 100,
-          origin: { y: 0.6, x: 0.6 },
-          colors: ["#22c55e", "#15803d", "#84cc16", "#facc15"],
-          gravity: 2,
-          decay: 0.94,
-        });
-      }, 200);
-
-      // Third burst back to center
-      setTimeout(() => {
-        confetti({
-          particleCount: 200,
-          spread: 100,
-          origin: { y: 0.6, x: 0.5 },
-          colors: ["#22c55e", "#15803d", "#84cc16", "#facc15"],
-          gravity: 2,
-          decay: 0.94,
-        });
-      }, 400);
-    }
-  }, [interview.score]);
 
   const scoreToValue = (score) => {
     switch (score) {
